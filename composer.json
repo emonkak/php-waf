@@ -1,0 +1,24 @@
+{
+    "name": "emonkak/php-framework-abstraction",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Shota Nozaki",
+            "email": "emonkak@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/http-foundation": "~2.6.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.4.0",
+        "satooshi/php-coveralls": "dev-master",
+        "symfony/debug": "~2.6.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Emonkak\\Framework\\": "src/",
+            "Emonkak\\Framework\\Tests\\": "tests/"
+        }
+    }
+}
