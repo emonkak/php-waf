@@ -2,9 +2,12 @@
 
 namespace Emonkak\Framework\Routing;
 
+use Emonkak\Framework\Exception\HttpNotFoundException;
+use Emonkak\Framework\Exception\HttpRedirectException;
 use Emonkak\Framework\Utils\ReflectionUtils;
 use Emonkak\Framework\Utils\StringUtils;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class NamespaceRouter implements RouterInterface
 {
@@ -26,14 +29,28 @@ class NamespaceRouter implements RouterInterface
 
         if (strpos($path, $this->prefix) === 0) {
             $rest = explode('/', substr($path, strlen($this->prefix)));
+
+            if (count($rest) <= 1 && substr($path, -1) !== '/') {
+                // Complements the slash
+                throw new HttpRedirectException($path . '/', Response::HTTP_MOVED_PERMANENTLY);
+            }
+
             if (empty($rest[0])) $rest[0] = 'index';
             if (empty($rest[1])) $rest[1] = 'index';
 
-            $controller = ReflectionUtils::getClass($this->getController($rest[0]));
+            $controller = $this->getController($rest[0]);
+            try {
+                $controllerReflection = ReflectionUtils::getClass($controller);
+            } catch (\ReflectionException $e) {
+                throw new HttpNotFoundException(
+                    sprintf('Controller "%s" can not be found.', $controller),
+                    $e
+                );
+            }
             $action = $rest[1];
             $params = array_slice($rest, 2);
 
-            return new MatchedRoute($controller, $action, $params);
+            return new MatchedRoute($controllerReflection, $action, $params);
         }
 
         return null;

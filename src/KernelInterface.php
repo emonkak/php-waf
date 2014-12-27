@@ -2,9 +2,9 @@
 
 namespace Emonkak\Framework;
 
+use Emonkak\Framework\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 interface KernelInterface
 {
@@ -17,8 +17,8 @@ interface KernelInterface
 
     /**
      * @param Request $request
-     * @param HttpExceptionInterface $exceptin
+     * @param HttpException $exception
      * @return Response
      */
-    public function handleException(Request $request, HttpExceptionInterface $exception);
+    public function handleException(Request $request, HttpException $exception);
 }

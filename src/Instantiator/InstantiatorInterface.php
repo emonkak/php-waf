@@ -7,7 +7,7 @@ interface InstantiatorInterface
     /**
      * Instantiates the given class.
      *
-     * @param string $className
+     * @param \ReflectionClass $class
      * @return mixed
      */
     public function instantiate(\ReflectionClass $class);

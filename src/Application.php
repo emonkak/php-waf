@@ -2,10 +2,10 @@
 
 namespace Emonkak\Framework;
 
-use Emonkak\Framework\Exception\InternalServerErrorException;
+use Emonkak\Framework\Exception\HttpException;
+use Emonkak\Framework\Exception\HttpInternalServerErrorException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 class Application
 {
@@ -24,12 +24,12 @@ class Application
     {
         try {
             return $this->kernel->handleRequest($request);
-        } catch (HttpExceptionInterface $e) {
+        } catch (HttpException $e) {
             return $this->kernel->handleException($request, $e);
         } catch (\Exception $e) {
             return $this->kernel->handleException(
                 $request,
-                new InternalServerErrorException('Uncaught exception.', $e)
+                new HttpInternalServerErrorException('Uncaught exception.', $e)
             );
         }
     }

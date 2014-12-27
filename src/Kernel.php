@@ -3,13 +3,12 @@
 namespace Emonkak\Framework;
 
 use Emonkak\Framework\Action\ActionDispatcherInterface;
-use Emonkak\Framework\Exception\InternalServerErrorException;
+use Emonkak\Framework\Exception\HttpException;
+use Emonkak\Framework\Exception\HttpInternalServerErrorException;
+use Emonkak\Framework\Exception\HttpNotFoundException;
 use Emonkak\Framework\Instantiator\InstantiatorInterface;
 use Emonkak\Framework\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class Kernel implements KernelInterface
 {
@@ -34,17 +33,10 @@ class Kernel implements KernelInterface
     {
         $match = $this->router->match($request);
         if ($match === null) {
-            throw new NotFoundHttpException('No route matches the request.');
+            throw new HttpNotFoundException('No route matches the request.');
         }
 
-        try {
-            $controller = $this->instantiator->instantiate($match->controller);
-        } catch (\Exception $e) {
-            throw new NotFoundHttpException(
-                sprintf('Controller "%s" can not be instantiate.', $match->controller),
-                $e
-            );
-        }
+        $controller = $this->instantiator->instantiate($match->controller);
 
         return $this->actionDispatcher->dispatch($request, $match, $controller);
     }
@@ -52,7 +44,7 @@ class Kernel implements KernelInterface
     /**
      * {@inheritDoc}
      */
-    public function handleException(Request $request, HttpExceptionInterface $exception)
+    public function handleException(Request $request, HttpException $exception)
     {
         throw $exception;
     }

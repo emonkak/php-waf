@@ -30,7 +30,7 @@ class ActionDispatcherCollection implements ActionDispatcherInterface
     /**
      * Adds all action dispatcher to this collection.
      *
-     * @param ActionDispatcherInterface[] $dispatcher
+     * @param ActionDispatcherInterface[] $dispatchers
      */
     public function addAll(array $dispatchers)
     {
