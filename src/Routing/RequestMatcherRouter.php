@@ -7,13 +7,13 @@ use Symfony\Component\HttpFoundation\RequestMatcherInterface;
 
 class RequestMatcherRouter implements RouterInterface
 {
-    private $matcher;
     private $router;
+    private $matcher;
 
-    public function __construct(RequestMatcherInterface $matcher, RouterInterface $router)
+    public function __construct(RouterInterface $router, RequestMatcherInterface $matcher)
     {
-        $this->matcher = $matcher;
         $this->router = $router;
+        $this->matcher = $matcher;
     }
 
     /**

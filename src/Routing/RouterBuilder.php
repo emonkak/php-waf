@@ -22,51 +22,38 @@ class RouterBuilder
         return $this;
     }
 
-    public function get($regexp, $controller, $action = null)
+    public function get($regexp, $controller, $action)
     {
         return $this->method('GET', $regexp, $controller, $action);
     }
 
-    public function post($regexp, $controller, $action = null)
+    public function post($regexp, $controller, $action)
     {
         return $this->method('POST', $regexp, $controller, $action);
     }
 
-    public function put($regexp, $controller, $action = null)
+    public function put($regexp, $controller, $action)
     {
         return $this->method('PUT', $regexp, $controller, $action);
     }
 
-    public function delete($regexp, $controller, $action = null)
+    public function delete($regexp, $controller, $action)
     {
         return $this->method('DELETE', $regexp, $controller, $action);
     }
 
-    public function method($method, $regexp, $controller, $action = null)
+    public function method($method, $regexp, $controller, $action)
     {
-        $matcher = new RequestMatcher(null, null, $method);
-
-        if ($action !== null) {
-            $this->routers[] = new RequestMatcherRouter(
-                $matcher,
-                new StaticRegexpRouter($regexp, $controller, $action)
-            );
-        } else {
-            $this->routers[] = new RequestMatcherRouter(
-                $matcher,
-                new DynamicRegexpRouter($regexp, $controller)
-            );
-        }
+        $this->routers[] = new RequestMatcherRouter(
+            new RegexpRouter($regexp, $controller, $action),
+            new RequestMatcher(null, null, $method)
+        );
         return $this;
     }
 
-    public function regexp($regexp, $controller, $action = null)
+    public function regexp($regexp, $controller, $action)
     {
-        if ($action !== null) {
-            $this->routers[] = new StaticRegexpRouter($regexp, $controller, $action);
-        } else {
-            $this->routers[] = new DynamicRegexpRouter($regexp, $controller);
-        }
+        $this->routers[] = new RegexpRouter($regexp, $controller, $action);
         return $this;
     }
 

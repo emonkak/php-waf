@@ -9,7 +9,7 @@ interface RouterInterface
 {
     /**
      * @param Request $request
-     * @return ActionInterface
+     * @return MatchesRoute
      */
     public function match(Request $request);
 }

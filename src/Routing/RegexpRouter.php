@@ -2,10 +2,10 @@
 
 namespace Emonkak\Framework\Routing;
 
-use Emonkak\Framework\Action\ControllerAction;
+use Emonkak\Framework\Utils\ReflectionUtils;
 use Symfony\Component\HttpFoundation\Request;
 
-class StaticRegexpRouter implements RouterInterface
+class RegexpRouter implements RouterInterface
 {
     private $regexp;
     private $controller;
@@ -27,10 +27,10 @@ class StaticRegexpRouter implements RouterInterface
         $length = preg_match($this->regexp, $path, $matches);
 
         if ($length > 0) {
-            $controller = new \ReflectionClass($this->controller);
-            $action = $controller->getMethod($this->action);
-            $args = array_slice($matches, 1);
-            return new ControllerAction($controller, $action, $args);
+            $controller = $this->controller;
+            $action = $this->action;
+            $params = array_slice($matches, 1);
+            return new MatchedRoute($controller, $action, $params);
         }
 
         return null;

@@ -16,7 +16,7 @@ class ReflectionUtils
      * @return \ReflectionClass
      * @throws \ReflectionException
      */
-    public static function getReflectionClass($className)
+    public static function getClass($className)
     {
         $class = new \ReflectionClass($className);
         if ($class->getName() !== $className) {
@@ -33,7 +33,7 @@ class ReflectionUtils
      * @return \ReflectionMethod
      * @throws \ReflectionException
      */
-    public static function getReflectionMethod(\ReflectionClass $class, $methodName)
+    public static function getMethod(\ReflectionClass $class, $methodName)
     {
         $method = $class->getMethod($methodName);
         if ($method->getName() !== $methodName) {
