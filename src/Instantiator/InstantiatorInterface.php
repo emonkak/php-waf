@@ -10,5 +10,5 @@ interface InstantiatorInterface
      * @param string $className
      * @return mixed
      */
-    public function instantiate($className);
+    public function instantiate(\ReflectionClass $class);
 }

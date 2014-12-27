@@ -9,14 +9,14 @@ class RouterCollection implements RouterInterface
     /**
      * @var RouterInterface[]
      */
-    private $routers;
+    private $routers = [];
 
     /**
      * @param RouterInterface[] $routers
      */
     public function __construct(array $routers = [])
     {
-        $this->routers = $routers;
+        $this->addAll($routers);
     }
 
     /**
@@ -25,6 +25,16 @@ class RouterCollection implements RouterInterface
     public function add(RouterInterface $router)
     {
         $this->routers[] = $router;
+    }
+
+    /**
+     * @param RouterInterface[] $routers
+     */
+    public function addAll(array $routers)
+    {
+        foreach ($routers as $router) {
+            $this->add($router);
+        }
     }
 
     /**

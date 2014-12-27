@@ -2,11 +2,11 @@
 
 namespace Emonkak\Framework\Action;
 
-use Emonkak\Framework\Exception\HttpNotFoundException;
 use Emonkak\Framework\Routing\MatchedRoute;
 use Emonkak\Framework\Utils\ReflectionUtils;
 use Emonkak\Framework\Utils\StringUtils;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ActionDispatcher implements ActionDispatcherInterface
 {
@@ -21,7 +21,7 @@ class ActionDispatcher implements ActionDispatcherInterface
         try {
             $action = ReflectionUtils::getMethod($controllerReflection, $actionName);
         } catch (\ReflectionException $_) {
-            throw new HttpNotFoundException(sprintf(
+            throw new NotFoundHttpException(sprintf(
                 'Controller method "%s::%s()" can not be found.',
                 $controllerReflection->getName(),
                 $actionName
@@ -29,8 +29,8 @@ class ActionDispatcher implements ActionDispatcherInterface
         }
 
         if (!ReflectionUtils::matchesNumberOfArguments($action, count($match->params))) {
-            throw new HttpNotFoundException(sprintf(
-                'Number of arguments of the controller action "%s::%s()" does not match to definition."',
+            throw new NotFoundHttpException(sprintf(
+                'Number of arguments of the controller action "%s::%s()" does not match to definition.',
                 $controllerReflection->getName(),
                 $actionName
             ));

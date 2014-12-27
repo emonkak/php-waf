@@ -27,7 +27,7 @@ class RegexpRouter implements RouterInterface
         $length = preg_match($this->regexp, $path, $matches);
 
         if ($length > 0) {
-            $controller = $this->controller;
+            $controller = ReflectionUtils::getClass($this->controller);
             $action = $this->action;
             $params = array_slice($matches, 1);
             return new MatchedRoute($controller, $action, $params);

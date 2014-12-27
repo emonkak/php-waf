@@ -3,15 +3,15 @@
 namespace Emonkak\Framework\Instantiator;
 
 use Emonkak\Framework\Utils\ReflectionUtils;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class SimpleInstantiator implements InstantiatorInterface
 {
     /**
      * {@inheritDoc}
      */
-    public function instantiate($className)
+    public function instantiate(\ReflectionClass $class)
     {
-        $class = ReflectionUtils::getClass($className);
         return $class->newInstance();
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Emonkak\Framework\Routing;
 
-use Emonkak\Framework\Exception\HttpNotFoundException;
 use Emonkak\Framework\Utils\ReflectionUtils;
 use Emonkak\Framework\Utils\StringUtils;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +29,7 @@ class NamespaceRouter implements RouterInterface
             if (empty($rest[0])) $rest[0] = 'index';
             if (empty($rest[1])) $rest[1] = 'index';
 
-            $controller = $this->getController($rest[0]);
+            $controller = ReflectionUtils::getClass($this->getController($rest[0]));
             $action = $rest[1];
             $params = array_slice($rest, 2);
 

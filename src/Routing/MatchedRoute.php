@@ -8,7 +8,12 @@ class MatchedRoute
     public $action;
     public $params;
 
-    public function __construct($controller, $action, $params)
+    /**
+     * @param \ReflectionClass $controller
+     * @param string           $action
+     * @param mixed[]          $params
+     */
+    public function __construct(\ReflectionClass $controller, $action, array $params)
     {
         $this->controller = $controller;
         $this->action = $action;

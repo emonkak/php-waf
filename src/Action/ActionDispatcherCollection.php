@@ -2,7 +2,6 @@
 
 namespace Emonkak\Framework\Action;
 
-use Emonkak\Framework\Exception\HttpNotFoundException;
 use Emonkak\Framework\Routing\MatchedRoute;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -11,11 +10,11 @@ class ActionDispatcherCollection implements ActionDispatcherInterface
     /**
      * @var ActionDispatcherInterface[]
      */
-    private $dispatchers;
+    private $dispatchers = [];
 
     public function __construct(array $dispatchers = [])
     {
-        $this->dispatchers[] = $dispatchers;
+        $this->addAll($dispatchers);
     }
 
     /**
@@ -26,6 +25,18 @@ class ActionDispatcherCollection implements ActionDispatcherInterface
     public function add(ActionDispatcherInterface $dispatcher)
     {
         $this->dispatchers[] = $dispatcher;
+    }
+
+    /**
+     * Adds all action dispatcher to this collection.
+     *
+     * @param ActionDispatcherInterface[] $dispatcher
+     */
+    public function addAll(array $dispatchers)
+    {
+        foreach ($dispatchers as $dispatcher) {
+            $this->add($dispatcher);
+        }
     }
 
     /**
