@@ -37,12 +37,14 @@ class ReflectionUtils
     {
         $method = $class->getMethod($methodName);
         if ($method->getName() !== $methodName) {
-            throw new \ReflectionException(sprintf('Method "%s::%s" does not match to "%s::%s"', 
-                $class->getName(),
-                $method->getName(),
-                $class->getName(),
-                $methodName
-            ));
+            throw new \ReflectionException(
+                sprintf('Method "%s::%s()" does not match to "%s::%s()"',
+                    $class->getName(),
+                    $method->getName(),
+                    $class->getName(),
+                    $methodName
+                )
+            );
         }
         return $method;
     }
