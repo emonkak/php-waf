@@ -3,6 +3,7 @@
 namespace Emonkak\Framework;
 
 use Emonkak\Framework\Action\ActionDispatcherInterface;
+use Emonkak\Framework\Action\NullActionDispatcher;
 use Emonkak\Framework\Exception\HttpException;
 use Emonkak\Framework\Exception\HttpInternalServerErrorException;
 use Emonkak\Framework\Exception\HttpNotFoundException;

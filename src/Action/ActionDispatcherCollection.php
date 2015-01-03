@@ -12,9 +12,15 @@ class ActionDispatcherCollection implements ActionDispatcherInterface
      */
     private $dispatchers = [];
 
-    public function __construct(array $dispatchers = [])
+    /**
+     * @param array $dispatchers
+     * @return ActionDispatcherCollection
+     */
+    public static function from(array $dispatchers = [])
     {
-        $this->addAll($dispatchers);
+        $collection = new ActionDispatcherCollection();
+        $collection->addAll($dispatchers);
+        return $collection;
     }
 
     /**

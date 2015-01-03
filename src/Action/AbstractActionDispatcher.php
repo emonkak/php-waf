@@ -8,7 +8,7 @@ use Emonkak\Framework\Utils\ReflectionUtils;
 use Emonkak\Framework\Utils\StringUtils;
 use Symfony\Component\HttpFoundation\Request;
 
-class ActionDispatcher implements ActionDispatcherInterface
+abstract class AbstractActionDispatcher implements ActionDispatcherInterface
 {
     /**
      * {@inheritDoc}
@@ -20,12 +20,12 @@ class ActionDispatcher implements ActionDispatcherInterface
 
         try {
             $action = ReflectionUtils::getMethod($controllerReflection, $actionName);
-        } catch (\ReflectionException $_) {
+        } catch (\ReflectionException $e) {
             throw new HttpNotFoundException(sprintf(
                 'Controller method "%s::%s()" can not be found.',
                 $controllerReflection->getName(),
                 $actionName
-            ));
+            ), $e);
         }
 
         if (!ReflectionUtils::matchesNumberOfArguments($action, count($match->params))) {
@@ -52,8 +52,5 @@ class ActionDispatcher implements ActionDispatcherInterface
      * @param string $name
      * @return string
      */
-    protected function getActionName(Request $request, $name)
-    {
-        return strtolower($request->getMethod()) . StringUtils::camelize($name);
-    }
+    abstract protected function getActionName(Request $request, $name);
 }

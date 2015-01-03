@@ -58,6 +58,6 @@ class NamespaceRouter implements RouterInterface
 
     protected function getController($name)
     {
-        return $this->namespace . '\\' . StringUtils::camelize($name) . 'Controller';
+        return $this->namespace . '\\' . StringUtils::toUpperCamelcase($name) . 'Controller';
     }
 }
