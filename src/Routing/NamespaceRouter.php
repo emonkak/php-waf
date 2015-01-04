@@ -28,17 +28,17 @@ class NamespaceRouter implements RouterInterface
         $path = $request->getPathInfo();
 
         if (strpos($path, $this->prefix) === 0) {
-            $rest = explode('/', substr($path, strlen($this->prefix)));
+            $fragments = explode('/', substr($path, strlen($this->prefix)));
 
-            if (count($rest) <= 1 && substr($path, -1) !== '/') {
-                // Complements the slash
+            if (count($fragments) <= 1 && substr($path, -1) !== '/') {
+                // Complete the slash
                 throw new HttpRedirectException($path . '/', Response::HTTP_MOVED_PERMANENTLY);
             }
 
-            if (empty($rest[0])) $rest[0] = 'index';
-            if (empty($rest[1])) $rest[1] = 'index';
+            if (empty($fragments[0])) $fragments[0] = 'index';
+            if (empty($fragments[1])) $fragments[1] = 'index';
 
-            $controller = $this->getController($rest[0]);
+            $controller = $this->getController($fragments[0]);
             try {
                 $controllerReflection = ReflectionUtils::getClass($controller);
             } catch (\ReflectionException $e) {
@@ -47,8 +47,8 @@ class NamespaceRouter implements RouterInterface
                     $e
                 );
             }
-            $action = $rest[1];
-            $params = array_slice($rest, 2);
+            $action = $fragments[1];
+            $params = array_slice($fragments, 2);
 
             return new MatchedRoute($controllerReflection, $action, $params);
         }

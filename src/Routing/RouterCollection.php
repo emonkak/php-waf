@@ -11,12 +11,11 @@ class RouterCollection implements RouterInterface
      */
     private $routers = [];
 
-    /**
-     * @param RouterInterface[] $routers
-     */
-    public function __construct(array $routers = [])
+    public static function from(array $routers)
     {
-        $this->addAll($routers);
+        $routerCollection = new RouterCollection();
+        $routerCollection->addAll($routers);
+        return $routerCollection;
     }
 
     /**
@@ -43,10 +42,9 @@ class RouterCollection implements RouterInterface
     public function match(Request $request)
     {
         foreach ($this->routers as $router) {
-            $action = $router->match($request);
-
-            if ($action) {
-                return $action;
+            $match = $router->match($request);
+            if ($match) {
+                return $match;
             }
         }
 

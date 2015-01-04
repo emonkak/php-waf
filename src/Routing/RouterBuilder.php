@@ -16,9 +16,21 @@ class RouterBuilder
         $this->collection = new RouterCollection();
     }
 
+    public function add(RouterInterface $router)
+    {
+        $this->routers[] = $router;
+        return $this;
+    }
+
     public function mount($prefix, $namespace)
     {
         $this->routers[] = new NamespaceRouter($prefix, $namespace);
+        return $this;
+    }
+
+    public function resource($prefix, $controller)
+    {
+        $this->routers[] = new ResourceRouter($prefix, $controller);
         return $this;
     }
 
@@ -59,6 +71,6 @@ class RouterBuilder
 
     public function build()
     {
-        return new RouterCollection($this->routers);
+        return RouterCollection::from($this->routers);
     }
 }
