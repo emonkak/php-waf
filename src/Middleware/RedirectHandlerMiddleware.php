@@ -7,10 +7,16 @@ use Emonkak\Framework\KernelInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Provides the handing of redirect.
+ */
 class RedirectHandlerMiddleware implements KernelInterface
 {
     private $kernel;
 
+    /**
+     * @param KernelInterface $kernel
+     */
     public function __construct(KernelInterface $kernel)
     {
         $this->kernel = $kernel;

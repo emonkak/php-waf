@@ -88,7 +88,6 @@ class RedirectHandlerMiddlewareTest extends \PHPUnit_Framework_TestCase
             [new HttpBadRequestException(),          200, null],
             [new HttpForbiddenException(),           200, null],
             [new HttpInternalServerErrorException(), 200, null],
-            [new HttpNotFoundException(),            200, null],
             [new HttpServiceUnavailableException(),  200, null],
         ];
     }
