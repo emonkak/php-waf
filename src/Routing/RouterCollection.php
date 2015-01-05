@@ -4,13 +4,19 @@ namespace Emonkak\Framework\Routing;
 
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Provides a composition of routers.
+ */
 class RouterCollection implements RouterInterface
 {
-    /**
-     * @var RouterInterface[]
-     */
     private $routers = [];
 
+    /**
+     * Create this instance from given routers.
+     *
+     * @param RouterInterface[] $routers
+     * @return RouterCollection
+     */
     public static function from(array $routers)
     {
         $routerCollection = new RouterCollection();
@@ -19,21 +25,29 @@ class RouterCollection implements RouterInterface
     }
 
     /**
+     * Adds a router to this collection.
+     *
      * @param RouterInterface $router
+     * @return RouterCollection
      */
     public function add(RouterInterface $router)
     {
         $this->routers[] = $router;
+        return $this;
     }
 
     /**
+     * Adds routers to this collection.
+     *
      * @param RouterInterface[] $routers
+     * @return RouterCollection
      */
     public function addAll(array $routers)
     {
         foreach ($routers as $router) {
             $this->add($router);
         }
+        return $this;
     }
 
     /**

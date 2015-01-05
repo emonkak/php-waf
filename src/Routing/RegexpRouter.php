@@ -5,15 +5,23 @@ namespace Emonkak\Framework\Routing;
 use Emonkak\Framework\Utils\ReflectionUtils;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Provides a routing from a regular expression.
+ */
 class RegexpRouter implements RouterInterface
 {
-    private $regexp;
+    private $pattern;
     private $controller;
     private $action;
 
-    public function __construct($regexp, $controller, $action)
+    /**
+     * @param string $pattern    The regexp pattern for a request path.
+     * @param string $controller The fully qualified class name of the controller.
+     * @param string $action     The action name.
+     */
+    public function __construct($pattern, $controller, $action)
     {
-        $this->regexp = $regexp;
+        $this->pattern = $pattern;
         $this->controller = $controller;
         $this->action = $action;
     }
@@ -24,7 +32,7 @@ class RegexpRouter implements RouterInterface
     public function match(Request $request)
     {
         $path = $request->getPathInfo();
-        $length = preg_match($this->regexp, $path, $matches);
+        $length = preg_match($this->pattern, $path, $matches);
 
         if ($length > 0) {
             $controller = ReflectionUtils::getClass($this->controller);
