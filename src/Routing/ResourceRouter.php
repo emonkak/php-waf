@@ -43,15 +43,11 @@ class ResourceRouter implements RouterInterface
             if (empty($fragments[0])) {
                 $action = 'index';
                 $params = [];
-            } elseif (empty($fragments[1])) {
-                if (substr($path, -1) === '/') {  // /path/to/{resource}/
-                    // Remove the slash
-                    throw new HttpRedirectException(substr($path, 0, -1), Response::HTTP_MOVED_PERMANENTLY);
-                }
+            } elseif (!isset($fragments[1])) {
                 $action = 'show';
                 $params = [$fragments[0]];
             } else {
-                $action = $fragments[1];
+                $action = empty($fragments[1]) ? 'index' : $fragments[1];
                 $params = array_merge([$fragments[0]], array_slice($fragments, 2));
             }
 

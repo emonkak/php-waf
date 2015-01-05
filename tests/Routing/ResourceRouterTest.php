@@ -34,42 +34,14 @@ namespace Emonkak\Framework\Tests\Routing
             return [
                 ['/',                    '/',     'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', 'index', []],
                 ['/123',                 '/',     'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', 'show', ['123']],
+                ['/123/',                '/',     'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', 'index', ['123']],
                 ['/123/edit',            '/',     'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', 'edit', ['123']],
                 ['/123/between/456',     '/',     'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', 'between', ['123', '456']],
                 ['/foo/',                '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', 'index', []],
                 ['/foo/123',             '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', 'show', ['123']],
+                ['/foo/123/',            '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', 'index', ['123']],
                 ['/foo/123/edit',        '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', 'edit', ['123']],
                 ['/foo/123/between/456', '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', 'between', ['123', '456']],
-            ];
-        }
-
-        /**
-         * @dataProvider provideMatchThrowsHttpRedirectException
-         * @expectedException Emonkak\Framework\Exception\HttpRedirectException
-         */
-        public function testMatchThrowsHttpRedirectException($path, $prefix, $controller, $expectedLocation)
-        {
-            $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
-            $request
-                ->expects($this->once())
-                ->method('getPathInfo')
-                ->willReturn($path);
-
-            $router = new ResourceRouter($prefix, $controller);
-
-            try {
-                $match = $router->match($request);
-            } catch (HttpRedirectException $e) {
-                $this->assertSame(['Location' => $expectedLocation], $e->getHeaders());
-                throw $e;
-            }
-        }
-
-        public function provideMatchThrowsHttpRedirectException()
-        {
-            return [
-                ['/123/',     '/',     'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', '/123'],
-                ['/foo/123/', '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', '/foo/123'],
             ];
         }
 
@@ -91,9 +63,9 @@ namespace Emonkak\Framework\Tests\Routing
         public function provideMatchReturnsNull()
         {
             return [
-                ['/',    '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController'],
-                ['/foo', '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController'],
-                ['/bar', '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController'],
+                ['/',         '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController'],
+                ['/foo',      '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController'],
+                ['/bar',      '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController'],
             ];
         }
 
