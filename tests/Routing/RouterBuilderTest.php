@@ -18,7 +18,7 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
             ->add($mockRouter1 = $this->getMock('Emonkak\Framework\Routing\RouterInterface'))
             ->add($mockRouter2 = $this->getMock('Emonkak\Framework\Routing\RouterInterface'));
 
-        $routers = $this->getRouters($builder);
+        $routers = iterator_to_array($builder->build());
         $this->assertSame([$mockRouter1, $mockRouter2], $routers);
     }
 
@@ -27,7 +27,7 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new RouterBuilder();
         $builder->get('|^/foo/|', 'Controller\FooController', 'index');
 
-        $routers = $this->getRouters($builder);
+        $routers = iterator_to_array($builder->build());
         $this->assertEquals(
             [
                 new RequestMatcherRouter(
@@ -44,7 +44,7 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new RouterBuilder();
         $builder->post('|^/foo/create|', 'Controller\FooController', 'create');
 
-        $routers = $this->getRouters($builder);
+        $routers = iterator_to_array($builder->build());
         $this->assertEquals(
             [
                 new RequestMatcherRouter(
@@ -61,7 +61,7 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new RouterBuilder();
         $builder->put('|^/foo/update/(\d+)|', 'Controller\FooController', 'update');
 
-        $routers = $this->getRouters($builder);
+        $routers = iterator_to_array($builder->build());
         $this->assertEquals(
             [
                 new RequestMatcherRouter(
@@ -78,7 +78,7 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new RouterBuilder();
         $builder->delete('|^/foo/delete/(\d+)|', 'Controller\FooController', 'delete');
 
-        $routers = $this->getRouters($builder);
+        $routers = iterator_to_array($builder->build());
         $this->assertEquals(
             [
                 new RequestMatcherRouter(
@@ -95,7 +95,7 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new RouterBuilder();
         $builder->regexp('|^/foo/edit/(\d+)|', 'Controller\FooController', 'edit');
 
-        $routers = $this->getRouters($builder);
+        $routers = iterator_to_array($builder->build());
         $this->assertEquals(
             [
                 new RegexpRouter('|^/foo/edit/(\d+)|', 'Controller\FooController', 'edit'),
@@ -109,7 +109,7 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new RouterBuilder();
         $builder->resource('/foo/', 'Controller\FooController');
 
-        $routers = $this->getRouters($builder);
+        $routers = iterator_to_array($builder->build());
         $this->assertEquals(
             [
                 new ResourceRouter('/foo/', 'Controller\FooController'),
@@ -123,7 +123,7 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new RouterBuilder();
         $builder->mount('/', 'Controller');
 
-        $routers = $this->getRouters($builder);
+        $routers = iterator_to_array($builder->build());
         $this->assertEquals(
             [
                 new NamespaceRouter('/', 'Controller'),
@@ -137,14 +137,6 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new RouterBuilder();
         $router = $builder->build();
 
-        $this->assertInstanceOf('Emonkak\Framework\Routing\RouterInterface', $router);
-    }
-
-    private function getRouters(RouterBuilder $builder)
-    {
-        return \Closure::bind(
-            function() { return $this->routers; },
-            $builder, get_class($builder)
-        )->__invoke();
+        $this->assertInstanceOf('Emonkak\Framework\Routing\RouterCollection', $router);
     }
 }

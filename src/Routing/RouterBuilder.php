@@ -136,7 +136,7 @@ class RouterBuilder
     /**
      * Builds a router.
      *
-     * @return RouterInterface
+     * @return RouterCollection
      */
     public function build()
     {

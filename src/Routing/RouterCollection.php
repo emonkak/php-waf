@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Provides a composition of routers.
  */
-class RouterCollection implements RouterInterface
+class RouterCollection implements RouterInterface, \IteratorAggregate
 {
     private $routers = [];
 
@@ -63,5 +63,14 @@ class RouterCollection implements RouterInterface
         }
 
         return null;
+    }
+
+    /**
+     * @see \IteratorAggregate
+     * @return \Iterator
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->routers);
     }
 }
