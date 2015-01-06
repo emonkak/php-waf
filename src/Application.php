@@ -35,7 +35,7 @@ class Application
         } catch (\Exception $e) {
             return $this->kernel->handleException(
                 $request,
-                new HttpInternalServerErrorException('Uncaught exception: ' . $e->getMessage(), $e)
+                new HttpInternalServerErrorException('Uncaught exception', $e)
             );
         }
     }

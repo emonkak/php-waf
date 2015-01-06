@@ -38,21 +38,36 @@ class ExceptionLoggerMiddleware implements KernelInterface
      */
     public function handleException(Request $request, HttpException $exception)
     {
-        $message = sprintf(
-            '%s: "%s" at %s line %d',
-            get_class($exception),
-            $exception->getMessage(),
-            $exception->getFile(),
-            $exception->getLine()
-        );
-        $context = ['exception' => $exception];
+        $e = $exception;
+        $n = 0;
 
-        if ($exception->getStatusCode() >= 500) {
+        do {
+            $this->logException($e, $n++);
+        } while ($e = $e->getPrevious());
+
+        return $this->kernel->handleException($request, $exception);
+    }
+
+    /**
+     * @param \Exception $e
+     * @param integer    $depth
+     */
+    private function logException(\Exception $e, $depth)
+    {
+        $message = sprintf(
+            '%s "%s" with message "%s" at %s line %d',
+            $depth === 0 ? 'Uncaught exception' : 'Caused by',
+            get_class($e),
+            $e->getMessage(),
+            $e->getFile(),
+            $e->getLine()
+        );
+        $context = ['exception' => $e];
+
+        if (!($e instanceof HttpException) || $e->getStatusCode() >= 500) {
             $this->logger->critical($message, $context);
         } else {
             $this->logger->error($message, $context);
         }
-
-        return $this->kernel->handleException($request, $exception);
     }
 }

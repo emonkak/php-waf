@@ -53,7 +53,7 @@ class ExceptionLoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('critical')
             ->with(
-                $this->matchesRegularExpression('/\A' . preg_quote(get_class($exception)) . ': ".*?" at .+ line \d+\Z/'),
+                $this->matchesRegularExpression($this->createLogMessagePattern($exception)),
                 $this->identicalTo(['exception' => $exception])
             )
             ->willReturn($response);
@@ -90,7 +90,7 @@ class ExceptionLoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('error')
             ->with(
-                $this->matchesRegularExpression('/\A' . preg_quote(get_class($exception)) . ': ".*?" at .+ line \d+\Z/'),
+                $this->matchesRegularExpression($this->createLogMessagePattern($exception)),
                 $this->identicalTo(['exception' => $exception])
             )
             ->willReturn($response);
@@ -106,5 +106,13 @@ class ExceptionLoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
             [new HttpBadRequestException('bad request')],
             [new HttpForbiddenException('forbidden')],
         ];
+    }
+
+    private function createLogMessagePattern(\Exception $exception)
+    {
+        return sprintf(
+            '/^Uncaught exception "%s" with message ".*?" at .+ line \d+$/',
+            preg_quote(get_class($exception))
+        );
     }
 }
