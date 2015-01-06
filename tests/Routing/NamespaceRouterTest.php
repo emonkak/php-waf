@@ -51,40 +51,6 @@ namespace Emonkak\Framework\Tests\Routing
         }
 
         /**
-         * @dataProvider provideMatchThrowsHttpRedirectException
-         * @expectedException Emonkak\Framework\Exception\HttpRedirectException
-         */
-        public function testMatchThrowsHttpRedirectException($path, $prefix, $namespace, $expectedLocation)
-        {
-            $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
-            $request
-                ->expects($this->once())
-                ->method('getPathInfo')
-                ->willReturn($path);
-
-            $router = new NamespaceRouter($prefix, $namespace);
-
-            try {
-                $router->match($request);
-            } catch (HttpRedirectException $e) {
-                $this->assertSame(['Location' => $expectedLocation], $e->getHeaders());
-
-                throw $e;
-            }
-        }
-
-        public function provideMatchThrowsHttpRedirectException()
-        {
-            return [
-                ['/index',      '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest',     '/index/'],
-                ['/foo',        '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest',     '/foo/'],
-                ['/foo_bar',    '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest',     '/foo_bar/'],
-                ['/foo/index',  '/foo/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Foo', '/foo/index/'],
-                ['/foo/bar',    '/foo/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Foo', '/foo/bar/'],
-            ];
-        }
-
-        /**
          * @dataProvider provideMatchThrowsHttpNotFoundException
          * @expectedException Emonkak\Framework\Exception\HttpNotFoundException
          */
@@ -103,10 +69,15 @@ namespace Emonkak\Framework\Tests\Routing
         public function provideMatchThrowsHttpNotFoundException()
         {
             return [
-                ['/bar',      '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
-                ['/bar/',     '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
-                ['/foo/foo',  '/foo/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Foo'],
-                ['/foo/foo/', '/foo/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Foo'],
+                ['/index',     '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest',],
+                ['/bar',       '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
+                ['/bar/',      '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
+                ['/foo',       '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest',],
+                ['/foo_bar',   '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest',],
+                ['/foo/bar',   '/foo/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Foo'],
+                ['/foo/foo',   '/foo/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Foo'],
+                ['/foo/foo/',  '/foo/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Foo'],
+                ['/foo/index', '/foo/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Foo'],
             ];
         }
 

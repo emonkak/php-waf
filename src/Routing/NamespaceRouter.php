@@ -39,6 +39,10 @@ class NamespaceRouter implements RouterInterface
         if (strpos($path, $this->prefix) === 0) {
             $fragments = explode('/', substr($path, strlen($this->prefix)));
 
+            if (count($fragments) <= 1 && substr($path, -1) !== '/') {
+                throw new HttpNotFoundException('You forget the trailing slash.');
+            }
+
             $controllerName = empty($fragments[0]) ? 'index' : $fragments[0];
             $controller = $this->getController($controllerName);
             try {
@@ -48,11 +52,6 @@ class NamespaceRouter implements RouterInterface
                     sprintf('Controller "%s" can not be found.', $controller),
                     $e
                 );
-            }
-
-            if (count($fragments) <= 1 && substr($path, -1) !== '/') {
-                // Complete the slash
-                throw new HttpRedirectException($path . '/', Response::HTTP_MOVED_PERMANENTLY);
             }
 
             $action = empty($fragments[1]) ? 'index' : $fragments[1];
