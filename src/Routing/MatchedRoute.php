@@ -2,6 +2,9 @@
 
 namespace Emonkak\Framework\Routing;
 
+/**
+ * Represents a matched route.
+ */
 class MatchedRoute
 {
     public $controller;

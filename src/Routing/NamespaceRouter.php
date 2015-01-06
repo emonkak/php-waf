@@ -46,7 +46,7 @@ class NamespaceRouter implements RouterInterface
             $controllerName = empty($fragments[0]) ? 'index' : $fragments[0];
             $controller = $this->getController($controllerName);
             try {
-                $controllerReflection = ReflectionUtils::getClass($controller);
+                $controllerReflection = new \ReflectionClass($controller);
             } catch (\ReflectionException $e) {
                 throw new HttpNotFoundException(
                     sprintf('Controller "%s" can not be found.', $controller),
@@ -68,9 +68,18 @@ class NamespaceRouter implements RouterInterface
      *
      * @param string $name The fragment of controller name.
      * @return string
+     * @throws HttpException
      */
     protected function getController($name)
     {
-        return $this->namespace . '\\' . StringUtils::toUpperCamelcase($name) . 'Controller';
+        if ($name !== strtolower($name)) {
+            throw new HttpNotFoundException('The action name must contain only lowercase letters.');
+        }
+
+        return sprintf(
+            '%s\\%sController',
+            $this->namespace,
+            StringUtils::toUpperCamelcase($name)
+        );
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Emonkak\Framework\Action;
 
+use Emonkak\Framework\Exception\HttpBadRequestException;
 use Emonkak\Framework\Exception\HttpNotFoundException;
 use Emonkak\Framework\Routing\MatchedRoute;
 use Emonkak\Framework\Utils\ReflectionUtils;
@@ -19,7 +20,7 @@ abstract class AbstractActionDispatcher implements ActionDispatcherInterface
         $actionName = $this->getActionName($request, $match->action);
 
         try {
-            $action = ReflectionUtils::getMethod($controllerReflection, $actionName);
+            $action = $controllerReflection->getMethod($actionName);
         } catch (\ReflectionException $e) {
             throw new HttpNotFoundException(sprintf(
                 'Controller method "%s::%s()" can not be found.',
@@ -29,7 +30,7 @@ abstract class AbstractActionDispatcher implements ActionDispatcherInterface
         }
 
         if (!ReflectionUtils::matchesNumberOfArguments($action, count($match->params))) {
-            throw new HttpNotFoundException(sprintf(
+            throw new HttpBadRequestException(sprintf(
                 'Number of arguments does not match to definition in the controller method "%s::%s()".',
                 $controllerReflection->getName(),
                 $actionName
@@ -51,6 +52,7 @@ abstract class AbstractActionDispatcher implements ActionDispatcherInterface
      * @param Request $request
      * @param string $name
      * @return string
+     * @throws HttpException
      */
     abstract protected function getActionName(Request $request, $name);
 }

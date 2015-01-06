@@ -11,6 +11,9 @@ class ControllerEventDispatcher implements ActionDispatcherInterface
 {
     private $dispatcher;
 
+    /**
+     * @param ActionDispatcherInterface $dispatcher
+     */
     public function __construct(ActionDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
@@ -23,13 +26,16 @@ class ControllerEventDispatcher implements ActionDispatcherInterface
     {
         $isControllerEventListener = $controller instanceof ControllerEventListenerInterface;
         if ($isControllerEventListener) {
-            $controller->onRequest($request);
+            $response = $controller->onRequest($request);
+            if ($response) {
+                return $response;
+            }
         }
 
         $response = $this->dispatcher->dispatch($request, $match, $controller);
 
         if ($isControllerEventListener) {
-            $controller->onResponse($request, $response);
+            $response = $controller->onResponse($request, $response) ?: $response;
         }
 
         return $response;

@@ -37,7 +37,7 @@ class ResourceRouter implements RouterInterface
         $path = $request->getPathInfo();
 
         if (strpos($path, $this->prefix) === 0) {
-            $controllerReflection = ReflectionUtils::getClass($this->controller);
+            $controllerReflection = new \ReflectionClass($this->controller);
             $fragments = explode('/', substr($path, strlen($this->prefix)));
 
             if (empty($fragments[0])) {

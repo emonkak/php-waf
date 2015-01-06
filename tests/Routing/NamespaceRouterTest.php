@@ -69,12 +69,20 @@ namespace Emonkak\Framework\Tests\Routing
         public function provideMatchThrowsHttpNotFoundException()
         {
             return [
-                ['/index',     '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest',],
+                ['/index',     '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
+                ['/Foo/',      '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
+                ['/FOO/',      '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
                 ['/bar',       '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
                 ['/bar/',      '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
-                ['/foo',       '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest',],
-                ['/foo_bar',   '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest',],
+                ['/foo',       '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
+                ['/foo_bar',   '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
+                ['/Foo_Bar/',  '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
+                ['/FOO_BAR/',  '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
+                ['/FooBar/',   '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
+                ['/FOOBAR/',   '/',     'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
                 ['/foo/bar',   '/foo/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Foo'],
+                ['/foo/Bar/',  '/foo/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Foo'],
+                ['/foo/BAR/',  '/foo/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Foo'],
                 ['/foo/foo',   '/foo/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Foo'],
                 ['/foo/foo/',  '/foo/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Foo'],
                 ['/foo/index', '/foo/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Foo'],

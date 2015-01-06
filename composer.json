@@ -1,5 +1,6 @@
 {
-    "name": "emonkak/php-framework-abstraction",
+    "name": "emonkak/framework",
+    "description": "A flexible and extendable framework",
     "license": "MIT",
     "authors": [
         {

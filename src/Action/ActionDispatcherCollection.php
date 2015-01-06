@@ -5,15 +5,14 @@ namespace Emonkak\Framework\Action;
 use Emonkak\Framework\Routing\MatchedRoute;
 use Symfony\Component\HttpFoundation\Request;
 
-class ActionDispatcherCollection implements ActionDispatcherInterface
+class ActionDispatcherCollection implements ActionDispatcherInterface, \IteratorAggregate
 {
-    /**
-     * @var ActionDispatcherInterface[]
-     */
     private $dispatchers = [];
 
     /**
-     * @param array $dispatchers
+     * Create this instance from given dispatchers.
+     *
+     * @param ActionDispatcherInterface[] $dispatchers
      * @return ActionDispatcherCollection
      */
     public static function from(array $dispatchers = [])
@@ -24,25 +23,29 @@ class ActionDispatcherCollection implements ActionDispatcherInterface
     }
 
     /**
-     * Adds the action dispatcher to this collection.
+     * Adds an action dispatcher to this collection.
      *
      * @param ActionDispatcherInterface $dispatcher
+     * @return ActionDispatcherCollection
      */
     public function add(ActionDispatcherInterface $dispatcher)
     {
         $this->dispatchers[] = $dispatcher;
+        return $this;
     }
 
     /**
      * Adds all action dispatcher to this collection.
      *
      * @param ActionDispatcherInterface[] $dispatchers
+     * @return ActionDispatcherCollection
      */
     public function addAll(array $dispatchers)
     {
         foreach ($dispatchers as $dispatcher) {
             $this->add($dispatcher);
         }
+        return $this;
     }
 
     /**
@@ -69,5 +72,14 @@ class ActionDispatcherCollection implements ActionDispatcherInterface
             }
         }
         return false;
+    }
+
+    /**
+     * @see \IteratorAggregate
+     * @return \Iterator
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->dispatchers);
     }
 }

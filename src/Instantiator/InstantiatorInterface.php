@@ -2,6 +2,9 @@
 
 namespace Emonkak\Framework\Instantiator;
 
+/**
+ * Provides instantiating of any class.
+ */
 interface InstantiatorInterface
 {
     /**

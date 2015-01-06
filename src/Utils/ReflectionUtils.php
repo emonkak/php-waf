@@ -2,6 +2,9 @@
 
 namespace Emonkak\Framework\Utils;
 
+/**
+ * Utilities for reflection.
+ */
 class ReflectionUtils
 {
     /**
@@ -9,44 +12,6 @@ class ReflectionUtils
      */
     private function __construct()
     {
-    }
-
-    /**
-     * @param string $className
-     * @return \ReflectionClass
-     * @throws \ReflectionException
-     */
-    public static function getClass($className)
-    {
-        $class = new \ReflectionClass($className);
-        if ($class->getName() !== $className) {
-            throw new \ReflectionException(
-                sprintf('Class "%s" does not match to "%s"', $className, $class->getName())
-            );
-        }
-        return $class;
-    }
-
-    /**
-     * @param \ReflectionClass $class
-     * @param string           $methodName
-     * @return \ReflectionMethod
-     * @throws \ReflectionException
-     */
-    public static function getMethod(\ReflectionClass $class, $methodName)
-    {
-        $method = $class->getMethod($methodName);
-        if ($method->getName() !== $methodName) {
-            throw new \ReflectionException(
-                sprintf('Method "%s::%s()" does not match to "%s::%s()"',
-                    $class->getName(),
-                    $method->getName(),
-                    $class->getName(),
-                    $methodName
-                )
-            );
-        }
-        return $method;
     }
 
     /**

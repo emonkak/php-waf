@@ -11,12 +11,20 @@ use Emonkak\Framework\Instantiator\InstantiatorInterface;
 use Emonkak\Framework\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * The implementation of kernel for an application.
+ */
 class Kernel implements KernelInterface
 {
     private $router;
     private $instantiator;
     private $actionDispatcher;
 
+    /**
+     * @param RouterInterface           $router
+     * @param InstantiatorInterface     $instantiator
+     * @param ActionDispatcherInterface $actionDispatcher
+     */
     public function __construct(
         RouterInterface $router,
         InstantiatorInterface $instantiator,

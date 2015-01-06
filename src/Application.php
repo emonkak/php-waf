@@ -7,10 +7,16 @@ use Emonkak\Framework\Exception\HttpInternalServerErrorException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * The application facade.
+ */
 class Application
 {
     private $kernel;
 
+    /**
+     * @param KernelInterface $kernel
+     */
     public function __construct(KernelInterface $kernel)
     {
         $this->kernel = $kernel;
@@ -29,7 +35,7 @@ class Application
         } catch (\Exception $e) {
             return $this->kernel->handleException(
                 $request,
-                new HttpInternalServerErrorException('Uncaught exception.', $e)
+                new HttpInternalServerErrorException('Uncaught exception: ' . $e->getMessage(), $e)
             );
         }
     }

@@ -2,6 +2,7 @@
 
 namespace Emonkak\Framework\Routing;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestMatcher;
 
 /**
@@ -33,7 +34,7 @@ class RouterBuilder
      */
     public function get($pattern, $controller, $action)
     {
-        return $this->method('GET', $pattern, $controller, $action);
+        return $this->method(Request::METHOD_GET, $pattern, $controller, $action);
     }
 
     /**
@@ -46,7 +47,7 @@ class RouterBuilder
      */
     public function post($pattern, $controller, $action)
     {
-        return $this->method('POST', $pattern, $controller, $action);
+        return $this->method(Request::METHOD_POST, $pattern, $controller, $action);
     }
 
     /**
@@ -59,7 +60,7 @@ class RouterBuilder
      */
     public function put($pattern, $controller, $action)
     {
-        return $this->method('PUT', $pattern, $controller, $action);
+        return $this->method(Request::METHOD_PUT, $pattern, $controller, $action);
     }
 
     /**
@@ -72,7 +73,7 @@ class RouterBuilder
      */
     public function delete($pattern, $controller, $action)
     {
-        return $this->method('DELETE', $pattern, $controller, $action);
+        return $this->method(Request::METHOD_DELETE, $pattern, $controller, $action);
     }
 
     /**

@@ -2,6 +2,9 @@
 
 namespace Emonkak\Framework\Utils;
 
+/**
+ * Utilities for string.
+ */
 class StringUtils
 {
     /**
