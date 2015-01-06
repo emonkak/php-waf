@@ -71,13 +71,11 @@ namespace Emonkak\Framework\Tests\Routing
             return [
                 ['/Foo/',      '/',      'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
                 ['/FOO/',      '/',      'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
-                ['/bar',       '/',      'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
                 ['/bar/',      '/',      'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
                 ['/Foo_Bar/',  '/',      'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
                 ['/FOO_BAR/',  '/',      'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
                 ['/FooBar/',   '/',      'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
                 ['/FOOBAR/',   '/',      'Emonkak\Framework\Tests\Routing\NamespaceRouterTest'],
-                ['/hoge/foo',  '/hoge/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Hoge'],
                 ['/hoge/foo/', '/hoge/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Hoge'],
                 ['/hoge/Bar/', '/hoge/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Hoge'],
                 ['/hoge/BAR/', '/hoge/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Hoge'],
@@ -113,8 +111,10 @@ namespace Emonkak\Framework\Tests\Routing
                 ['/index',      '/',      'Emonkak\Framework\Tests\Routing\NamespaceRouterTest',      '/index/'],
                 ['/foo',        '/',      'Emonkak\Framework\Tests\Routing\NamespaceRouterTest',      '/foo/'],
                 ['/foo_bar',    '/',      'Emonkak\Framework\Tests\Routing\NamespaceRouterTest',      '/foo_bar/'],
+                ['/bar',        '/',      'Emonkak\Framework\Tests\Routing\NamespaceRouterTest',      '/bar/'],
                 ['/hoge',       '/hoge/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Hoge', '/hoge/'],
                 ['/hoge/index', '/hoge/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Hoge', '/hoge/index/'],
+                ['/hoge/foo',   '/hoge/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Hoge', '/hoge/foo/'],
                 ['/hoge/bar',   '/hoge/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Hoge', '/hoge/bar/'],
             ];
         }

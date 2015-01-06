@@ -42,6 +42,10 @@ class NamespaceRouter implements RouterInterface
         if (StringUtils::startsWith($path, $this->prefix)) {
             $fragments = explode('/', substr($path, strlen($this->prefix)));
 
+            if (count($fragments) <= 1 && substr($path, -1) !== '/') {
+                throw new HttpRedirectException($path . '/', Response::HTTP_MOVED_PERMANENTLY);
+            }
+
             $controllerName = empty($fragments[0]) ? 'index' : $fragments[0];
             $controller = $this->getController($controllerName);
             try {
@@ -51,10 +55,6 @@ class NamespaceRouter implements RouterInterface
                     sprintf('Controller "%s" can not be found.', $controller),
                     $e
                 );
-            }
-
-            if (count($fragments) <= 1 && substr($path, -1) !== '/') {
-                throw new HttpRedirectException($path . '/', Response::HTTP_MOVED_PERMANENTLY);
             }
 
             $action = empty($fragments[1]) ? 'index' : $fragments[1];
@@ -76,7 +76,7 @@ class NamespaceRouter implements RouterInterface
     protected function getController($name)
     {
         if ($name !== strtolower($name)) {
-            throw new HttpNotFoundException('The action name must contain only lowercase letters.');
+            throw new HttpNotFoundException('The controller name must contain only lowercase letters.');
         }
 
         return sprintf(
