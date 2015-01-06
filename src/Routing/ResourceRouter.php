@@ -4,7 +4,6 @@ namespace Emonkak\Framework\Routing;
 
 use Emonkak\Framework\Exception\HttpNotFoundException;
 use Emonkak\Framework\Exception\HttpRedirectException;
-use Emonkak\Framework\Utils\ReflectionUtils;
 use Emonkak\Framework\Utils\StringUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,7 +35,11 @@ class ResourceRouter implements RouterInterface
     {
         $path = $request->getPathInfo();
 
-        if (strpos($path, $this->prefix) === 0) {
+        if (StringUtils::forgetsTrailingSlash($path, $this->prefix)) {
+            throw new HttpRedirectException($path . '/', Response::HTTP_MOVED_PERMANENTLY);
+        }
+
+        if (StringUtils::startsWith($path, $this->prefix)) {
             $controllerReflection = new \ReflectionClass($this->controller);
             $fragments = explode('/', substr($path, strlen($this->prefix)));
 

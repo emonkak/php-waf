@@ -63,19 +63,50 @@ namespace Emonkak\Framework\Tests\Routing
         public function provideMatchReturnsNull()
         {
             return [
-                ['/',         '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController'],
-                ['/foo',      '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController'],
-                ['/bar',      '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController'],
+                ['/',     '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController'],
+                ['/FOO',  '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController'],
+                ['/FOO/', '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController'],
+                ['/bar/', '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController'],
+            ];
+        }
+
+        /**
+         * @expectedException Emonkak\Framework\Exception\HttpRedirectException
+         * @dataProvider provideMatchHttpRedirectException
+         */
+        public function testMatchThrowsHttpRedirectException($path, $prefix, $controller, $expectedLocation)
+        {
+            $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
+            $request
+                ->expects($this->once())
+                ->method('getPathInfo')
+                ->willReturn($path);
+
+            $router = new ResourceRouter($prefix, $controller);
+
+            try {
+                $router->match($request);
+            } catch (HttpRedirectException $e) {
+                $this->assertSame(['Location' => $expectedLocation], $e->getHeaders());
+                throw $e;
+            }
+        }
+
+        public function provideMatchHttpRedirectException()
+        {
+            return [
+                ['/foo',     '/foo/',     'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', '/foo/'],
+                ['/foo/bar', '/foo/bar/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', '/foo/bar/'],
             ];
         }
 
         /**
          * @expectedException ReflectionException
          */
-        public function testMatchThrowsRelectionException()
+        public function testMatchThrowsReflectionException()
         {
             $request = new Request();
-            $router = new ResourceRouter('/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest/IsNotFoundController');
+            $router = new ResourceRouter('/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\IsNotFoundController');
             $match = $router->match($request);
         }
     }

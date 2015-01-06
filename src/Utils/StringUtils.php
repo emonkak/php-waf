@@ -16,6 +16,26 @@ class StringUtils
 
     /**
      * @param string $str
+     * @param string $prefix
+     * @return boolean
+     */
+    public static function forgetsTrailingSlash($path, $prefix)
+    {
+        return $path === rtrim($prefix, '/');
+    }
+
+    /**
+     * @param string $str
+     * @param string $prefix
+     * @return boolean
+     */
+    public static function startsWith($path, $prefix)
+    {
+        return strpos($path, $prefix) === 0;
+    }
+
+    /**
+     * @param string $str
      * @return string
      */
     public static function toUpperCamelcase($str)

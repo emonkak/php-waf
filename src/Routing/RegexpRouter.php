@@ -2,7 +2,6 @@
 
 namespace Emonkak\Framework\Routing;
 
-use Emonkak\Framework\Utils\ReflectionUtils;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

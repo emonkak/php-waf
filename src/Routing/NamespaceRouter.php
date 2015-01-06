@@ -4,7 +4,6 @@ namespace Emonkak\Framework\Routing;
 
 use Emonkak\Framework\Exception\HttpNotFoundException;
 use Emonkak\Framework\Exception\HttpRedirectException;
-use Emonkak\Framework\Utils\ReflectionUtils;
 use Emonkak\Framework\Utils\StringUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,12 +35,12 @@ class NamespaceRouter implements RouterInterface
     {
         $path = $request->getPathInfo();
 
-        if (strpos($path, $this->prefix) === 0) {
-            $fragments = explode('/', substr($path, strlen($this->prefix)));
+        if (StringUtils::forgetsTrailingSlash($path, $this->prefix)) {
+            throw new HttpRedirectException($path . '/', Response::HTTP_MOVED_PERMANENTLY);
+        }
 
-            if (count($fragments) <= 1 && substr($path, -1) !== '/') {
-                throw new HttpNotFoundException('You forget the trailing slash.');
-            }
+        if (StringUtils::startsWith($path, $this->prefix)) {
+            $fragments = explode('/', substr($path, strlen($this->prefix)));
 
             $controllerName = empty($fragments[0]) ? 'index' : $fragments[0];
             $controller = $this->getController($controllerName);
@@ -52,6 +51,10 @@ class NamespaceRouter implements RouterInterface
                     sprintf('Controller "%s" can not be found.', $controller),
                     $e
                 );
+            }
+
+            if (count($fragments) <= 1 && substr($path, -1) !== '/') {
+                throw new HttpRedirectException($path . '/', Response::HTTP_MOVED_PERMANENTLY);
             }
 
             $action = empty($fragments[1]) ? 'index' : $fragments[1];
