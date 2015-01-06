@@ -24,7 +24,11 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             ->expects($this->never())
             ->method('handleException');
 
-        $application = new Application($kernel);
+        $application = $this->getMockForTrait('Emonkak\Framework\Application');
+        $application
+            ->expects($this->once())
+            ->method('getKernel')
+            ->willReturn($kernel);
         $this->assertSame($response, $application->handle($request));
     }
 
@@ -46,7 +50,11 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             ->with($this->identicalTo($request), $this->identicalTo($exception))
             ->willReturn($response);
 
-        $application = new Application($kernel);
+        $application = $this->getMockForTrait('Emonkak\Framework\Application');
+        $application
+            ->expects($this->once())
+            ->method('getKernel')
+            ->willReturn($kernel);
         $this->assertSame($response, $application->handle($request));
     }
 
@@ -71,7 +79,11 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             )
             ->willReturn($response);
 
-        $application = new Application($kernel);
+        $application = $this->getMockForTrait('Emonkak\Framework\Application');
+        $application
+            ->expects($this->once())
+            ->method('getKernel')
+            ->willReturn($kernel);
         $this->assertSame($response, $application->handle($request));
     }
 }

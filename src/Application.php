@@ -10,30 +10,30 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * The application facade.
  */
-class Application
+trait Application
 {
-    private $kernel;
-
     /**
-     * @param KernelInterface $kernel
+     * Gets the kernel for this application.
+     *
+     * @return KernelInterface
      */
-    public function __construct(KernelInterface $kernel)
-    {
-        $this->kernel = $kernel;
-    }
+    abstract public function getKernel();
 
     /**
+     * Handles the given request.
+     *
      * @param Request $request
      * @return Response
      */
     public function handle(Request $request)
     {
+        $kernel = $this->getKernel();
         try {
-            return $this->kernel->handleRequest($request);
+            return $kernel->handleRequest($request);
         } catch (HttpException $e) {
-            return $this->kernel->handleException($request, $e);
+            return $kernel->handleException($request, $e);
         } catch (\Exception $e) {
-            return $this->kernel->handleException(
+            return $kernel->handleException(
                 $request,
                 new HttpInternalServerErrorException('Uncaught exception', $e)
             );
