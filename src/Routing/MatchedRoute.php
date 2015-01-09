@@ -12,6 +12,17 @@ class MatchedRoute
     public $params;
 
     /**
+     * @param string $controller
+     * @param string $action
+     * @param array  $params
+     * @return MatchedRoute
+     */
+    public static function of($controller, $action, array $params)
+    {
+        return new self(new \ReflectionClass($controller), $action, $params);
+    }
+
+    /**
      * @param \ReflectionClass $controller
      * @param string           $action
      * @param mixed[]          $params

@@ -54,10 +54,7 @@ namespace Emonkak\Framework\Tests\Action
         public function testDispatchThrowsHttpNotFoundException($uri, $method, $controllerName, $actionName, array $params)
         {
             $request = Request::create($uri, $method);
-
-            $controllerReflection = new \ReflectionClass($controllerName);
-            $match = new MatchedRoute($controllerReflection, $actionName, $params);
-
+            $match = MatchedRoute::of($controllerName, $actionName, $params);
             $controller = new $controllerName();
 
             $dispatcher = new StandardActionDispatcher();
@@ -84,10 +81,7 @@ namespace Emonkak\Framework\Tests\Action
         public function testDispatchThrowsHttpBadRequestException($uri, $method, $controllerName, $actionName, array $params)
         {
             $request = Request::create($uri, $method);
-
-            $controllerReflection = new \ReflectionClass($controllerName);
-            $match = new MatchedRoute($controllerReflection, $actionName, $params);
-
+            $match = MatchedRoute::of($controllerName, $actionName, $params);
             $controller = new $controllerName();
 
             $dispatcher = new StandardActionDispatcher();
@@ -111,9 +105,8 @@ namespace Emonkak\Framework\Tests\Action
             $dispatcher = new StandardActionDispatcher();
             $request = new Request();
 
-            $controllerReflection = new \ReflectionClass('\StdClass');
             $controller = new \StdClass();
-            $match = new MatchedRoute($controllerReflection, 'action', []);
+            $match = MatchedRoute::of('StdClass', 'action', []);
 
             $this->assertTrue($dispatcher->canDispatch($request, $match, $controller));
         }

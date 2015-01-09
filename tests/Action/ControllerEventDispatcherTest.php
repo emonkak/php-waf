@@ -106,7 +106,7 @@ class ControllerEventDispatcherTest extends \PHPUnit_Framework_TestCase
     public function testCanDispatch()
     {
         $request = new Request();
-        $match = new MatchedRoute(new \ReflectionClass('StdClass'), 'index', []);
+        $match = MatchedRoute::of('StdClass', 'index', []);
         $controller = new \StdClass();
 
         $dispatcherMock = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');
