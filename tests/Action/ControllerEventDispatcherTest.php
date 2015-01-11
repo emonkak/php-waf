@@ -26,7 +26,7 @@ class ControllerEventDispatcherTest extends \PHPUnit_Framework_TestCase
 
         $dispatcherMock = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');
 
-        $match = new MatchedRoute(new \ReflectionObject($dispatcherMock), 'index', []);
+        $match = new MatchedRoute(get_class($dispatcherMock), 'index', []);
 
         $dispatcherMock
             ->expects($this->once())
@@ -62,7 +62,7 @@ class ControllerEventDispatcherTest extends \PHPUnit_Framework_TestCase
             ->expects($this->never())
             ->method('dispatch');
 
-        $match = new MatchedRoute(new \ReflectionObject($dispatcherMock), 'index', []);
+        $match = new MatchedRoute(get_class($dispatcherMock), 'index', []);
 
         $dispatcher = new ControllerEventDispatcher($dispatcherMock);
         $this->assertSame($response, $dispatcher->dispatch($request, $match, $controllerMock));
@@ -87,7 +87,7 @@ class ControllerEventDispatcherTest extends \PHPUnit_Framework_TestCase
 
         $dispatcherMock = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');
 
-        $match = new MatchedRoute(new \ReflectionObject($dispatcherMock), 'index', []);
+        $match = new MatchedRoute(get_class($dispatcherMock), 'index', []);
 
         $dispatcherMock
             ->expects($this->once())
@@ -106,7 +106,7 @@ class ControllerEventDispatcherTest extends \PHPUnit_Framework_TestCase
     public function testCanDispatch()
     {
         $request = new Request();
-        $match = MatchedRoute::of('StdClass', 'index', []);
+        $match = new MatchedRoute('StdClass', 'index', []);
         $controller = new \StdClass();
 
         $dispatcherMock = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');

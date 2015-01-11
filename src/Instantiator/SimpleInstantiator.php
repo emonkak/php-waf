@@ -7,8 +7,8 @@ class SimpleInstantiator implements InstantiatorInterface
     /**
      * {@inheritDoc}
      */
-    public function instantiate(\ReflectionClass $class)
+    public function instantiate($className)
     {
-        return $class->newInstance();
+        return new $className();
     }
 }

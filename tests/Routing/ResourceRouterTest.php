@@ -24,7 +24,7 @@ namespace Emonkak\Framework\Tests\Routing
             $match = $router->match($request);
 
             $this->assertNotNull($match);
-            $this->assertSame($controller, $match->controller->getName());
+            $this->assertSame($controller, $match->controller);
             $this->assertSame($expectedAction, $match->action);
             $this->assertSame($expectedParams, $match->params);
         }
@@ -98,16 +98,6 @@ namespace Emonkak\Framework\Tests\Routing
                 ['/foo',     '/foo/',     'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', '/foo/'],
                 ['/foo/bar', '/foo/bar/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', '/foo/bar/'],
             ];
-        }
-
-        /**
-         * @expectedException ReflectionException
-         */
-        public function testMatchThrowsReflectionException()
-        {
-            $request = new Request();
-            $router = new ResourceRouter('/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\IsNotFoundController');
-            $match = $router->match($request);
         }
     }
 }

@@ -8,10 +8,10 @@ namespace Emonkak\Framework\Instantiator;
 interface InstantiatorInterface
 {
     /**
-     * Instantiates the given class.
+     * Instantiates from the given class name.
      *
-     * @param \ReflectionClass $class
+     * @param string $className
      * @return mixed
      */
-    public function instantiate(\ReflectionClass $class);
+    public function instantiate($className);
 }

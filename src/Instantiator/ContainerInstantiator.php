@@ -35,10 +35,8 @@ class ContainerInstantiator implements InstantiatorInterface
     /**
      * {@inheritDoc}
      */
-    public function instantiate(\ReflectionClass $class)
+    public function instantiate($className)
     {
-        $className = $class->getName();
-
         if ($this->cache->contains($className)) {
             $value = $this->cache->fetch($className);
         } else {

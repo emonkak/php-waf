@@ -40,7 +40,6 @@ class ResourceRouter implements RouterInterface
         }
 
         if (StringUtils::startsWith($path, $this->prefix)) {
-            $controllerReflection = new \ReflectionClass($this->controller);
             $fragments = explode('/', substr($path, strlen($this->prefix)));
 
             if (empty($fragments[0])) {
@@ -54,7 +53,7 @@ class ResourceRouter implements RouterInterface
                 $params = array_merge([$fragments[0]], array_slice($fragments, 2));
             }
 
-            return new MatchedRoute($controllerReflection, $action, $params);
+            return new MatchedRoute($this->controller, $action, $params);
         }
 
         return null;

@@ -21,7 +21,7 @@ namespace Emonkak\Framework\Tests\Routing
             $match = $router->match($request);
 
             $this->assertNotNull($match);
-            $this->assertSame($controller, $match->controller->getName());
+            $this->assertSame($controller, $match->controller);
             $this->assertSame($action, $match->action);
             $this->assertSame($expectedParams, $match->params);
         }
@@ -58,16 +58,6 @@ namespace Emonkak\Framework\Tests\Routing
                 ['/', '|^/test/show/(\d+)|',          'Emonkak\Framework\Tests\Routing\RegexpRouterTest\FooController', 'show'],
                 ['/', '|^/test/between/(\d+)/(\d+)|', 'Emonkak\Framework\Tests\Routing\RegexpRouterTest\FooController', 'between'],
             ];
-        }
-
-        /**
-         * @expectedException ReflectionException
-         */
-        public function testMatchThrowsRelectionException()
-        {
-            $request = new Request();
-            $router = new RegexpRouter('||', 'Emonkak\Framework\Tests\Routing\RegexpRouterTest\IsNotFoundController', 'getIndex');
-            $match = $router->match($request);
         }
     }
 }

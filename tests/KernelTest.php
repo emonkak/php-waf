@@ -22,7 +22,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     public function testHandleRequest()
     {
         $request = new Request();
-        $match = MatchedRoute::of('StdClass', 'index', []);
+        $match = new MatchedRoute('StdClass', 'index', []);
         $controller = new \StdClass();
         $response = new Response();
 

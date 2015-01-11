@@ -24,7 +24,7 @@ namespace Emonkak\Framework\Tests\Routing
             $match = $router->match($request);
 
             $this->assertNotNull($match);
-            $this->assertSame($expectedController, $match->controller->getName());
+            $this->assertSame($expectedController, $match->controller);
             $this->assertSame($expectedAction, $match->action);
             $this->assertSame($expectedParams, $match->params);
         }

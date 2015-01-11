@@ -28,10 +28,9 @@ namespace Emonkak\Framework\Tests\Action
                 array_map([$this, 'identicalTo'], $params)
             );
 
-            $controllerReflection = new \ReflectionObject($controllerMock);
-            $match = new MatchedRoute($controllerReflection, $actionName, $params);
-
+            $match = new MatchedRoute(get_class($controllerMock), $actionName, $params);
             $dispatcher = new StandardActionDispatcher();
+
             $this->assertSame($response, $dispatcher->dispatch($request, $match, $controllerMock));
             $this->assertCount(1, $actionSpy->getInvocations());
         }
@@ -54,7 +53,7 @@ namespace Emonkak\Framework\Tests\Action
         public function testDispatchThrowsHttpNotFoundException($uri, $method, $controllerName, $actionName, array $params)
         {
             $request = Request::create($uri, $method);
-            $match = MatchedRoute::of($controllerName, $actionName, $params);
+            $match = new MatchedRoute($controllerName, $actionName, $params);
             $controller = new $controllerName();
 
             $dispatcher = new StandardActionDispatcher();
@@ -81,7 +80,7 @@ namespace Emonkak\Framework\Tests\Action
         public function testDispatchThrowsHttpBadRequestException($uri, $method, $controllerName, $actionName, array $params)
         {
             $request = Request::create($uri, $method);
-            $match = MatchedRoute::of($controllerName, $actionName, $params);
+            $match = new MatchedRoute($controllerName, $actionName, $params);
             $controller = new $controllerName();
 
             $dispatcher = new StandardActionDispatcher();
@@ -106,7 +105,7 @@ namespace Emonkak\Framework\Tests\Action
             $request = new Request();
 
             $controller = new \StdClass();
-            $match = MatchedRoute::of('StdClass', 'action', []);
+            $match = new MatchedRoute('StdClass', 'action', []);
 
             $this->assertTrue($dispatcher->canDispatch($request, $match, $controller));
         }

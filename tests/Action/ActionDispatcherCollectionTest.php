@@ -12,7 +12,7 @@ class ActionDispatcherCollectionTest extends \PHPUnit_Framework_TestCase
     public function testDispatch()
     {
         $request = new Request();
-        $match = MatchedRoute::of('StdClass', 'index', []);
+        $match = new MatchedRoute('StdClass', 'index', []);
         $controller = new \StdClass();
         $response = new Response();
 
@@ -68,7 +68,7 @@ class ActionDispatcherCollectionTest extends \PHPUnit_Framework_TestCase
     public function testDispatchThrowsLogicException()
     {
         $request = new Request();
-        $match = MatchedRoute::of('StdClass', 'index', []);
+        $match = new MatchedRoute('StdClass', 'index', []);
         $controller = new \StdClass();
 
         $collection = new ActionDispatcherCollection();
@@ -78,7 +78,7 @@ class ActionDispatcherCollectionTest extends \PHPUnit_Framework_TestCase
     public function testCanDispatch()
     {
         $request = new Request();
-        $match = MatchedRoute::of('StdClass', 'index', []);
+        $match = new MatchedRoute('StdClass', 'index', []);
         $controller = new \StdClass();
 
         $dispatcher1 = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');
@@ -118,7 +118,7 @@ class ActionDispatcherCollectionTest extends \PHPUnit_Framework_TestCase
     public function testGetIterator()
     {
         $request = new Request();
-        $match = MatchedRoute::of('StdClass', 'index', []);
+        $match = new MatchedRoute('StdClass', 'index', []);
         $controller = new \StdClass();
 
         $dispatcher1 = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');

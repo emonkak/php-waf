@@ -11,8 +11,8 @@ class ContainerInstantiatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstantiate()
     {
-        $class = new \ReflectionClass('stdClass');
-        $instance = new \StdClass();
+        $className = 'stdClass';
+        $instance = new \stdClass();
         $value = new ImmediateValue($instance);
 
         $container = $this->getMockBuilder('Emonkak\Di\Container')
@@ -21,7 +21,7 @@ class ContainerInstantiatorTest extends \PHPUnit_Framework_TestCase
         $container
             ->expects($this->once())
             ->method('get')
-            ->with($this->identicalTo($class->getName()))
+            ->with($this->identicalTo($className))
             ->willReturn($value);
 
         $configurator = $this->getMock('stdClass', ['__invoke']);
@@ -34,7 +34,7 @@ class ContainerInstantiatorTest extends \PHPUnit_Framework_TestCase
         $instantiator = new ContainerInstantiator($container, $cache);
         $instantiator->addConfigurator($configurator);
 
-        $this->assertSame($instance, $instantiator->instantiate($class));
-        $this->assertSame($instance, $instantiator->instantiate($class));
+        $this->assertSame($instance, $instantiator->instantiate($className));
+        $this->assertSame($instance, $instantiator->instantiate($className));
     }
 }

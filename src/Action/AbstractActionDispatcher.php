@@ -16,7 +16,7 @@ abstract class AbstractActionDispatcher implements ActionDispatcherInterface
      */
     public function dispatch(Request $request, MatchedRoute $match, $controller)
     {
-        $controllerReflection = $match->controller;
+        $controllerReflection = new \ReflectionClass($match->controller);
         $actionName = $this->getActionName($request, $match->action);
 
         try {
