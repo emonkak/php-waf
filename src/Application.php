@@ -13,13 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 trait Application
 {
     /**
-     * Gets the kernel for this application.
-     *
-     * @return KernelInterface
-     */
-    abstract public function getKernel();
-
-    /**
      * Handles the given request.
      *
      * @param Request $request
@@ -27,16 +20,44 @@ trait Application
      */
     public function handle(Request $request)
     {
+        $this->onRequest($request);
+
         $kernel = $this->getKernel();
         try {
-            return $kernel->handleRequest($request);
+            $response = $kernel->handleRequest($request);
         } catch (HttpException $e) {
-            return $kernel->handleException($request, $e);
+            $response = $kernel->handleException($request, $e);
         } catch (\Exception $e) {
-            return $kernel->handleException(
+            $response = $kernel->handleException(
                 $request,
                 new HttpInternalServerErrorException('Uncaught exception', $e)
             );
         }
+
+        $this->onResponse($request, $response);
+
+        return $response;
     }
+
+    /**
+     * Gets the kernel for this application.
+     *
+     * @return KernelInterface
+     */
+    abstract protected function getKernel();
+
+    /**
+     * This method will be called before handle request.
+     *
+     * @param Request $request
+     */
+    abstract protected function onRequest(Request $request);
+
+    /**
+     * This method will be called after handle request.
+     *
+     * @param Request $request
+     * @param Response $response
+     */
+    abstract protected function onResponse(Request $request, Response $response);
 }

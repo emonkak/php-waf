@@ -4,6 +4,7 @@ namespace Emonkak\Framework\Tests;
 
 use Emonkak\Framework\Application;
 use Emonkak\Framework\Exception\HttpException;
+use Emonkak\Framework\KernelInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,11 +25,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             ->expects($this->never())
             ->method('handleException');
 
-        $application = $this->getMockForTrait('Emonkak\Framework\Application');
-        $application
-            ->expects($this->once())
-            ->method('getKernel')
-            ->willReturn($kernel);
+        $application = $this->createApplicationMock($kernel, $request, $response);
         $this->assertSame($response, $application->handle($request));
     }
 
@@ -50,11 +47,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             ->with($this->identicalTo($request), $this->identicalTo($exception))
             ->willReturn($response);
 
-        $application = $this->getMockForTrait('Emonkak\Framework\Application');
-        $application
-            ->expects($this->once())
-            ->method('getKernel')
-            ->willReturn($kernel);
+        $application = $this->createApplicationMock($kernel, $request, $response);
         $this->assertSame($response, $application->handle($request));
     }
 
@@ -79,11 +72,25 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             )
             ->willReturn($response);
 
+        $application = $this->createApplicationMock($kernel, $request, $response);
+        $this->assertSame($response, $application->handle($request));
+    }
+
+    private function createApplicationMock(KernelInterface $kernel, Request $request, Response $response)
+    {
         $application = $this->getMockForTrait('Emonkak\Framework\Application');
         $application
             ->expects($this->once())
             ->method('getKernel')
             ->willReturn($kernel);
-        $this->assertSame($response, $application->handle($request));
+        $application
+            ->expects($this->once())
+            ->method('onRequest')
+            ->with($this->identicalTo($request));
+        $application
+            ->expects($this->once())
+            ->method('onResponse')
+            ->with($this->identicalTo($request, $response));
+        return $application;
     }
 }
