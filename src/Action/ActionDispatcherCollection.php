@@ -10,45 +10,14 @@ class ActionDispatcherCollection implements ActionDispatcherInterface, \Iterator
     /**
      * @var ActionDispatcherInterface[]
      */
-    private $dispatchers = [];
+    private $dispatchers;
 
     /**
-     * Create this instance from given dispatchers.
-     *
      * @param ActionDispatcherInterface[] $dispatchers
-     * @return ActionDispatcherCollection
      */
-    public static function from(array $dispatchers = [])
+    public function __construct(array $dispatchers)
     {
-        $collection = new ActionDispatcherCollection();
-        $collection->addAll($dispatchers);
-        return $collection;
-    }
-
-    /**
-     * Adds an action dispatcher to this collection.
-     *
-     * @param ActionDispatcherInterface $dispatcher
-     * @return ActionDispatcherCollection
-     */
-    public function add(ActionDispatcherInterface $dispatcher)
-    {
-        $this->dispatchers[] = $dispatcher;
-        return $this;
-    }
-
-    /**
-     * Adds all action dispatcher to this collection.
-     *
-     * @param ActionDispatcherInterface[] $dispatchers
-     * @return ActionDispatcherCollection
-     */
-    public function addAll(array $dispatchers)
-    {
-        foreach ($dispatchers as $dispatcher) {
-            $this->add($dispatcher);
-        }
-        return $this;
+        $this->dispatchers = $dispatchers;
     }
 
     /**

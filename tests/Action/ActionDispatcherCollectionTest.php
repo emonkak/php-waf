@@ -58,7 +58,7 @@ class ActionDispatcherCollectionTest extends \PHPUnit_Framework_TestCase
             ->expects($this->never())
             ->method('dispatch');
 
-        $collection = ActionDispatcherCollection::from([$dispatcher1, $dispatcher2, $dispatcher3]);
+        $collection = new ActionDispatcherCollection([$dispatcher1, $dispatcher2, $dispatcher3]);
         $this->assertSame($response, $collection->dispatch($request, $match, $controller));
     }
 
@@ -71,7 +71,7 @@ class ActionDispatcherCollectionTest extends \PHPUnit_Framework_TestCase
         $match = new MatchedRoute('StdClass', 'index', []);
         $controller = new \StdClass();
 
-        $collection = new ActionDispatcherCollection();
+        $collection = new ActionDispatcherCollection([]);
         $collection->dispatch($request, $match, $controller);
     }
 
@@ -108,10 +108,10 @@ class ActionDispatcherCollectionTest extends \PHPUnit_Framework_TestCase
             ->expects($this->never())
             ->method('canDispatch');
 
-        $collection = ActionDispatcherCollection::from([$dispatcher1, $dispatcher2, $dispatcher3]);
+        $collection = new ActionDispatcherCollection([$dispatcher1, $dispatcher2, $dispatcher3]);
         $this->assertTrue($collection->canDispatch($request, $match, $controller));
 
-        $collection = new ActionDispatcherCollection();
+        $collection = new ActionDispatcherCollection([]);
         $this->assertFalse($collection->canDispatch($request, $match, $controller));
     }
 
@@ -125,7 +125,7 @@ class ActionDispatcherCollectionTest extends \PHPUnit_Framework_TestCase
         $dispatcher2 = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');
         $dispatcher3 = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');
 
-        $collection = ActionDispatcherCollection::from([$dispatcher1, $dispatcher2, $dispatcher3]);
+        $collection = new ActionDispatcherCollection([$dispatcher1, $dispatcher2, $dispatcher3]);
         $this->assertSame([$dispatcher1, $dispatcher2, $dispatcher3], iterator_to_array($collection));
     }
 }

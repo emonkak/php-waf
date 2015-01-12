@@ -144,6 +144,6 @@ class RouterBuilder
      */
     public function build()
     {
-        return RouterCollection::from($this->routers);
+        return new RouterCollection($this->routers);
     }
 }

@@ -28,11 +28,11 @@ class RouterCollectionTest extends \PHPUnit_Framework_TestCase
             ->expects($this->never())
             ->method('match');
 
-        $router = RouterCollection::from([$nullRouter, $matchedRouter, $nerverCalledRouter]);
+        $router = new RouterCollection([$nullRouter, $matchedRouter, $nerverCalledRouter]);
         $request = new Request();
         $this->assertSame($expectedResult, $router->match($request));
 
-        $router = new RouterCollection;
+        $router = new RouterCollection([]);
         $this->assertNull($router->match($request));
     }
 }
