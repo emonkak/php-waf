@@ -15,7 +15,14 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ResourceRouter implements RouterInterface
 {
+    /**
+     * @var string
+     */
     private $prefix;
+
+    /**
+     * @var string
+     */
     private $controller;
 
     /**

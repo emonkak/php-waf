@@ -15,7 +15,14 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class NamespaceRouter implements RouterInterface
 {
+    /**
+     * @var string
+     */
     private $prefix;
+
+    /**
+     * @var string
+     */
     private $namespace;
 
     /**

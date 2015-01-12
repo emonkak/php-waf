@@ -7,6 +7,9 @@ namespace Emonkak\Framework\Exception;
  */
 class HttpException extends \RuntimeException
 {
+    /**
+     * @var array
+     */
     private $headers;
 
     /**

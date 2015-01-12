@@ -9,8 +9,19 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RegexpRouter implements RouterInterface
 {
+    /**
+     * @var string
+     */
     private $pattern;
+
+    /**
+     * @var string
+     */
     private $controller;
+
+    /**
+     * @var string
+     */
     private $action;
 
     /**

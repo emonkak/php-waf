@@ -7,9 +7,20 @@ use Symfony\Component\HttpFoundation\RequestMatcherInterface;
 
 class RequestMatcherRouter implements RouterInterface
 {
+    /**
+     * @var RouterInterface
+     */
     private $router;
+
+    /**
+     * @var RequestMatcherInterface
+     */
     private $matcher;
 
+    /**
+     * @param RouterInterface         $router
+     * @param RequestMatcherInterface $matcher
+     */
     public function __construct(RouterInterface $router, RequestMatcherInterface $matcher)
     {
         $this->router = $router;

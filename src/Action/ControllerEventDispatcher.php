@@ -9,6 +9,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ControllerEventDispatcher implements ActionDispatcherInterface
 {
+    /**
+     * @var ActionDispatcherInterface
+     */
     private $dispatcher;
 
     /**

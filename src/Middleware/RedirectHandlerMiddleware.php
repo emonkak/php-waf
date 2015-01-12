@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class RedirectHandlerMiddleware implements KernelInterface
 {
+    /**
+     * @var KernelInterface
+     */
     private $kernel;
 
     /**

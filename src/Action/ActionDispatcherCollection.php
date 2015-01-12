@@ -7,6 +7,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ActionDispatcherCollection implements ActionDispatcherInterface, \IteratorAggregate
 {
+    /**
+     * @var ActionDispatcherInterface[]
+     */
     private $dispatchers = [];
 
     /**

@@ -10,6 +10,9 @@ use Symfony\Component\HttpFoundation\RequestMatcher;
  */
 class RouterBuilder
 {
+    /**
+     * @var RouterInterface[]
+     */
     private $routers = [];
 
     /**

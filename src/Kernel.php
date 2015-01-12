@@ -16,8 +16,19 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class Kernel implements KernelInterface
 {
+    /**
+     * @var RouterInterface
+     */
     private $router;
+
+    /**
+     * @var InstantiatorInterface
+     */
     private $instantiator;
+
+    /**
+     * @var ActionDispatcherInterface
+     */
     private $actionDispatcher;
 
     /**

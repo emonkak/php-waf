@@ -9,6 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RouterCollection implements RouterInterface, \IteratorAggregate
 {
+    /**
+     * @var RouterInterface[]
+     */
     private $routers = [];
 
     /**

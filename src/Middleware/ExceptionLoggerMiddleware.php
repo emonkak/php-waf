@@ -12,7 +12,14 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ExceptionLoggerMiddleware implements KernelInterface
 {
+    /**
+     * @var KernelInterface
+     */
     private $kernel;
+
+    /**
+     * @var LoggerInterface
+     */
     private $logger;
 
     /**
