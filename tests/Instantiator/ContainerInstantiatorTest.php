@@ -4,6 +4,7 @@ namespace Emonkak\Framework\Tests\Instantiator;
 
 use Doctrine\Common\Cache\ArrayCache;
 use Emonkak\Di\Container;
+use Emonkak\Di\InjectionPolicy\DefaultInjectionPolicy;
 use Emonkak\Di\Value\ImmediateValue;
 use Emonkak\Framework\Instantiator\ContainerInstantiator;
 
@@ -12,17 +13,10 @@ class ContainerInstantiatorTest extends \PHPUnit_Framework_TestCase
     public function testInstantiate()
     {
         $className = 'stdClass';
-        $instance = new \stdClass();
-        $value = new ImmediateValue($instance);
+        $instance = (object) ['foo' => 'bar'];
 
-        $container = $this->getMockBuilder('Emonkak\Di\Container')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $container
-            ->expects($this->once())
-            ->method('get')
-            ->with($this->identicalTo($className))
-            ->willReturn($value);
+        $container = new Container(new DefaultInjectionPolicy(), new ArrayCache());
+        $container->set($className, $instance);
 
         $configurator = $this->getMock('stdClass', ['__invoke']);
         $configurator
@@ -30,11 +24,9 @@ class ContainerInstantiatorTest extends \PHPUnit_Framework_TestCase
             ->method('__invoke')
             ->with($this->identicalTo($container));
 
-        $cache = new ArrayCache();
-        $instantiator = new ContainerInstantiator($container, $cache);
+        $instantiator = new ContainerInstantiator($container);
         $instantiator->addConfigurator($configurator);
 
-        $this->assertSame($instance, $instantiator->instantiate($className));
-        $this->assertSame($instance, $instantiator->instantiate($className));
+        $this->assertEquals($instance, $instantiator->instantiate($className));
     }
 }
