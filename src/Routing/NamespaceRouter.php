@@ -85,7 +85,7 @@ class NamespaceRouter implements RouterInterface
 
         if (!class_exists($controller, true)) {
             throw new HttpNotFoundException(
-                sprintf('Controller "%s" can not be exist.', $controller)
+                sprintf('Controller "%s" can not be found.', $controller)
             );
         }
 
