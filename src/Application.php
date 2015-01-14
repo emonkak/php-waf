@@ -44,7 +44,7 @@ trait Application
      *
      * @return KernelInterface
      */
-    abstract protected function getKernel();
+    abstract public function getKernel();
 
     /**
      * This method will be called before handle request.
