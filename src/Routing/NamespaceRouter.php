@@ -65,6 +65,14 @@ class NamespaceRouter implements RouterInterface
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function getPattern()
+    {
+        return preg_quote($this->prefix, self::PATTERN_DELIMITER);
+    }
+
+    /**
      * Returns the fully qualified controller class.
      *
      * @param string $name The fragment of controller name.

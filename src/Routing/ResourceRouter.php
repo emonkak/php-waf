@@ -65,4 +65,12 @@ class ResourceRouter implements RouterInterface
 
         return null;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPattern()
+    {
+        return preg_quote($this->prefix, self::PATTERN_DELIMITER);
+    }
 }

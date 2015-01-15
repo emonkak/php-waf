@@ -178,6 +178,6 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new RouterBuilder();
         $router = $builder->build();
 
-        $this->assertInstanceOf('Emonkak\Framework\Routing\RouterCollection', $router);
+        $this->assertInstanceOf('Emonkak\Framework\Routing\OptimizedRouterCollection', $router);
     }
 }

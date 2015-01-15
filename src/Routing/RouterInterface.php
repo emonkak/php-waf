@@ -20,4 +20,11 @@ interface RouterInterface
      * @throws HttpException
      */
     public function match(Request $request);
+
+    /**
+     * Gets the regexp pattern that matches this routing for optimization.
+     *
+     * @return string
+     */
+    public function getPattern();
 }

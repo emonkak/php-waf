@@ -84,6 +84,23 @@ namespace Emonkak\Framework\Tests\Routing
                 ['/foo/bar', '/foo/bar/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', '/foo/bar/'],
             ];
         }
+
+        /**
+         * @dataProvider provideGetPattern
+         */
+        public function testGetPattern($prefix, $controller, $expectedPattern)
+        {
+            $router = new ResourceRouter($prefix, $controller);
+            $this->assertSame($expectedPattern, $router->getPattern());
+        }
+
+        public function provideGetPattern()
+        {
+            return [
+                ['/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', '/foo/'],
+                ['/foo/.*/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', '/foo/\\.\\*/'],
+            ];
+        }
     }
 }
 

@@ -151,12 +151,12 @@ class RouterBuilder
     }
 
     /**
-     * Builds a router.
+     * Builds a optimized router.
      *
-     * @return RouterCollection
+     * @return OptimizedRouterCollection
      */
     public function build()
     {
-        return new RouterCollection($this->routers);
+        return new OptimizedRouterCollection($this->routers);
     }
 }

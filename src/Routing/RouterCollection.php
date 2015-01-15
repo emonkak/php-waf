@@ -12,7 +12,7 @@ class RouterCollection implements RouterInterface, \IteratorAggregate
     /**
      * @var RouterInterface[]
      */
-    private $routers;
+    protected $routers;
 
     /**
      * Create this instance from given routers.
@@ -37,6 +37,22 @@ class RouterCollection implements RouterInterface, \IteratorAggregate
         }
 
         return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPattern()
+    {
+        $patterns = [];
+
+        foreach ($this->routers as $router) {
+            // Replace '(' to '(?:'
+            $replaced = preg_replace('/(?<!\\\\)\((?!\?)/', '(?:', $router->getPattern());
+            $patterns[] = '(' . $replaced . ')';
+        }
+
+        return implode('|', $patterns);
     }
 
     /**

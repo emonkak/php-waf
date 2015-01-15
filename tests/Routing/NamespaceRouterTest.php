@@ -123,6 +123,23 @@ namespace Emonkak\Framework\Tests\Routing
                 ['/huga',  '/hoge/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest\Hoge'],
             ];
         }
+
+        /**
+         * @dataProvider provideGetPattern
+         */
+        public function testGetPattern($prefix, $namespace, $expectedPattern)
+        {
+            $router = new NamespaceRouter($prefix, $namespace);
+            $this->assertSame($expectedPattern, $router->getPattern());
+        }
+
+        public function provideGetPattern()
+        {
+            return [
+                ['/foo/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest', '/foo/'],
+                ['/foo/.*/', 'Emonkak\Framework\Tests\Routing\NamespaceRouterTest', '/foo/\\.\\*/'],
+            ];
+        }
     }
 }
 

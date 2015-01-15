@@ -36,4 +36,28 @@ class RouterCollectionTest extends \PHPUnit_Framework_TestCase
         $router = new RouterCollection([]);
         $this->assertNull($router->match($request));
     }
+
+    public function testGetPattern()
+    {
+        $router1 = $this->getMock('Emonkak\Framework\Routing\RouterInterface');
+        $router1
+            ->expects($this->once())
+            ->method('getPattern')
+            ->willReturn('/foo/bar/(\d+)');
+
+        $router2 = $this->getMock('Emonkak\Framework\Routing\RouterInterface');
+        $router2
+            ->expects($this->once())
+            ->method('getPattern')
+            ->willReturn('/foo/(?=bar/)');
+
+        $router3 = $this->getMock('Emonkak\Framework\Routing\RouterInterface');
+        $router3
+            ->expects($this->once())
+            ->method('getPattern')
+            ->willReturn('/foo/\(bar\)');
+
+        $router = new RouterCollection([$router1, $router2, $router3]);
+        $this->assertSame('(/foo/bar/(?:\d+))|(/foo/(?=bar/))|(/foo/\(bar\))', $router->getPattern());
+    }
 }

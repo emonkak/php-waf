@@ -38,4 +38,12 @@ class RequestMatcherRouter implements RouterInterface
 
         return null;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPattern()
+    {
+        return $this->router->getPattern();
+    }
 }

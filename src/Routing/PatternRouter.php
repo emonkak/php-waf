@@ -53,4 +53,12 @@ class PatternRouter implements RouterInterface
 
         return null;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPattern()
+    {
+        return $this->pattern;
+    }
 }

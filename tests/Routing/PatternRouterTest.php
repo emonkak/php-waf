@@ -53,6 +53,23 @@ namespace Emonkak\Framework\Tests\Routing
                 ['/test/between/123', '/test/between/(\d+)/(\d+)', 'Emonkak\Framework\Tests\Routing\PatternRouter\FooController', 'between'],
             ];
         }
+
+        /**
+         * @dataProvider provideGetPattern
+         */
+        public function testGetPattern($pattern, $controller, $action)
+        {
+            $router = new PatternRouter($pattern, $controller, $action);
+            $this->assertSame($pattern, $router->getPattern());
+        }
+
+        public function provideGetPattern()
+        {
+            return [
+                ['/foo/', 'Emonkak\Framework\Tests\Routing\PatternRouterTest\FooController', 'index'],
+                ['/foo/(.*?)/', 'Emonkak\Framework\Tests\Routing\PatternRouterTest\FooController', 'index'],
+            ];
+        }
     }
 }
 
