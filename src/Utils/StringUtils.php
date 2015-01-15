@@ -21,7 +21,7 @@ class StringUtils
      */
     public static function forgetsTrailingSlash($path, $prefix)
     {
-        return $path === rtrim($prefix, '/');
+        return substr($prefix, -1) === '/' && $path === rtrim($prefix, '/');
     }
 
     /**
