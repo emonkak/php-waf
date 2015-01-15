@@ -2,6 +2,7 @@
 
 namespace Emonkak\Framework\Tests\Routing;
 
+use Emonkak\Framework\Routing\MatchedRoute;
 use Emonkak\Framework\Routing\RouterCollection;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -9,7 +10,7 @@ class RouterCollectionTest extends \PHPUnit_Framework_TestCase
 {
     public function testMatch()
     {
-        $expectedResult = new \StdClass();
+        $expectedResult = new MatchedRoute(new \stdClass(), 'index', []);
 
         $matchedRouter = $this->getMock('Emonkak\Framework\Routing\RouterInterface');
         $matchedRouter

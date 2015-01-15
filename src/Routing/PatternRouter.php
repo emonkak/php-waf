@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Provides a routing from a regular expression.
  */
-class RegexpRouter implements RouterInterface
+class PatternRouter implements RouterInterface
 {
     /**
      * @var string
@@ -42,7 +42,8 @@ class RegexpRouter implements RouterInterface
     public function match(Request $request)
     {
         $path = $request->getPathInfo();
-        $length = preg_match($this->pattern, $path, $matches);
+        $pattern = self::PATTERN_DELIMITER . $this->pattern . self::PATTERN_DELIMITER . 'A';
+        $length = preg_match($pattern, $path, $matches);
 
         if ($length > 0) {
             $action = $this->action;

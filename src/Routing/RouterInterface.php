@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 interface RouterInterface
 {
+    const PATTERN_DELIMITER = '#';
+
     /**
      * Attemps to match the given request to this route.
      *

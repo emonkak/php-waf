@@ -54,6 +54,19 @@ class RouterBuilder
     }
 
     /**
+     * Adds a regexp router which will match the PATCH method.
+     *
+     * @param string $pattern    The regexp pattern for a request path.
+     * @param string $controller The fully qualified class name of the controller.
+     * @param string $action     The action name.
+     * @return RouterBuilder
+     */
+    public function patch($pattern, $controller, $action)
+    {
+        return $this->method(Request::METHOD_PATCH, $pattern, $controller, $action);
+    }
+
+    /**
      * Adds a regexp router which will match the PUT method.
      *
      * @param string $pattern    The regexp pattern for a request path.
@@ -91,23 +104,23 @@ class RouterBuilder
     public function method($method, $pattern, $controller, $action)
     {
         $this->routers[] = new RequestMatcherRouter(
-            new RegexpRouter($pattern, $controller, $action),
+            new PatternRouter($pattern, $controller, $action),
             new RequestMatcher(null, null, $method)
         );
         return $this;
     }
 
     /**
-     * Adds a regexp router.
+     * Adds a regexp pattern router.
      *
      * @param string $pattern    The regexp pattern for a request path.
      * @param string $controller The fully qualified class name of the controller.
      * @param string $action     The action name.
      * @return RouterBuilder
      */
-    public function regexp($pattern, $controller, $action)
+    public function pattern($pattern, $controller, $action)
     {
-        $this->routers[] = new RegexpRouter($pattern, $controller, $action);
+        $this->routers[] = new PatternRouter($pattern, $controller, $action);
         return $this;
     }
 

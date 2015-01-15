@@ -14,12 +14,7 @@ namespace Emonkak\Framework\Tests\Routing
          */
         public function testMatch($path, $prefix, $namespace, $expectedController, $expectedAction, $expectedParams)
         {
-            $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
-            $request
-                ->expects($this->once())
-                ->method('getPathInfo')
-                ->willReturn($path);
-
+            $request = Request::create($path);
             $router = new NamespaceRouter($prefix, $namespace);
             $match = $router->match($request);
 
@@ -56,12 +51,7 @@ namespace Emonkak\Framework\Tests\Routing
          */
         public function testMatchThrowsHttpNotFoundException($path, $prefix, $namespace)
         {
-            $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
-            $request
-                ->expects($this->once())
-                ->method('getPathInfo')
-                ->willReturn($path);
-
+            $request = Request::create($path);
             $router = new NamespaceRouter($prefix, $namespace);
             $router->match($request);
         }
@@ -88,12 +78,7 @@ namespace Emonkak\Framework\Tests\Routing
          */
         public function testMatchThrowsHttpRedirectException($path, $prefix, $namespace, $expectedLocation)
         {
-            $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
-            $request
-                ->expects($this->once())
-                ->method('getPathInfo')
-                ->willReturn($path);
-
+            $request = Request::create($path);
             $router = new NamespaceRouter($prefix, $namespace);
 
             try {
@@ -124,12 +109,7 @@ namespace Emonkak\Framework\Tests\Routing
          */
         public function testMatchReturnsNull($path, $prefix, $namespace)
         {
-            $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
-            $request
-                ->expects($this->once())
-                ->method('getPathInfo')
-                ->willReturn($path);
-
+            $request = Request::create($path);
             $router = new NamespaceRouter($prefix, $namespace);
             $this->assertNull($router->match($request));
         }

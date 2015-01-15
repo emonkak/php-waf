@@ -14,12 +14,7 @@ namespace Emonkak\Framework\Tests\Routing
          */
         public function testMatch($path, $prefix, $controller, $expectedAction, $expectedParams)
         {
-            $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
-            $request
-                ->expects($this->once())
-                ->method('getPathInfo')
-                ->willReturn($path);
-
+            $request = Request::create($path);
             $router = new ResourceRouter($prefix, $controller);
             $match = $router->match($request);
 
@@ -50,12 +45,7 @@ namespace Emonkak\Framework\Tests\Routing
          */
         public function testMatchReturnsNull($path, $prefix, $controller)
         {
-            $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
-            $request
-                ->expects($this->once())
-                ->method('getPathInfo')
-                ->willReturn($path);
-
+            $request = Request::create($path);
             $router = new ResourceRouter($prefix, $controller);
             $this->assertNull($router->match($request));
         }
@@ -76,12 +66,7 @@ namespace Emonkak\Framework\Tests\Routing
          */
         public function testMatchThrowsHttpRedirectException($path, $prefix, $controller, $expectedLocation)
         {
-            $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
-            $request
-                ->expects($this->once())
-                ->method('getPathInfo')
-                ->willReturn($path);
-
+            $request = Request::create($path);
             $router = new ResourceRouter($prefix, $controller);
 
             try {

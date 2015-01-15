@@ -3,13 +3,13 @@
 namespace Emonkak\Framework\Tests\Routing;
 
 use Emonkak\Framework\Routing\NamespaceRouter;
-use Emonkak\Framework\Routing\RegexpRouter;
+use Emonkak\Framework\Routing\PatternRouter;
 use Emonkak\Framework\Routing\RequestMatcherRouter;
 use Emonkak\Framework\Routing\ResourceRouter;
 use Emonkak\Framework\Routing\RouterBuilder;
 use Symfony\Component\HttpFoundation\RequestMatcher;
 
-class RouterBuilderTest extends \PHPUnit_Framework_TestCase 
+class RouterBuilderTest extends \PHPUnit_Framework_TestCase
 {
     public function testAdd()
     {
@@ -24,14 +24,18 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testGet()
     {
+        $pattern ='/foo/';
+        $controller = 'Controller\FooController';
+        $action = 'index';
+
         $builder = new RouterBuilder();
-        $builder->get('|^/foo/|', 'Controller\FooController', 'index');
+        $builder->get($pattern, $controller, $action);
 
         $routers = iterator_to_array($builder->build());
         $this->assertEquals(
             [
                 new RequestMatcherRouter(
-                    new RegexpRouter('|^/foo/|', 'Controller\FooController', 'index'),
+                    new PatternRouter($pattern, $controller, $action),
                     new RequestMatcher(null, null, 'GET')
                 )
             ],
@@ -41,15 +45,40 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testPost()
     {
+        $pattern ='/foo/create';
+        $controller = 'Controller\FooController';
+        $action = 'create';
+
         $builder = new RouterBuilder();
-        $builder->post('|^/foo/create|', 'Controller\FooController', 'create');
+        $builder->post($pattern, $controller, $action);
 
         $routers = iterator_to_array($builder->build());
         $this->assertEquals(
             [
                 new RequestMatcherRouter(
-                    new RegexpRouter('|^/foo/create|', 'Controller\FooController', 'create'),
+                    new PatternRouter($pattern, $controller, $action),
                     new RequestMatcher(null, null, 'POST')
+                )
+            ],
+            $routers
+        );
+    }
+
+    public function testPatch()
+    {
+        $pattern ='/foo/update/(\d+)';
+        $controller = 'Controller\FooController';
+        $action = 'update';
+
+        $builder = new RouterBuilder();
+        $builder->patch($pattern, $controller, $action);
+
+        $routers = iterator_to_array($builder->build());
+        $this->assertEquals(
+            [
+                new RequestMatcherRouter(
+                    new PatternRouter($pattern, $controller, $action),
+                    new RequestMatcher(null, null, 'PATCH')
                 )
             ],
             $routers
@@ -58,14 +87,18 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testPut()
     {
+        $pattern ='/foo/update/(\d+)';
+        $controller = 'Controller\FooController';
+        $action = 'update';
+
         $builder = new RouterBuilder();
-        $builder->put('|^/foo/update/(\d+)|', 'Controller\FooController', 'update');
+        $builder->put($pattern, $controller, $action);
 
         $routers = iterator_to_array($builder->build());
         $this->assertEquals(
             [
                 new RequestMatcherRouter(
-                    new RegexpRouter('|^/foo/update/(\d+)|', 'Controller\FooController', 'update'),
+                    new PatternRouter($pattern, $controller, $action),
                     new RequestMatcher(null, null, 'PUT')
                 )
             ],
@@ -75,14 +108,18 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testDelete()
     {
+        $pattern ='/foo/delete/(\d+)';
+        $controller = 'Controller\FooController';
+        $action = 'delete';
+
         $builder = new RouterBuilder();
-        $builder->delete('|^/foo/delete/(\d+)|', 'Controller\FooController', 'delete');
+        $builder->delete($pattern, $controller, $action);
 
         $routers = iterator_to_array($builder->build());
         $this->assertEquals(
             [
                 new RequestMatcherRouter(
-                    new RegexpRouter('|^/foo/delete/(\d+)|', 'Controller\FooController', 'delete'),
+                    new PatternRouter($pattern, $controller, $action),
                     new RequestMatcher(null, null, 'DELETE')
                 )
             ],
@@ -92,13 +129,17 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testRegexp()
     {
+        $pattern ='/foo/edit/(\d+)';
+        $controller = 'Controller\FooController';
+        $action = 'edit';
+
         $builder = new RouterBuilder();
-        $builder->regexp('|^/foo/edit/(\d+)|', 'Controller\FooController', 'edit');
+        $builder->pattern($pattern, $controller, $action);
 
         $routers = iterator_to_array($builder->build());
         $this->assertEquals(
             [
-                new RegexpRouter('|^/foo/edit/(\d+)|', 'Controller\FooController', 'edit'),
+                new PatternRouter($pattern, $controller, $action),
             ],
             $routers
         );
