@@ -3,6 +3,7 @@
 namespace Emonkak\Framework\Instantiator;
 
 use Emonkak\Di\Container;
+use Emonkak\Di\ContainerConfiguratorInterface;
 use Doctrine\Common\Cache\Cache;
 
 class ContainerInstantiator implements InstantiatorInterface
@@ -13,7 +14,7 @@ class ContainerInstantiator implements InstantiatorInterface
     private $container;
 
     /**
-     * @var callable[]
+     * @var ContainerConfiguratorInterface[]
      */
     private $configurators = [];
 
@@ -40,9 +41,9 @@ class ContainerInstantiator implements InstantiatorInterface
     /**
      * Adds the container configurator.
      *
-     * @param callable $configurator
+     * @param ContainerConfiguratorInterface $configurator
      */
-    public function addConfigurator(callable $configurator)
+    public function addConfigurator(ContainerConfiguratorInterface $configurator)
     {
         $this->configurators[] = $configurator;
     }
@@ -55,7 +56,7 @@ class ContainerInstantiator implements InstantiatorInterface
     protected function configure(Container $container)
     {
         foreach ($this->configurators as $configurator) {
-            call_user_func($configurator, $container);
+            $configurator->configure($container);
         }
         $this->configurators = [];
     }

@@ -18,15 +18,16 @@ class ContainerInstantiatorTest extends \PHPUnit_Framework_TestCase
         $container = new Container(new DefaultInjectionPolicy(), new ArrayCache());
         $container->set($className, $instance);
 
-        $configurator = $this->getMock('stdClass', ['__invoke']);
+        $configurator = $this->getMock('Emonkak\Di\ContainerConfiguratorInterface');
         $configurator
             ->expects($this->once())
-            ->method('__invoke')
+            ->method('configure')
             ->with($this->identicalTo($container));
 
         $instantiator = new ContainerInstantiator($container);
         $instantiator->addConfigurator($configurator);
 
+        $this->assertEquals($instance, $instantiator->instantiate($className));
         $this->assertEquals($instance, $instantiator->instantiate($className));
     }
 }
