@@ -76,21 +76,13 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($response, $application->handle($request));
     }
 
-    private function createApplicationMock(KernelInterface $kernel, Request $request, Response $response)
+    private function createApplicationMock(KernelInterface $kernel)
     {
         $application = $this->getMockForTrait('Emonkak\Framework\Application');
         $application
             ->expects($this->once())
             ->method('getKernel')
             ->willReturn($kernel);
-        $application
-            ->expects($this->once())
-            ->method('onRequest')
-            ->with($this->identicalTo($request));
-        $application
-            ->expects($this->once())
-            ->method('onResponse')
-            ->with($this->identicalTo($request, $response));
         return $application;
     }
 }

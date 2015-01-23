@@ -20,8 +20,6 @@ trait Application
      */
     public function handle(Request $request)
     {
-        $this->onRequest($request);
-
         $kernel = $this->getKernel();
         try {
             $response = $kernel->handleRequest($request);
@@ -34,8 +32,6 @@ trait Application
             );
         }
 
-        $this->onResponse($request, $response);
-
         return $response;
     }
 
@@ -44,20 +40,5 @@ trait Application
      *
      * @return KernelInterface
      */
-    abstract public function getKernel();
-
-    /**
-     * This method will be called before handle request.
-     *
-     * @param Request $request
-     */
-    abstract protected function onRequest(Request $request);
-
-    /**
-     * This method will be called after handle request.
-     *
-     * @param Request $request
-     * @param Response $response
-     */
-    abstract protected function onResponse(Request $request, Response $response);
+    abstract protected function getKernel();
 }
