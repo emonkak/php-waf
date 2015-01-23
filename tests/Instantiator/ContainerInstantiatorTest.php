@@ -15,7 +15,7 @@ class ContainerInstantiatorTest extends \PHPUnit_Framework_TestCase
         $className = 'stdClass';
         $instance = (object) ['foo' => 'bar'];
 
-        $container = new Container(new DefaultInjectionPolicy(), new ArrayCache());
+        $container = Container::create();
         $container->set($className, $instance);
 
         $instantiator = new ContainerInstantiator($container);

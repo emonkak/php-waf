@@ -2,21 +2,21 @@
 
 namespace Emonkak\Framework\Instantiator;
 
-use Emonkak\Di\Container;
+use Emonkak\Di\ContainerInterface;
 use Emonkak\Di\ContainerConfiguratorInterface;
 use Doctrine\Common\Cache\Cache;
 
 class ContainerInstantiator implements InstantiatorInterface
 {
     /**
-     * @var Container
+     * @var ContainerInterface
      */
     private $container;
 
     /**
-     * @param Container $container
+     * @param ContainerInterface $container
      */
-    public function __construct(Container $container)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
@@ -26,8 +26,6 @@ class ContainerInstantiator implements InstantiatorInterface
      */
     public function instantiate($className)
     {
-        $value = $this->container->get($className);
-
-        return $value->inject();
+        return $this->container->getInstance($className);
     }
 }
