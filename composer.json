@@ -20,13 +20,15 @@
         "psr/log": "~1.0",
         "satooshi/php-coveralls": "dev-master",
         "symfony/debug": "~2.6",
-        "symfony/http-kernel": "~2.6"
+        "symfony/http-kernel": "~2.6",
+        "symfony/templating": "~2.6"
     },
     "suggest": {
         "doctrine/cache": "Used for CachedInstantiator",
         "emonkak/di": "Used for ContainerInstantiator",
         "psr/log": "Used for LoggerMiddleware",
-        "symfony/http-kernel": "Used for ProfileMiddleware"
+        "symfony/http-kernel": "Used for ProfileMiddleware",
+        "symfony/templating": "Used for TemplateRenderingHelper"
     },
     "autoload": {
         "psr-4": {
