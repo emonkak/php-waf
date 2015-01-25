@@ -10,6 +10,7 @@ use Emonkak\Framework\Exception\HttpNotFoundException;
 use Emonkak\Framework\Exception\HttpRedirectException;
 use Emonkak\Framework\Exception\HttpServiceUnavailableException;
 use Emonkak\Framework\Middleware\ExceptionLoggerMiddleware;
+use Psr\Log\LogLevel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -34,9 +35,9 @@ class ExceptionLoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider provideHandleCriticalException
+     * @dataProvider provideHandleException
      */
-    public function testHandleCriticalException(HttpException $exception)
+    public function testHandleException(HttpException $exception, array $logLevels, $expectedLogLevel)
     {
         $request = new Request();
         $response = new Response();
@@ -51,32 +52,42 @@ class ExceptionLoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
         $logger = $this->getMock('Psr\Log\LoggerInterface');
         $logger
             ->expects($this->once())
-            ->method('critical')
+            ->method('log')
             ->with(
-                $this->matchesRegularExpression($this->createLogMessagePattern($exception)),
+                $this->identicalTo($expectedLogLevel),
+                $this->matchesRegularExpression(
+                    sprintf(
+                        '/^Uncaught exception "%s" with message "%s" at .+ line \d+$/',
+                        preg_quote(get_class($exception)),
+                        preg_quote($exception->getMessage())
+                    )
+                ),
                 $this->identicalTo(['exception' => $exception])
-            )
-            ->willReturn($response);
+            );
 
         $middleware = new ExceptionLoggerMiddleware($kernel, $logger);
+        $middleware->setLogLevels($logLevels);
+
         $this->assertSame($response, $middleware->handleException($request, $exception));
     }
 
-    public function provideHandleCriticalException()
+    public function provideHandleException()
     {
         return [
-            [new HttpInternalServerErrorException('intrenal server error')],
-            [new HttpServiceUnavailableException('service unavailable')],
+            [new HttpInternalServerErrorException('intrenal server error'), [], LogLevel::EMERGENCY],
+            [new HttpServiceUnavailableException('service unavailable'), [], LogLevel::EMERGENCY],
+            [new HttpNotFoundException('not found'), [], LogLevel::ERROR],
+            [new HttpNotFoundException('not found'), [404 => LogLevel::INFO], LogLevel::INFO],
+            [new HttpBadRequestException('bad request'), [], LogLevel::ERROR],
+            [new HttpForbiddenException('forbidden'), [], LogLevel::ERROR],
         ];
     }
 
-    /**
-     * @dataProvider provideHandleErrorException
-     */
-    public function testHandleErorrException(HttpException $exception)
+    public function testHandleNestException()
     {
         $request = new Request();
         $response = new Response();
+        $exception = new HttpInternalServerErrorException('internal server error', new \RuntimeException('runtime exception'));
 
         $kernel = $this->getMock('Emonkak\Framework\KernelInterface');
         $kernel
@@ -87,32 +98,36 @@ class ExceptionLoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
 
         $logger = $this->getMock('Psr\Log\LoggerInterface');
         $logger
-            ->expects($this->once())
-            ->method('error')
+            ->expects($this->at(0))
+            ->method('log')
             ->with(
-                $this->matchesRegularExpression($this->createLogMessagePattern($exception)),
+                LogLevel::EMERGENCY,
+                $this->matchesRegularExpression(
+                    sprintf(
+                        '/^Uncaught exception "%s" with message "%s" at .+ line \d+$/',
+                        preg_quote(get_class($exception)),
+                        preg_quote($exception->getMessage())
+                    )
+                ),
                 $this->identicalTo(['exception' => $exception])
-            )
-            ->willReturn($response);
+            );
+        $logger
+            ->expects($this->at(1))
+            ->method('log')
+            ->with(
+                LogLevel::EMERGENCY,
+                $this->matchesRegularExpression(
+                    sprintf(
+                        '/^Caused by "%s" with message "%s" at .+ line \d+$/',
+                        preg_quote(get_class($exception->getPrevious())),
+                        preg_quote($exception->getPrevious()->getMessage())
+                    )
+                ),
+                $this->identicalTo(['exception' => $exception->getPrevious()])
+            );
 
         $middleware = new ExceptionLoggerMiddleware($kernel, $logger);
+
         $this->assertSame($response, $middleware->handleException($request, $exception));
-    }
-
-    public function provideHandleErrorException()
-    {
-        return [
-            [new HttpNotFoundException('not found')],
-            [new HttpBadRequestException('bad request')],
-            [new HttpForbiddenException('forbidden')],
-        ];
-    }
-
-    private function createLogMessagePattern(\Exception $exception)
-    {
-        return sprintf(
-            '/^Uncaught exception "%s" with message ".*?" at .+ line \d+$/',
-            preg_quote(get_class($exception))
-        );
     }
 }

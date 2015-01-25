@@ -4,8 +4,10 @@ namespace Emonkak\Framework\Middleware;
 
 use Emonkak\Framework\Exception\HttpException;
 use Emonkak\Framework\KernelInterface;
+use Psr\Log\LogLevel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Provides the logging of an exception.
@@ -23,6 +25,11 @@ class ExceptionLoggerMiddleware implements KernelInterface
     private $logger;
 
     /**
+     * @var array
+     */
+    private $logLevels = [];
+
+    /**
      * @param KernelInterface $kernel
      * @param LoggerInterface $logger
      */
@@ -30,6 +37,16 @@ class ExceptionLoggerMiddleware implements KernelInterface
     {
         $this->kernel = $kernel;
         $this->logger = $logger;
+    }
+
+    /**
+     * Sets the mapping between a status code and a log level.
+     *
+     * @param array $logLevels e.g. array(404 => LogLevel::INFO)
+     */
+    public function setLogLevels(array $logLevels)
+    {
+        $this->logLevels = $logLevels;
     }
 
     /**
@@ -61,6 +78,7 @@ class ExceptionLoggerMiddleware implements KernelInterface
      */
     private function logException(\Exception $e, $depth)
     {
+        $logLevel = $this->getLogLevel($e);
         $message = sprintf(
             '%s "%s" with message "%s" at %s line %d',
             $depth === 0 ? 'Uncaught exception' : 'Caused by',
@@ -71,10 +89,24 @@ class ExceptionLoggerMiddleware implements KernelInterface
         );
         $context = ['exception' => $e];
 
-        if (!($e instanceof HttpException) || $e->getStatusCode() >= 500) {
-            $this->logger->critical($message, $context);
+        $this->logger->log($logLevel, $message, $context);
+    }
+
+    /**
+     * @param \Exception $e
+     * @return string
+     */
+    private function getLogLevel(\Exception $e)
+    {
+        if ($e instanceof HttpException) {
+            $statusCode = $e->getStatusCode();
+            if (isset($this->logLevels[$statusCode])) {
+                return $this->logLevels[$statusCode];
+            } else {
+                return $statusCode >= 500 ? LogLevel::EMERGENCY : LogLevel::ERROR;
+            }
         } else {
-            $this->logger->error($message, $context);
+            return LogLevel::EMERGENCY;
         }
     }
 }
