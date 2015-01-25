@@ -5,7 +5,7 @@ namespace Emonkak\Framework\Templating;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Represents a helper of template rendering.
+ * Provides helpers for template rendering.
  */
 trait TemplateRenderingHelper
 {

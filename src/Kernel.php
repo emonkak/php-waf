@@ -12,7 +12,7 @@ use Emonkak\Framework\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * The implementation of kernel for an application.
+ * An implementation of kernel for an application.
  */
 class Kernel implements KernelInterface
 {

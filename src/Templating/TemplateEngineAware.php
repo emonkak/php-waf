@@ -6,7 +6,7 @@ use Emonkak\Di\Annotations\Inject;
 use Symfony\Component\Templating\EngineInterface;
 
 /**
- * This should be implemented by classes that depends on a template engine.
+ * Provides access to a template engine instance.
  */
 trait TemplateEngineAware
 {
