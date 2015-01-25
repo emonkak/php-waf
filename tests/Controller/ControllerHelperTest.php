@@ -82,4 +82,14 @@ class ControllerHelperTest extends \PHPUnit_Framework_TestCase
             $this->assertSame('not found', $exception->getMessage());
         }, $this, get_class($this->controller))->__invoke();
     }
+
+    public function testUnauthorizedException()
+    {
+        \Closure::bind(function() {
+            $exception = $this->controller->createUnauthorizedException('unauthorized', 'unauthorized message');
+            $this->assertInstanceOf('Emonkak\Framework\Exception\HttpUnauthorizedException', $exception);
+            $this->assertSame('unauthorized message', $exception->getMessage());
+            $this->assertSame(['WWW-Authenticate' => 'Basic realm="unauthorized"'], $exception->getHeaders());
+        }, $this, get_class($this->controller))->__invoke();
+    }
 }

@@ -5,6 +5,7 @@ namespace Emonkak\Framework\Controller;
 use Emonkak\Framework\Exception\HttpBadRequestException;
 use Emonkak\Framework\Exception\HttpForbiddenException;
 use Emonkak\Framework\Exception\HttpNotFoundException;
+use Emonkak\Framework\Exception\HttpUnauthorizedException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -119,5 +120,18 @@ trait ControllerHelper
     protected function createNotFoundException($message = '', \Exception $previous = null)
     {
         return new HttpNotFoundException($message, $previous);
+    }
+
+    /**
+     * Creates HTTP unauthorized exception.
+     *
+     * @param string     $realm
+     * @param string     $message
+     * @param \Exception $previous
+     * @return HttpUnauthorizedException
+     */
+    protected function createUnauthorizedException($realm = '', $message = '', \Exception $previous = null)
+    {
+        return new HttpUnauthorizedException($realm, $message, $previous);
     }
 }
