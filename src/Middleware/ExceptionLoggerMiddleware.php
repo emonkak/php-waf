@@ -76,7 +76,7 @@ class ExceptionLoggerMiddleware implements KernelInterface
      * @param \Exception $e
      * @param integer    $depth
      */
-    private function logException(\Exception $e, $depth)
+    protected function logException(\Exception $e, $depth)
     {
         $logLevel = $this->getLogLevel($e);
         $message = sprintf(
@@ -96,14 +96,18 @@ class ExceptionLoggerMiddleware implements KernelInterface
      * @param \Exception $e
      * @return string
      */
-    private function getLogLevel(\Exception $e)
+    protected function getLogLevel(\Exception $e)
     {
         if ($e instanceof HttpException) {
             $statusCode = $e->getStatusCode();
             if (isset($this->logLevels[$statusCode])) {
                 return $this->logLevels[$statusCode];
+            } elseif ($statusCode >= 500) {
+                return LogLevel::EMERGENCY;
+            } elseif ($statusCode >= 400) {
+                return LogLevel::ERROR;
             } else {
-                return $statusCode >= 500 ? LogLevel::EMERGENCY : LogLevel::ERROR;
+                return LogLevel::INFO;
             }
         } else {
             return LogLevel::EMERGENCY;
