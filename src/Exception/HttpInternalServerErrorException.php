@@ -13,7 +13,7 @@ class HttpInternalServerErrorException extends HttpException
      * @param string          $message
      * @param \Exception|null $previous
      */
-    public function __construct($message = null, \Exception $previous = null)
+    public function __construct($message = '', \Exception $previous = null)
     {
         parent::__construct(Response::HTTP_INTERNAL_SERVER_ERROR, [], $message, $previous);
     }
