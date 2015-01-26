@@ -1,6 +1,6 @@
 <?php
 
-namespace Emonkak\Framework\Templating;
+namespace Emonkak\Framework\Controller;
 
 use Emonkak\Di\Annotations\Inject;
 use Symfony\Component\Templating\EngineInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Templating;
+namespace Emonkak\Framework\Tests\Controller;
 
 class TemplateRenderingHelperTest extends \PHPUnit_Framework_TestCase
 {
