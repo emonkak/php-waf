@@ -75,41 +75,4 @@ class ControllerHelperTest extends \PHPUnit_Framework_TestCase
             $this->assertInstanceOf('Symfony\Component\HttpFoundation\StreamedResponse', $response);
         }, $this, get_class($this->controller))->__invoke();
     }
-
-    public function testCreateBadRequestException()
-    {
-        \Closure::bind(function() {
-            $exception = $this->controller->createBadRequestException('bad request');
-            $this->assertInstanceOf('Emonkak\Framework\Exception\HttpBadRequestException', $exception);
-            $this->assertSame('bad request', $exception->getMessage());
-        }, $this, get_class($this->controller))->__invoke();
-    }
-
-    public function testCreateForbiddenException()
-    {
-        \Closure::bind(function() {
-            $exception = $this->controller->createForbiddenException('forbidden');
-            $this->assertInstanceOf('Emonkak\Framework\Exception\HttpForbiddenException', $exception);
-            $this->assertSame('forbidden', $exception->getMessage());
-        }, $this, get_class($this->controller))->__invoke();
-    }
-
-    public function testCreateNotFoundException()
-    {
-        \Closure::bind(function() {
-            $exception = $this->controller->createNotFoundException('not found');
-            $this->assertInstanceOf('Emonkak\Framework\Exception\HttpNotFoundException', $exception);
-            $this->assertSame('not found', $exception->getMessage());
-        }, $this, get_class($this->controller))->__invoke();
-    }
-
-    public function testUnauthorizedException()
-    {
-        \Closure::bind(function() {
-            $exception = $this->controller->createUnauthorizedException('unauthorized', 'unauthorized message');
-            $this->assertInstanceOf('Emonkak\Framework\Exception\HttpUnauthorizedException', $exception);
-            $this->assertSame('unauthorized message', $exception->getMessage());
-            $this->assertSame(['WWW-Authenticate' => 'Basic realm="unauthorized"'], $exception->getHeaders());
-        }, $this, get_class($this->controller))->__invoke();
-    }
 }
