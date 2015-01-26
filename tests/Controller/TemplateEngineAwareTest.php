@@ -6,15 +6,15 @@ class TemplateEngineAwareTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->templateEngineAware = $this->getMockForTrait('Emonkak\Framework\Templating\TemplateEngineAware');
+        $this->controller = $this->getMockForTrait('Emonkak\Framework\Controller\TemplateEngineAware');
     }
 
     public function testSetTemplateEngine()
     {
         \Closure::bind(function() {
             $templateEngine = $this->getMock('Symfony\Component\Templating\EngineInterface');
-            $this->templateEngineAware->setTemplateEngine($templateEngine);
-            $this->assertSame($templateEngine, $this->templateEngineAware->templateEngine);
-        }, $this, get_class($this->templateEngineAware))->__invoke();
+            $this->controller->setTemplateEngine($templateEngine);
+            $this->assertSame($templateEngine, $this->controller->templateEngine);
+        }, $this, get_class($this->controller))->__invoke();
     }
 }
