@@ -9,6 +9,7 @@ use Emonkak\Framework\Exception\HttpUnauthorizedException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Provides controller helper methods.
@@ -84,6 +85,19 @@ trait ControllerHelper
     protected function redirect($url, $status = Response::HTTP_FOUND, array $headers = [])
     {
         return new RedirectResponse($url, $status, $headers);
+    }
+
+    /**
+     * Creates a streamed response.
+     *
+     * @param callable|null $callback The callback associated with this response.
+     * @param integer       $status   The status code of this response.
+     * @param array         $headers  HTTP headers of this response.
+     * @return StreamedResponse
+     */
+    protected function stream($callback = null, $status = Response::HTTP_FOUND, array $headers = [])
+    {
+        return new StreamedResponse($callback, $status, $headers);
     }
 
     /**
