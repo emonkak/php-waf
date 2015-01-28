@@ -105,7 +105,7 @@ class ExceptionLoggerMiddleware implements KernelInterface
             } elseif ($statusCode >= 500) {
                 return LogLevel::EMERGENCY;
             } elseif ($statusCode >= 400) {
-                return LogLevel::ERROR;
+                return LogLevel::WARNING;
             } else {
                 return LogLevel::INFO;
             }

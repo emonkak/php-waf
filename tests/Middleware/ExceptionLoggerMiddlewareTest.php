@@ -76,11 +76,11 @@ class ExceptionLoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
         return [
             [new HttpInternalServerErrorException('intrenal server error'), [], LogLevel::EMERGENCY],
             [new HttpServiceUnavailableException('service unavailable'), [], LogLevel::EMERGENCY],
-            [new HttpNotFoundException('not found'), [], LogLevel::ERROR],
+            [new HttpNotFoundException('not found'), [], LogLevel::WARNING],
             [new HttpNotFoundException('not found'), [404 => LogLevel::INFO], LogLevel::INFO],
             [new HttpRedirectException('redirect'), [], LogLevel::INFO],
-            [new HttpBadRequestException('bad request'), [], LogLevel::ERROR],
-            [new HttpForbiddenException('forbidden'), [], LogLevel::ERROR],
+            [new HttpBadRequestException('bad request'), [], LogLevel::WARNING],
+            [new HttpForbiddenException('forbidden'), [], LogLevel::WARNING],
         ];
     }
 
