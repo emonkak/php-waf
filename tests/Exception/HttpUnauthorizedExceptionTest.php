@@ -9,26 +9,26 @@ class HttpUnauthorizedExceptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetStatusCode()
     {
-        $exception = new HttpUnauthorizedException('realm');
+        $exception = new HttpUnauthorizedException('challenge');
         $this->assertSame(Response::HTTP_UNAUTHORIZED, $exception->getStatusCode());
     }
 
     public function testGetHeaders()
     {
-        $exception = new HttpUnauthorizedException('realm');
-        $this->assertSame(['WWW-Authenticate' => 'Basic realm="realm"'], $exception->getHeaders());
+        $exception = new HttpUnauthorizedException('Basic realm="test"');
+        $this->assertSame(['WWW-Authenticate' => 'Basic realm="test"'], $exception->getHeaders());
     }
 
     public function testGetMessage()
     {
-        $exception = new HttpUnauthorizedException('realm', 'unauthorized');
+        $exception = new HttpUnauthorizedException('challenge', 'unauthorized');
         $this->assertSame('unauthorized', $exception->getMessage());
     }
 
     public function testGetPrevious()
     {
         $previous = new \Exception();
-        $exception = new HttpUnauthorizedException('realm', 'unauthorized', $previous);
+        $exception = new HttpUnauthorizedException('challenge', 'unauthorized', $previous);
         $this->assertSame($previous, $exception->getPrevious());
     }
 }

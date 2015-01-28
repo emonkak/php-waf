@@ -10,12 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 class HttpUnauthorizedException extends HttpException
 {
     /**
-     * @param string          $realm
+     * @param string          $challenge
      * @param string          $message
      * @param \Exception|null $previous
      */
-    public function __construct($realm = '', $message = '', \Exception $previous = null)
+    public function __construct($challenge, $message = '', \Exception $previous = null)
     {
-        parent::__construct(Response::HTTP_UNAUTHORIZED, ['WWW-Authenticate' => "Basic realm=\"$realm\""], $message, $previous);
+        parent::__construct(Response::HTTP_UNAUTHORIZED, ['WWW-Authenticate' => $challenge], $message, $previous);
     }
 }
