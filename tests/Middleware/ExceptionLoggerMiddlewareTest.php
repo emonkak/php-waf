@@ -37,7 +37,7 @@ class ExceptionLoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideHandleException
      */
-    public function testHandleException(HttpException $exception, array $logLevels, $expectedLogLevel)
+    public function testHandleException(HttpException $exception, $expectedLogLevel)
     {
         $request = new Request();
         $response = new Response();
@@ -66,7 +66,6 @@ class ExceptionLoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
             );
 
         $middleware = new ExceptionLoggerMiddleware($kernel, $logger);
-        $middleware->setLogLevels($logLevels);
 
         $this->assertSame($response, $middleware->handleException($request, $exception));
     }
@@ -74,21 +73,22 @@ class ExceptionLoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
     public function provideHandleException()
     {
         return [
-            [new HttpInternalServerErrorException('intrenal server error'), [], LogLevel::EMERGENCY],
-            [new HttpServiceUnavailableException('service unavailable'), [], LogLevel::EMERGENCY],
-            [new HttpNotFoundException('not found'), [], LogLevel::WARNING],
-            [new HttpNotFoundException('not found'), [404 => LogLevel::INFO], LogLevel::INFO],
-            [new HttpRedirectException('redirect'), [], LogLevel::INFO],
-            [new HttpBadRequestException('bad request'), [], LogLevel::WARNING],
-            [new HttpForbiddenException('forbidden'), [], LogLevel::WARNING],
+            [new HttpInternalServerErrorException('intrenal server error'), LogLevel::EMERGENCY],
+            [new HttpServiceUnavailableException('service unavailable'), LogLevel::EMERGENCY],
+            [new HttpNotFoundException('not found'), LogLevel::WARNING],
+            [new HttpRedirectException('redirect'), LogLevel::INFO],
+            [new HttpBadRequestException('bad request'), LogLevel::WARNING],
+            [new HttpForbiddenException('forbidden'), LogLevel::WARNING],
         ];
     }
 
-    public function testHandleNestException()
+    /**
+     * @dataProvider provideHandleNestException
+     */
+    public function testHandleNestException(HttpException $exception, $expectedLogLevel)
     {
         $request = new Request();
         $response = new Response();
-        $exception = new HttpInternalServerErrorException('internal server error', new \RuntimeException('runtime exception'));
 
         $kernel = $this->getMock('Emonkak\Framework\KernelInterface');
         $kernel
@@ -99,36 +99,31 @@ class ExceptionLoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
 
         $logger = $this->getMock('Psr\Log\LoggerInterface');
         $logger
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('log')
             ->with(
                 LogLevel::EMERGENCY,
                 $this->matchesRegularExpression(
                     sprintf(
-                        '/^Uncaught exception "%s" with message "%s" at .+ line \d+$/',
+                        '/^Uncaught exception "%s" with message "%s" at .+? line \d+ - Caused by "%s" with message "%s" at .+? line \d+$/',
                         preg_quote(get_class($exception)),
-                        preg_quote($exception->getMessage())
-                    )
-                ),
-                $this->identicalTo(['exception' => $exception])
-            );
-        $logger
-            ->expects($this->at(1))
-            ->method('log')
-            ->with(
-                LogLevel::EMERGENCY,
-                $this->matchesRegularExpression(
-                    sprintf(
-                        '/^Caused by "%s" with message "%s" at .+ line \d+$/',
+                        preg_quote($exception->getMessage()),
                         preg_quote(get_class($exception->getPrevious())),
                         preg_quote($exception->getPrevious()->getMessage())
                     )
                 ),
-                $this->identicalTo(['exception' => $exception->getPrevious()])
+                $this->identicalTo(['exception' => $exception])
             );
 
         $middleware = new ExceptionLoggerMiddleware($kernel, $logger);
 
         $this->assertSame($response, $middleware->handleException($request, $exception));
+    }
+
+    public function provideHandleNestException()
+    {
+        return [
+            [new HttpInternalServerErrorException('intrenal server error', new \RuntimeException('inner exception')), LogLevel::EMERGENCY],
+        ];
     }
 }

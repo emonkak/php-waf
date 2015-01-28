@@ -25,11 +25,6 @@ class ExceptionLoggerMiddleware implements KernelInterface
     private $logger;
 
     /**
-     * @var array
-     */
-    private $logLevels = [];
-
-    /**
      * @param KernelInterface $kernel
      * @param LoggerInterface $logger
      */
@@ -37,16 +32,6 @@ class ExceptionLoggerMiddleware implements KernelInterface
     {
         $this->kernel = $kernel;
         $this->logger = $logger;
-    }
-
-    /**
-     * Sets the mapping between a status code and a log level.
-     *
-     * @param array $logLevels e.g. array(404 => LogLevel::INFO)
-     */
-    public function setLogLevels(array $logLevels)
-    {
-        $this->logLevels = $logLevels;
     }
 
     /**
@@ -62,55 +47,49 @@ class ExceptionLoggerMiddleware implements KernelInterface
      */
     public function handleException(Request $request, HttpException $exception)
     {
-        $e = $exception;
-        $n = 0;
-
-        do {
-            $this->logException($e, $n++);
-        } while ($e = $e->getPrevious());
+        $this->logger->log(
+            $this->getLevel($exception),
+            $this->getMessage($exception),
+            ['exception' => $exception]
+        );
 
         return $this->kernel->handleException($request, $exception);
     }
 
     /**
-     * @param \Exception $e
-     * @param integer    $depth
+     * @param HttpException $e
+     * @return string
      */
-    protected function logException(\Exception $e, $depth)
+    protected function getLevel(HttpException $e)
     {
-        $logLevel = $this->getLogLevel($e);
-        $message = sprintf(
-            '%s "%s" with message "%s" at %s line %d',
-            $depth === 0 ? 'Uncaught exception' : 'Caused by',
-            get_class($e),
-            $e->getMessage(),
-            $e->getFile(),
-            $e->getLine()
-        );
-        $context = ['exception' => $e];
-
-        $this->logger->log($logLevel, $message, $context);
+        $statusCode = $e->getStatusCode();
+        if ($statusCode >= 500) {
+            return LogLevel::EMERGENCY;
+        } elseif ($statusCode >= 400) {
+            return LogLevel::WARNING;
+        } else {
+            return LogLevel::INFO;
+        }
     }
 
     /**
-     * @param \Exception $e
+     * @param HttpException $e
      * @return string
      */
-    protected function getLogLevel(\Exception $e)
+    protected function getMessage(HttpException $e)
     {
-        if ($e instanceof HttpException) {
-            $statusCode = $e->getStatusCode();
-            if (isset($this->logLevels[$statusCode])) {
-                return $this->logLevels[$statusCode];
-            } elseif ($statusCode >= 500) {
-                return LogLevel::EMERGENCY;
-            } elseif ($statusCode >= 400) {
-                return LogLevel::WARNING;
-            } else {
-                return LogLevel::INFO;
-            }
-        } else {
-            return LogLevel::EMERGENCY;
-        }
+        $fragments = [];
+
+        do {
+            $fragments[] = sprintf(
+                '"%s" with message "%s" at %s line %d',
+                get_class($e),
+                $e->getMessage(),
+                $e->getFile(),
+                $e->getLine()
+            );
+        } while ($e = $e->getPrevious());
+
+        return 'Uncaught exception ' . implode(' - Caused by ', $fragments);
     }
 }
