@@ -10,6 +10,7 @@ use Emonkak\Framework\Exception\HttpNotFoundException;
 use Emonkak\Framework\Instantiator\InstantiatorInterface;
 use Emonkak\Framework\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * An implementation of kernel for an application.
@@ -66,6 +67,6 @@ class Kernel implements KernelInterface
      */
     public function handleException(Request $request, HttpException $exception)
     {
-        throw $exception;
+        return new Response('', $exception->getStatusCode(), $exception->getHeaders());
     }
 }

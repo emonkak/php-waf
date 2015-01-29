@@ -67,19 +67,15 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         $this->kernel->handleRequest($request);
     }
 
-    /**
-     * @expectedException Emonkak\Framework\Exception\HttpException
-     */
     public function testHandleException()
     {
         $request = new Request();
-        $exception = new HttpException(404);
+        $exception = new HttpException(404, ['X-Token' => 'token']);
 
-        try {
-            $this->kernel->handleException($request, $exception);
-        } catch (HttpException $e) {
-            $this->assertSame($exception, $e);
-            throw $e;
-        }
+        $response = $this->kernel->handleException($request, $exception);
+        $this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $response);
+        $this->assertEmpty($response->getContent());
+        $this->assertSame($exception->getStatusCode(), $response->getStatusCode());
+        $this->assertSame('token', $response->headers->get('X-Token'));
     }
 }
