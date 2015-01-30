@@ -44,4 +44,23 @@ class ExceptionThrowerMiddlewareTest extends \PHPUnit_Framework_TestCase
             throw $e;
         }
     }
+
+    public function testAllowStatusCode()
+    {
+        $request = new Request();
+        $response = new Response();
+        $exception = new HttpException(302);
+
+        $kernel = $this->getMock('Emonkak\Framework\KernelInterface');
+        $kernel
+            ->expects($this->once())
+            ->method('handleException')
+            ->with($this->identicalTo($request), $this->identicalTo($exception))
+            ->willReturn($response);
+
+        $kernel = new ExceptionThrowerMiddleware($kernel);
+
+        $this->assertSame($kernel, $kernel->allowStatusCode(302));
+        $this->assertSame($response, $kernel->handleException($request, $exception));
+    }
 }

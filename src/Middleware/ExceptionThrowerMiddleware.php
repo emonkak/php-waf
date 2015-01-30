@@ -17,11 +17,26 @@ class ExceptionThrowerMiddleware implements KernelInterface
     private $kernel;
 
     /**
+     * @var array (statusCode => true)
+     */
+    private $allowed = [];
+
+    /**
      * @param KernelInterface $kernel
      */
     public function __construct(KernelInterface $kernel)
     {
         $this->kernel = $kernel;
+    }
+
+    /**
+     * @param interger $statusCode
+     * @return ExceptionThrowerMiddleware
+     */
+    public function allowStatusCode($statusCode)
+    {
+        $this->allowed[$statusCode] = true;
+        return $this;
     }
 
     /**
@@ -37,6 +52,10 @@ class ExceptionThrowerMiddleware implements KernelInterface
      */
     public function handleException(Request $request, HttpException $exception)
     {
+        $statusCode = $exception->getStatusCode();
+        if (isset($this->allowed[$statusCode])) {
+            return $this->kernel->handleException($request, $exception);
+        }
         throw $exception;
     }
 }
