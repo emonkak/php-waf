@@ -17,9 +17,19 @@ class ExceptionThrowerMiddleware implements KernelInterface
     private $kernel;
 
     /**
-     * @var array (statusCode => true)
+     * @var boolean
      */
-    private $allowed = [];
+    private $allowRedirection = false;
+
+    /**
+     * @var boolean
+     */
+    private $allowClientError = false;
+
+    /**
+     * @var boolean
+     */
+    private $allowServerError = false;
 
     /**
      * @param KernelInterface $kernel
@@ -30,12 +40,32 @@ class ExceptionThrowerMiddleware implements KernelInterface
     }
 
     /**
-     * @param interger $statusCode
+     * @param boolean $enabled
      * @return ExceptionThrowerMiddleware
      */
-    public function allowStatusCode($statusCode)
+    public function allowRedirection($enabled = true)
     {
-        $this->allowed[$statusCode] = true;
+        $this->allowRedirection = $enabled;
+        return $this;
+    }
+
+    /**
+     * @param boolean $enabled
+     * @return ExceptionThrowerMiddleware
+     */
+    public function allowClientError($enabled = true)
+    {
+        $this->allowClientError = $enabled;
+        return $this;
+    }
+
+    /**
+     * @param boolean $enabled
+     * @return ExceptionThrowerMiddleware
+     */
+    public function allowServerError($enabled = true)
+    {
+        $this->allowServerError = $enabled;
         return $this;
     }
 
@@ -52,10 +82,27 @@ class ExceptionThrowerMiddleware implements KernelInterface
      */
     public function handleException(Request $request, HttpException $exception)
     {
-        $statusCode = $exception->getStatusCode();
-        if (isset($this->allowed[$statusCode])) {
+        if ($this->isAllowed($exception->getStatusCode())) {
             return $this->kernel->handleException($request, $exception);
         }
+
         throw $exception;
+    }
+
+    /**
+     * @param interger $statusCode
+     * @return boolean
+     */
+    protected function isAllowed($statusCode)
+    {
+        if ($statusCode >= 500) {
+            return $this->allowServerError;
+        } elseif ($statusCode >= 400) {
+            return $this->allowClientError;
+        } elseif ($statusCode >= 300) {
+            return $this->allowRedirection;
+        } else {
+            return false;
+        }
     }
 }

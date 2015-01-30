@@ -27,15 +27,47 @@ class ExceptionThrowerMiddlewareTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Emonkak\Framework\Exception\HttpException
+     * @dataProvider provideHandleException
      */
-    public function testHandleException()
+    public function testHandleException(HttpException $exception, $allow)
     {
         $request = new Request();
-        $exception = new HttpException(404);
+        $response = new Response();
+
+        $kernel = $this->getMock('Emonkak\Framework\KernelInterface');
+        $kernel
+            ->expects($this->once())
+            ->method('handleException')
+            ->with($this->identicalTo($request), $this->identicalTo($exception))
+            ->willReturn($response);
+        $kernel = new ExceptionThrowerMiddleware($kernel);
+
+        $allow($kernel);
+
+        $this->assertSame($response, $kernel->handleException($request, $exception));
+    }
+
+    public function provideHandleException()
+    {
+        return [
+            [new HttpException(302), function($kernel) { return $kernel->allowRedirection(); }],
+            [new HttpException(400), function($kernel) { return $kernel->allowClientError(); }],
+            [new HttpException(500), function($kernel) { return $kernel->allowServerError(); }],
+        ];
+    }
+
+    /**
+     * @dataProvider provideHandleExceptionThrowsHttpException
+     * @expectedException Emonkak\Framework\Exception\HttpException
+     */
+    public function testHandleExceptionThrowsHttpException(HttpException $exception, $allow)
+    {
+        $request = new Request();
 
         $kernel = $this->getMock('Emonkak\Framework\KernelInterface');
         $kernel = new ExceptionThrowerMiddleware($kernel);
+
+        $allow($kernel);
 
         try {
             $kernel->handleException($request, $exception);
@@ -45,22 +77,22 @@ class ExceptionThrowerMiddlewareTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testAllowStatusCode()
+    public function provideHandleExceptionThrowsHttpException()
     {
-        $request = new Request();
-        $response = new Response();
-        $exception = new HttpException(302);
-
-        $kernel = $this->getMock('Emonkak\Framework\KernelInterface');
-        $kernel
-            ->expects($this->once())
-            ->method('handleException')
-            ->with($this->identicalTo($request), $this->identicalTo($exception))
-            ->willReturn($response);
-
-        $kernel = new ExceptionThrowerMiddleware($kernel);
-
-        $this->assertSame($kernel, $kernel->allowStatusCode(302));
-        $this->assertSame($response, $kernel->handleException($request, $exception));
+        return [
+            [new HttpException(200), function($kernel) {}],
+            [new HttpException(200), function($kernel) { return $kernel->allowRedirection(); }],
+            [new HttpException(200), function($kernel) { return $kernel->allowClientError(); }],
+            [new HttpException(200), function($kernel) { return $kernel->allowServerError(); }],
+            [new HttpException(302), function($kernel) {}],
+            [new HttpException(302), function($kernel) { return $kernel->allowClientError(); }],
+            [new HttpException(302), function($kernel) { return $kernel->allowServerError(); }],
+            [new HttpException(400), function($kernel) {}],
+            [new HttpException(400), function($kernel) { return $kernel->allowRedirection(); }],
+            [new HttpException(400), function($kernel) { return $kernel->allowServerError(); }],
+            [new HttpException(500), function($kernel) {}],
+            [new HttpException(500), function($kernel) { return $kernel->allowRedirection(); }],
+            [new HttpException(500), function($kernel) { return $kernel->allowClientError(); }],
+        ];
     }
 }
