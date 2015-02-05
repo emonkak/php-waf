@@ -2,7 +2,7 @@
 
 namespace Emonkak\Framework\Controller;
 
-use Emonkak\Di\Annotations\Inject;
+use Emonkak\Di\Annotation\Inject;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
