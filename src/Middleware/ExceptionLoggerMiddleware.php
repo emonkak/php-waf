@@ -48,7 +48,7 @@ class ExceptionLoggerMiddleware implements KernelInterface
     public function handleException(Request $request, HttpException $exception)
     {
         $this->logger->log(
-            $this->getLevel($exception),
+            $this->getLogLevel($exception),
             $this->getMessage($exception),
             ['exception' => $exception]
         );
@@ -60,7 +60,7 @@ class ExceptionLoggerMiddleware implements KernelInterface
      * @param HttpException $e
      * @return string
      */
-    protected function getLevel(HttpException $e)
+    protected function getLogLevel(HttpException $e)
     {
         $statusCode = $e->getStatusCode();
         if ($statusCode >= 500) {
