@@ -4,7 +4,7 @@ namespace Emonkak\Waf\Middleware;
 
 use Emonkak\Waf\Exception\HttpException;
 use Emonkak\Waf\KernelInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * The middleware to Throw an exception for debug.
@@ -72,7 +72,7 @@ class ExceptionThrowerMiddleware implements KernelInterface
     /**
      * {@inheritDoc}
      */
-    public function handleRequest(Request $request)
+    public function handleRequest(RequestInterface $request)
     {
         return $this->kernel->handleRequest($request);
     }
@@ -80,7 +80,7 @@ class ExceptionThrowerMiddleware implements KernelInterface
     /**
      * {@inheritDoc}
      */
-    public function handleException(Request $request, HttpException $exception)
+    public function handleException(RequestInterface $request, HttpException $exception)
     {
         if ($this->isAllowed($exception->getStatusCode())) {
             return $this->kernel->handleException($request, $exception);

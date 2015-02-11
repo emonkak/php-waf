@@ -6,8 +6,7 @@ use Emonkak\Waf\Exception\HttpNotFoundException;
 use Emonkak\Waf\Exception\HttpRedirectException;
 use Emonkak\Waf\Utils\RequestUtils;
 use Emonkak\Waf\Utils\StringUtils;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Provides a Restful resource routing.
@@ -39,12 +38,12 @@ class ResourceRouter implements RouterInterface
     /**
      * {@inheritDoc}
      */
-    public function match(Request $request)
+    public function match(RequestInterface $request)
     {
-        $path = $request->getPathInfo();
+        $path = $request->getUri()->getPath();
 
         if (StringUtils::forgetsTrailingSlash($path, $this->prefix)) {
-                throw new HttpRedirectException(RequestUtils::completeTrailingSlash($request), 301);
+                throw new HttpRedirectException(RequestUtils::completeTrailingSlash($request->getUri()), 301);
         }
 
         if (StringUtils::startsWith($path, $this->prefix)) {

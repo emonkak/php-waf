@@ -5,8 +5,6 @@ namespace Emonkak\Waf\Tests;
 use Emonkak\Waf\Exception\HttpException;
 use Emonkak\Waf\Kernel;
 use Emonkak\Waf\Routing\MatchedRoute;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class KernelTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,10 +19,10 @@ class KernelTest extends \PHPUnit_Framework_TestCase
 
     public function testHandleRequest()
     {
-        $request = new Request();
+        $request = $this->getMock('Psr\Http\Message\RequestInterface');
         $match = new MatchedRoute('StdClass', 'index', []);
         $controller = new \StdClass();
-        $response = new Response();
+        $response = $this->getMock('Psr\Http\Message\ResponseInterface');
 
         $this->router
             ->expects($this->once())
@@ -56,7 +54,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandleRequestThrowsHttpNotfoundException()
     {
-        $request = new Request();
+        $request = $this->getMock('Psr\Http\Message\RequestInterface');
 
         $this->router
             ->expects($this->once())
@@ -69,13 +67,13 @@ class KernelTest extends \PHPUnit_Framework_TestCase
 
     public function testHandleException()
     {
-        $request = new Request();
+        $request = $this->getMock('Psr\Http\Message\RequestInterface');
         $exception = new HttpException(404, ['X-Token' => 'token']);
 
         $response = $this->kernel->handleException($request, $exception);
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $response);
-        $this->assertEmpty($response->getContent());
+        $this->assertInstanceOf('Psr\Http\Message\ResponseInterface', $response);
+        $this->assertEmpty((string) $response->getBody());
         $this->assertSame($exception->getStatusCode(), $response->getStatusCode());
-        $this->assertSame('token', $response->headers->get('X-Token'));
+        $this->assertSame(['token'], $response->getHeader('X-Token'));
     }
 }

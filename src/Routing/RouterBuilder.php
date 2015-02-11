@@ -2,7 +2,7 @@
 
 namespace Emonkak\Waf\Routing;
 
-use Symfony\Component\HttpFoundation\RequestMatcher;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Provides the router instance factory.
@@ -102,9 +102,9 @@ class RouterBuilder
      */
     public function method($method, $pattern, $controller, $action)
     {
-        $this->routers[] = new RequestMatcherRouter(
+        $this->routers[] = new MethodMatcherRouter(
             new PatternRouter($pattern, $controller, $action),
-            new RequestMatcher(null, null, $method)
+            $method
         );
         return $this;
     }

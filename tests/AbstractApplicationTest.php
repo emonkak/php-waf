@@ -4,10 +4,6 @@ namespace Emonkak\Waf\Tests;
 
 use Emonkak\Di\Container;
 use Emonkak\Waf\AbstractApplication;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class AbstractApplicationTest extends \PHPUnit_Framework_TestCase
 {
@@ -40,9 +36,8 @@ class AbstractApplicationTest extends \PHPUnit_Framework_TestCase
 
     public function testHandle()
     {
-        $request = new Request();
-        $response = new Response();
-        $session = new Session();
+        $request = $this->getMock('Psr\Http\Message\RequestInterface');
+        $response = $this->getMock('Psr\Http\Message\ResponseInterface');
 
         $kernel = $this->getMock('Emonkak\Waf\KernelInterface');
         $kernel
@@ -52,7 +47,6 @@ class AbstractApplicationTest extends \PHPUnit_Framework_TestCase
             ->willReturn($response);
 
         $container = Container::create();
-        $container->set('Symfony\Component\HttpFoundation\Session\SessionInterface', $session);
         $container->set('Emonkak\Waf\KernelInterface', $kernel);
 
         $application = $this->getMockBuilder('Emonkak\Waf\AbstractApplication')
@@ -71,6 +65,5 @@ class AbstractApplicationTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($response, $application->handle($request));
         $this->assertSame($response, $application->handle($request));
-        $this->assertSame($session, $request->getSession());
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Emonkak\Waf\Routing;
 
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Provides a composition of routers that optimized performance by
@@ -30,10 +30,10 @@ class OptimizedRouterCollection extends RouterCollection
     /**
      * {@inheritDoc}
      */
-    public function match(Request $request)
+    public function match(RequestInterface $request)
     {
         $pattern = self::PATTERN_DELIMITER . $this->pattern . self::PATTERN_DELIMITER . 'A';
-        $path = $request->getPathInfo();
+        $path = $request->getUri()->getPath();
 
         preg_match($pattern, $path, $matches);
 

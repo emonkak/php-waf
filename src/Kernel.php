@@ -9,8 +9,9 @@ use Emonkak\Waf\Exception\HttpInternalServerErrorException;
 use Emonkak\Waf\Exception\HttpNotFoundException;
 use Emonkak\Waf\Instantiator\InstantiatorInterface;
 use Emonkak\Waf\Routing\RouterInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Phly\Http\Response;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * An implementation of kernel for an application.
@@ -50,7 +51,7 @@ class Kernel implements KernelInterface
     /**
      * {@inheritDoc}
      */
-    public function handleRequest(Request $request)
+    public function handleRequest(RequestInterface $request)
     {
         $match = $this->router->match($request);
         if ($match === null) {
@@ -65,8 +66,8 @@ class Kernel implements KernelInterface
     /**
      * {@inheritDoc}
      */
-    public function handleException(Request $request, HttpException $exception)
+    public function handleException(RequestInterface $request, HttpException $exception)
     {
-        return new Response('', $exception->getStatusCode(), $exception->getHeaders());
+        return new Response('php://memory', $exception->getStatusCode(), $exception->getHeaders());
     }
 }

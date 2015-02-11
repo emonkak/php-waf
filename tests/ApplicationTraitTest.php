@@ -2,18 +2,15 @@
 
 namespace Emonkak\Waf\Tests;
 
-use Emonkak\Waf\Application;
 use Emonkak\Waf\Exception\HttpException;
 use Emonkak\Waf\KernelInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class ApplicationTraitTest extends \PHPUnit_Framework_TestCase
 {
     public function testHandle()
     {
-        $request = new Request();
-        $response = new Response();
+        $request = $this->getMock('Psr\Http\Message\RequestInterface');
+        $response = $this->getMock('Psr\Http\Message\ResponseInterface');
 
         $kernel = $this->getMock('Emonkak\Waf\KernelInterface');
         $kernel
@@ -31,8 +28,8 @@ class ApplicationTraitTest extends \PHPUnit_Framework_TestCase
 
     public function testHandleRequestThrowsHttpExeption()
     {
-        $request = new Request();
-        $response = new Response();
+        $request = $this->getMock('Psr\Http\Message\RequestInterface');
+        $response = $this->getMock('Psr\Http\Message\ResponseInterface');
         $exception = new HttpException(200);
 
         $kernel = $this->getMock('Emonkak\Waf\KernelInterface');
@@ -53,8 +50,8 @@ class ApplicationTraitTest extends \PHPUnit_Framework_TestCase
 
     public function testHandleRequestThrowsUncaughtExeption()
     {
-        $request = new Request();
-        $response = new Response();
+        $request = $this->getMock('Psr\Http\Message\RequestInterface');
+        $response = $this->getMock('Psr\Http\Message\ResponseInterface');
         $exception = new \Exception();
 
         $kernel = $this->getMock('Emonkak\Waf\KernelInterface');

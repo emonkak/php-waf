@@ -3,7 +3,6 @@
 namespace Emonkak\Waf\Tests\Routing
 {
     use Emonkak\Waf\Routing\PatternRouter;
-    use Symfony\Component\HttpFoundation\Request;
 
     class PatternRouterTest extends \PHPUnit_Framework_TestCase
     {
@@ -12,7 +11,7 @@ namespace Emonkak\Waf\Tests\Routing
          */
         public function testMatch($path, $pattern, $controller, $action, array $expectedParams)
         {
-            $request = Request::create($path);
+            $request = $this->createRequestMock($path);
             $router = new PatternRouter($pattern, $controller, $action);
             $match = $router->match($request);
 
@@ -37,7 +36,7 @@ namespace Emonkak\Waf\Tests\Routing
          */
         public function testMatchReturnsNull($path, $pattern, $controller, $action)
         {
-            $request = Request::create($path);
+            $request = $this->createRequestMock($path);
             $router = new PatternRouter($pattern, $controller, $action);
             $match = $router->match($request);
 
@@ -69,6 +68,23 @@ namespace Emonkak\Waf\Tests\Routing
                 ['/foo/', 'Emonkak\Waf\Tests\Routing\PatternRouterTest\FooController', 'index'],
                 ['/foo/(.*?)/', 'Emonkak\Waf\Tests\Routing\PatternRouterTest\FooController', 'index'],
             ];
+        }
+
+        private function createRequestMock($path)
+        {
+            $uri = $this->getMock('Psr\Http\Message\UriInterface');
+            $uri
+                ->expects($this->any())
+                ->method('getPath')
+                ->willReturn($path);
+
+            $request = $this->getMock('Psr\Http\Message\RequestInterface');
+            $request
+                ->expects($this->any())
+                ->method('getUri')
+                ->willReturn($uri);
+
+            return $request;
         }
     }
 }

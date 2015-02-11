@@ -11,15 +11,13 @@ use Emonkak\Waf\Exception\HttpRedirectException;
 use Emonkak\Waf\Exception\HttpServiceUnavailableException;
 use Emonkak\Waf\Middleware\ExceptionLoggerMiddleware;
 use Psr\Log\LogLevel;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class ExceptionLoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
 {
     public function testHandleRequest()
     {
-        $request = new Request();
-        $response = new Response();
+        $request = $this->getMock('Psr\Http\Message\RequestInterface');
+        $response = $this->getMock('Psr\Http\Message\ResponseInterface');
 
         $kernel = $this->getMock('Emonkak\Waf\KernelInterface');
         $kernel
@@ -39,8 +37,8 @@ class ExceptionLoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandleException(HttpException $exception, $expectedLogLevel)
     {
-        $request = new Request();
-        $response = new Response();
+        $request = $this->getMock('Psr\Http\Message\RequestInterface');
+        $response = $this->getMock('Psr\Http\Message\ResponseInterface');
 
         $kernel = $this->getMock('Emonkak\Waf\KernelInterface');
         $kernel
@@ -87,8 +85,8 @@ class ExceptionLoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandleNestException(HttpException $exception, $expectedLogLevel)
     {
-        $request = new Request();
-        $response = new Response();
+        $request = $this->getMock('Psr\Http\Message\RequestInterface');
+        $response = $this->getMock('Psr\Http\Message\ResponseInterface');
 
         $kernel = $this->getMock('Emonkak\Waf\KernelInterface');
         $kernel

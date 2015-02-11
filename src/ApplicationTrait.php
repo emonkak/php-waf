@@ -4,8 +4,8 @@ namespace Emonkak\Waf;
 
 use Emonkak\Waf\Exception\HttpException;
 use Emonkak\Waf\Exception\HttpInternalServerErrorException;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * An application facade trait.
@@ -15,10 +15,10 @@ trait ApplicationTrait
     /**
      * Handles the given request.
      *
-     * @param Request $request
-     * @return Response
+     * @param RequestInterface $request
+     * @return ResponseInterface
      */
-    public function handle(Request $request)
+    public function handle(RequestInterface $request)
     {
         $kernel = $this->getKernel();
         try {

@@ -4,8 +4,6 @@ namespace Emonkak\Waf\Tests\Action
 {
     use Emonkak\Waf\Action\RestActionDispatcher;
     use Emonkak\Waf\Routing\MatchedRoute;
-    use Symfony\Component\HttpFoundation\Request;
-    use Symfony\Component\HttpFoundation\Response;
 
     class RestActionDispatcherTest extends \PHPUnit_Framework_TestCase
     {
@@ -14,8 +12,8 @@ namespace Emonkak\Waf\Tests\Action
          */
         public function testDispatch($path, $method, $controllerName, $actionName, array $params, $expectedMethod)
         {
-            $request = Request::create($path, $method);
-            $response = new Response();
+            $request = $this->createRequestMock($path, $method);
+            $response = $this->getMock('Psr\Http\Message\ResponseInterface');
 
             $controllerMock = $this->getMock($controllerName);
             $invocationMock = $controllerMock
@@ -52,7 +50,7 @@ namespace Emonkak\Waf\Tests\Action
          */
         public function testDispatchThrowsHttpNotFoundException($path, $method, $controllerName, $actionName, array $params)
         {
-            $request = Request::create($path, $method);
+            $request = $this->createRequestMock($path, $method);
             $match = new MatchedRoute($controllerName, $actionName, $params);
             $controller = new $controllerName();
 
@@ -81,7 +79,7 @@ namespace Emonkak\Waf\Tests\Action
          */
         public function testDispatchThrowsHttpBadRequestException($path, $method, $controllerName, $actionName, array $params)
         {
-            $request = Request::create($path, $method);
+            $request = $this->createRequestMock($path, $method);
             $match = new MatchedRoute($controllerName, $actionName, $params);
             $controller = new $controllerName();
 
@@ -104,11 +102,32 @@ namespace Emonkak\Waf\Tests\Action
         public function testCanDispatch()
         {
             $dispatcher = new RestActionDispatcher();
-            $request = new Request();
+            $request = $this->getMock('Psr\Http\Message\RequestInterface');
             $match = new MatchedRoute('StdClass', 'action', []);
             $controller = new \StdClass();
 
             $this->assertTrue($dispatcher->canDispatch($request, $match, $controller));
+        }
+
+        private function createRequestMock($path, $method)
+        {
+            $path = $this->getMock('Psr\Http\Message\UriInterface');
+            $path
+                ->expects($this->any())
+                ->method('getPath')
+                ->willReturn($path);
+
+            $request = $this->getMock('Psr\Http\Message\RequestInterface');
+            $request
+                ->expects($this->any())
+                ->method('getMethod')
+                ->willReturn($method);
+            $request
+                ->expects($this->any())
+                ->method('getUri')
+                ->willReturn($path);
+
+            return $request;
         }
     }
 }

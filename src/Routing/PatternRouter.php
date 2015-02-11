@@ -2,7 +2,7 @@
 
 namespace Emonkak\Waf\Routing;
 
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Provides a routing from a regular expression.
@@ -39,9 +39,9 @@ class PatternRouter implements RouterInterface
     /**
      * {@inheritDoc}
      */
-    public function match(Request $request)
+    public function match(RequestInterface $request)
     {
-        $path = $request->getPathInfo();
+        $path = $request->getUri()->getPath();
         $pattern = self::PATTERN_DELIMITER . $this->pattern . self::PATTERN_DELIMITER . 'A';
         $length = preg_match($pattern, $path, $matches);
 

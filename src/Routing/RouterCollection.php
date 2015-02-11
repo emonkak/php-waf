@@ -2,7 +2,7 @@
 
 namespace Emonkak\Waf\Routing;
 
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Provides a composition of routers.
@@ -27,7 +27,7 @@ class RouterCollection implements RouterInterface, \IteratorAggregate
     /**
      * {@inheritDoc}
      */
-    public function match(Request $request)
+    public function match(RequestInterface $request)
     {
         foreach ($this->routers as $router) {
             $match = $router->match($request);

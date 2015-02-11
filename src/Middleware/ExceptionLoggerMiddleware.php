@@ -4,10 +4,10 @@ namespace Emonkak\Waf\Middleware;
 
 use Emonkak\Waf\Exception\HttpException;
 use Emonkak\Waf\KernelInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LogLevel;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Provides the logging of an exception.
@@ -37,7 +37,7 @@ class ExceptionLoggerMiddleware implements KernelInterface
     /**
      * {@inheritDoc}
      */
-    public function handleRequest(Request $request)
+    public function handleRequest(RequestInterface $request)
     {
         return $this->kernel->handleRequest($request);
     }
@@ -45,7 +45,7 @@ class ExceptionLoggerMiddleware implements KernelInterface
     /**
      * {@inheritDoc}
      */
-    public function handleException(Request $request, HttpException $exception)
+    public function handleException(RequestInterface $request, HttpException $exception)
     {
         $this->logger->log(
             $this->getLogLevel($exception),

@@ -4,7 +4,6 @@ namespace Emonkak\Waf\Tests\Routing;
 
 use Emonkak\Waf\Routing\MatchedRoute;
 use Emonkak\Waf\Routing\RouterCollection;
-use Symfony\Component\HttpFoundation\Request;
 
 class RouterCollectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,7 +29,7 @@ class RouterCollectionTest extends \PHPUnit_Framework_TestCase
             ->method('match');
 
         $router = new RouterCollection([$nullRouter, $matchedRouter, $nerverCalledRouter]);
-        $request = new Request();
+        $request = $this->getMock('Psr\Http\Message\RequestInterface');
         $this->assertSame($expectedResult, $router->match($request));
 
         $router = new RouterCollection([]);

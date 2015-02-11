@@ -2,7 +2,8 @@
 
 namespace Emonkak\Waf\Utils;
 
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\UriInterface;
 
 /**
  * Utilities for symfony request.
@@ -17,17 +18,17 @@ class RequestUtils
     }
 
     /**
-     * @param Request $request
+     * @param UriInterface $uri
      * @return string
      */
-    public static function completeTrailingSlash(Request $request)
+    public static function completeTrailingSlash(UriInterface $uri)
     {
-        $queryString = $request->getQueryString();
+        $queryString = $uri->getQuery();
 
-        if ($queryString !== null) {
+        if ($queryString !== '') {
             $queryString = '?' . $queryString;
         }
 
-        return $request->getBaseUrl() . $request->getPathInfo() . '/' . $queryString;
+        return $uri->getPath() . '/' . $queryString;
     }
 }

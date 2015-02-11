@@ -5,8 +5,8 @@ namespace Emonkak\Waf;
 use Emonkak\Di\AbstractContainer;
 use Emonkak\Waf\Exception\HttpException;
 use Emonkak\Waf\Exception\HttpInternalServerErrorException;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 abstract class AbstractApplication
 {
@@ -51,17 +51,13 @@ abstract class AbstractApplication
     /**
      * {@inheritdoc}
      */
-    final public function handle(Request $request)
+    final public function handle(RequestInterface $request)
     {
         if (!$this->booted) {
             $this->boot();
         }
 
-        if ($this->container->has('Symfony\Component\HttpFoundation\Session\SessionInterface')) {
-            $request->setSession($this->container->get('Symfony\Component\HttpFoundation\Session\SessionInterface'));
-        }
-
-        $this->container->set('Symfony\Component\HttpFoundation\Request', $request);
+        $this->container->set('Psr\Http\Message\RequestInterface', $request);
 
         return $this->doHandle($request);
     }

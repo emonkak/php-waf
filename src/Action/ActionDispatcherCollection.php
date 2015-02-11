@@ -3,7 +3,7 @@
 namespace Emonkak\Waf\Action;
 
 use Emonkak\Waf\Routing\MatchedRoute;
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\RequestInterface;
 
 class ActionDispatcherCollection implements ActionDispatcherInterface, \IteratorAggregate
 {
@@ -23,7 +23,7 @@ class ActionDispatcherCollection implements ActionDispatcherInterface, \Iterator
     /**
      * {@inheritDoc}
      */
-    public function dispatch(Request $request, MatchedRoute $match, $controller)
+    public function dispatch(RequestInterface $request, MatchedRoute $match, $controller)
     {
         foreach ($this->dispatchers as $dispatcher) {
             if ($dispatcher->canDispatch($request, $match, $controller)) {
@@ -36,7 +36,7 @@ class ActionDispatcherCollection implements ActionDispatcherInterface, \Iterator
     /**
      * {@inheritDoc}
      */
-    public function canDispatch(Request $request, MatchedRoute $match, $controller)
+    public function canDispatch(RequestInterface $request, MatchedRoute $match, $controller)
     {
         foreach ($this->dispatchers as $dispatcher) {
             if ($dispatcher->canDispatch($request, $match, $controller)) {

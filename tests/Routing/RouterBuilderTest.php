@@ -2,12 +2,11 @@
 
 namespace Emonkak\Waf\Tests\Routing;
 
+use Emonkak\Waf\Routing\MethodMatcherRouter;
 use Emonkak\Waf\Routing\NamespaceRouter;
 use Emonkak\Waf\Routing\PatternRouter;
-use Emonkak\Waf\Routing\RequestMatcherRouter;
 use Emonkak\Waf\Routing\ResourceRouter;
 use Emonkak\Waf\Routing\RouterBuilder;
-use Symfony\Component\HttpFoundation\RequestMatcher;
 
 class RouterBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,9 +33,9 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $routers = iterator_to_array($builder->build());
         $this->assertEquals(
             [
-                new RequestMatcherRouter(
+                new MethodMatcherRouter(
                     new PatternRouter($pattern, $controller, $action),
-                    new RequestMatcher(null, null, 'GET')
+                    'GET'
                 )
             ],
             $routers
@@ -55,9 +54,9 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $routers = iterator_to_array($builder->build());
         $this->assertEquals(
             [
-                new RequestMatcherRouter(
+                new MethodMatcherRouter(
                     new PatternRouter($pattern, $controller, $action),
-                    new RequestMatcher(null, null, 'POST')
+                    'POST'
                 )
             ],
             $routers
@@ -76,9 +75,9 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $routers = iterator_to_array($builder->build());
         $this->assertEquals(
             [
-                new RequestMatcherRouter(
+                new MethodMatcherRouter(
                     new PatternRouter($pattern, $controller, $action),
-                    new RequestMatcher(null, null, 'PATCH')
+                    'PATCH'
                 )
             ],
             $routers
@@ -97,9 +96,9 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $routers = iterator_to_array($builder->build());
         $this->assertEquals(
             [
-                new RequestMatcherRouter(
+                new MethodMatcherRouter(
                     new PatternRouter($pattern, $controller, $action),
-                    new RequestMatcher(null, null, 'PUT')
+                    'PUT'
                 )
             ],
             $routers
@@ -118,9 +117,9 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $routers = iterator_to_array($builder->build());
         $this->assertEquals(
             [
-                new RequestMatcherRouter(
+                new MethodMatcherRouter(
                     new PatternRouter($pattern, $controller, $action),
-                    new RequestMatcher(null, null, 'DELETE')
+                    'DELETE'
                 )
             ],
             $routers

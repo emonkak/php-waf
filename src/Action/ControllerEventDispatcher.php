@@ -4,8 +4,8 @@ namespace Emonkak\Waf\Action;
 
 use Emonkak\Waf\Controller\ControllerEventListenerInterface;
 use Emonkak\Waf\Routing\MatchedRoute;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class ControllerEventDispatcher implements ActionDispatcherInterface
 {
@@ -25,7 +25,7 @@ class ControllerEventDispatcher implements ActionDispatcherInterface
     /**
      * {@inheritDoc}
      */
-    public function dispatch(Request $request, MatchedRoute $match, $controller)
+    public function dispatch(RequestInterface $request, MatchedRoute $match, $controller)
     {
         $isControllerEventListener = $controller instanceof ControllerEventListenerInterface;
         if ($isControllerEventListener) {
@@ -47,7 +47,7 @@ class ControllerEventDispatcher implements ActionDispatcherInterface
     /**
      * {@inheritDoc}
      */
-    public function canDispatch(Request $request, MatchedRoute $match, $controller)
+    public function canDispatch(RequestInterface $request, MatchedRoute $match, $controller)
     {
         return $this->dispatcher->canDispatch($request, $match, $controller);
     }

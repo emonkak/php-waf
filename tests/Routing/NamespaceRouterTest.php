@@ -5,7 +5,6 @@ namespace Emonkak\Waf\Tests\Routing
     use Emonkak\Waf\Exception\HttpNotFoundException;
     use Emonkak\Waf\Exception\HttpRedirectException;
     use Emonkak\Waf\Routing\NamespaceRouter;
-    use Symfony\Component\HttpFoundation\Request;
 
     class NamespaceRouterTest extends \PHPUnit_Framework_TestCase
     {
@@ -14,7 +13,7 @@ namespace Emonkak\Waf\Tests\Routing
          */
         public function testMatch($url, $prefix, $namespace, $expectedController, $expectedAction, $expectedParams)
         {
-            $request = Request::create($url);
+            $request = $this->createRequestMock($url);
             $router = new NamespaceRouter($prefix, $namespace);
             $match = $router->match($request);
 
@@ -51,7 +50,7 @@ namespace Emonkak\Waf\Tests\Routing
          */
         public function testMatchThrowsHttpNotFoundException($url, $prefix, $namespace)
         {
-            $request = Request::create($url);
+            $request = $this->createRequestMock($url);
             $router = new NamespaceRouter($prefix, $namespace);
             $router->match($request);
         }
@@ -78,7 +77,7 @@ namespace Emonkak\Waf\Tests\Routing
          */
         public function testMatchThrowsHttpRedirectException($url, $prefix, $namespace, $expectedLocation)
         {
-            $request = Request::create($url);
+            $request = $this->createRequestMock($url);
             $router = new NamespaceRouter($prefix, $namespace);
 
             try {
@@ -110,7 +109,7 @@ namespace Emonkak\Waf\Tests\Routing
          */
         public function testMatchReturnsNull($url, $prefix, $namespace)
         {
-            $request = Request::create($url);
+            $request = $this->createRequestMock($url);
             $router = new NamespaceRouter($prefix, $namespace);
             $this->assertNull($router->match($request));
         }
@@ -140,6 +139,29 @@ namespace Emonkak\Waf\Tests\Routing
                 ['/foo/', 'Emonkak\Waf\Tests\Routing\NamespaceRouterTest', '/foo/'],
                 ['/foo/.*/', 'Emonkak\Waf\Tests\Routing\NamespaceRouterTest', '/foo/\\.\\*/'],
             ];
+        }
+
+        private function createRequestMock($url)
+        {
+            $parsed = parse_url($url);
+
+            $uri = $this->getMock('Psr\Http\Message\UriInterface');
+            $uri
+                ->expects($this->any())
+                ->method('getPath')
+                ->willReturn($parsed['path']);
+            $uri
+                ->expects($this->any())
+                ->method('getQuery')
+                ->willReturn(isset($parsed['query']) ? $parsed['query'] : '');
+
+            $request = $this->getMock('Psr\Http\Message\RequestInterface');
+            $request
+                ->expects($this->any())
+                ->method('getUri')
+                ->willReturn($uri);
+
+            return $request;
         }
     }
 }

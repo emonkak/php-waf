@@ -6,7 +6,7 @@ use Athletic\AthleticEvent;
 use Emonkak\Waf\Routing\NamespaceRouter;
 use Emonkak\Waf\Routing\OptimizedRouterCollection;
 use Emonkak\Waf\Routing\RouterCollection;
-use Symfony\Component\HttpFoundation\Request;
+use Phly\Http\Request;
 
 class RouterEvent extends AthleticEvent
 {
@@ -17,7 +17,7 @@ class RouterEvent extends AthleticEvent
 
     public function setUp()
     {
-        $this->request = Request::create('/thud/foo/bar/baz/qux/quux/corge/grauit/graply/waldo/fred/plugh/xyzzy/thud');
+        $this->request = new Request('/thud/foo/bar/baz/qux/quux/corge/grauit/graply/waldo/fred/plugh/xyzzy/thud');
 
         $this->routers = [
             new NamespaceRouter('/foo/foo/foo/foo/', __NAMESPACE__),

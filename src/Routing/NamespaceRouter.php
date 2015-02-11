@@ -4,10 +4,9 @@ namespace Emonkak\Waf\Routing;
 
 use Emonkak\Waf\Exception\HttpNotFoundException;
 use Emonkak\Waf\Exception\HttpRedirectException;
-use Emonkak\Waf\Utils\StringUtils;
 use Emonkak\Waf\Utils\RequestUtils;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Emonkak\Waf\Utils\StringUtils;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Provides a routing from a namespace for controller classes.
@@ -39,19 +38,19 @@ class NamespaceRouter implements RouterInterface
     /**
      * {@inheritDoc}
      */
-    public function match(Request $request)
+    public function match(RequestInterface $request)
     {
-        $path = $request->getPathInfo();
+        $path = $request->getUri()->getPath();
 
         if (StringUtils::forgetsTrailingSlash($path, $this->prefix)) {
-            throw new HttpRedirectException($request->getBaseUrl() . $path . '/', 301);
+            throw new HttpRedirectException(RequestUtils::completeTrailingSlash($request->getUri()), 301);
         }
 
         if (StringUtils::startsWith($path, $this->prefix)) {
             $fragments = array_filter(explode('/', substr($path, strlen($this->prefix))), 'strlen');
 
             if (count($fragments) <= 1 && substr($path, -1) !== '/') {
-                throw new HttpRedirectException(RequestUtils::completeTrailingSlash($request), 301);
+                throw new HttpRedirectException(RequestUtils::completeTrailingSlash($request->getUri()), 301);
             }
 
             $controller = empty($fragments[0]) ? 'index' : $fragments[0];

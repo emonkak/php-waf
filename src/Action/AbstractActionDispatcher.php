@@ -7,14 +7,14 @@ use Emonkak\Waf\Exception\HttpNotFoundException;
 use Emonkak\Waf\Routing\MatchedRoute;
 use Emonkak\Waf\Utils\ReflectionUtils;
 use Emonkak\Waf\Utils\StringUtils;
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\RequestInterface;
 
 abstract class AbstractActionDispatcher implements ActionDispatcherInterface
 {
     /**
      * {@inheritDoc}
      */
-    public function dispatch(Request $request, MatchedRoute $match, $controller)
+    public function dispatch(RequestInterface $request, MatchedRoute $match, $controller)
     {
         $controllerReflection = new \ReflectionClass($match->controller);
         $actionName = $this->getActionName($request, $match->action);
@@ -51,7 +51,7 @@ abstract class AbstractActionDispatcher implements ActionDispatcherInterface
     /**
      * {@inheritDoc}
      */
-    public function canDispatch(Request $request, MatchedRoute $match, $controller)
+    public function canDispatch(RequestInterface $request, MatchedRoute $match, $controller)
     {
         return true;
     }
@@ -62,5 +62,5 @@ abstract class AbstractActionDispatcher implements ActionDispatcherInterface
      * @return string
      * @throws HttpException
      */
-    abstract protected function getActionName(Request $request, $name);
+    abstract protected function getActionName(RequestInterface $request, $name);
 }

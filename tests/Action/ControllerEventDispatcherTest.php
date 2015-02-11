@@ -4,15 +4,13 @@ namespace Emonkak\Waf\Tests\Action;
 
 use Emonkak\Waf\Action\ControllerEventDispatcher;
 use Emonkak\Waf\Routing\MatchedRoute;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class ControllerEventDispatcherTest extends \PHPUnit_Framework_TestCase
 {
     public function testDispatch()
     {
-        $request = new Request();
-        $response = new Response();
+        $request = $this->getMock('Psr\Http\Message\RequestInterface');
+        $response = $this->getMock('Psr\Http\Message\ResponseInterface');
 
         $controllerMock = $this->getMock('Emonkak\Waf\Controller\ControllerEventListenerInterface');
         $controllerMock
@@ -44,8 +42,8 @@ class ControllerEventDispatcherTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatchReturnsResponseOnRequest()
     {
-        $request = new Request();
-        $response = new Response();
+        $request = $this->getMock('Psr\Http\Message\RequestInterface');
+        $response = $this->getMock('Psr\Http\Message\ResponseInterface');
 
         $controllerMock = $this->getMock('Emonkak\Waf\Controller\ControllerEventListenerInterface');
         $controllerMock
@@ -70,9 +68,9 @@ class ControllerEventDispatcherTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatchReturnsResponseOnResponse()
     {
-        $request = new Request();
-        $response1 = new Response();
-        $response2 = new Response();
+        $request = $this->getMock('Psr\Http\Message\RequestInterface');
+        $response1 = $this->getMock('Psr\Http\Message\ResponseInterface');
+        $response2 = $this->getMock('Psr\Http\Message\ResponseInterface');
 
         $controllerMock = $this->getMock('Emonkak\Waf\Controller\ControllerEventListenerInterface');
         $controllerMock
@@ -105,7 +103,7 @@ class ControllerEventDispatcherTest extends \PHPUnit_Framework_TestCase
 
     public function testCanDispatch()
     {
-        $request = new Request();
+        $request = $this->getMock('Psr\Http\Message\RequestInterface');
         $match = new MatchedRoute('StdClass', 'index', []);
         $controller = new \StdClass();
 

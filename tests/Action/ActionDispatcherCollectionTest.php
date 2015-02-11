@@ -4,17 +4,15 @@ namespace Emonkak\Waf\Tests\Action;
 
 use Emonkak\Waf\Action\ActionDispatcherCollection;
 use Emonkak\Waf\Routing\MatchedRoute;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class ActionDispatcherCollectionTest extends \PHPUnit_Framework_TestCase
 {
     public function testDispatch()
     {
-        $request = new Request();
+        $request = $this->getMock('Psr\Http\Message\RequestInterface');
         $match = new MatchedRoute('StdClass', 'index', []);
         $controller = new \StdClass();
-        $response = new Response();
+        $response = $this->getMock('Psr\Http\Message\ResponseInterface');
 
         $dispatcher1 = $this->getMock('Emonkak\Waf\Action\ActionDispatcherInterface');
         $dispatcher1
@@ -67,7 +65,7 @@ class ActionDispatcherCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchThrowsLogicException()
     {
-        $request = new Request();
+        $request = $this->getMock('Psr\Http\Message\RequestInterface');
         $match = new MatchedRoute('StdClass', 'index', []);
         $controller = new \StdClass();
 
@@ -77,7 +75,7 @@ class ActionDispatcherCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testCanDispatch()
     {
-        $request = new Request();
+        $request = $this->getMock('Psr\Http\Message\RequestInterface');
         $match = new MatchedRoute('StdClass', 'index', []);
         $controller = new \StdClass();
 
@@ -117,7 +115,7 @@ class ActionDispatcherCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetIterator()
     {
-        $request = new Request();
+        $request = $this->getMock('Psr\Http\Message\RequestInterface');
         $match = new MatchedRoute('StdClass', 'index', []);
         $controller = new \StdClass();
 

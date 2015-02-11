@@ -3,7 +3,7 @@
 namespace Emonkak\Waf\Controller;
 
 use Emonkak\Di\Annotation\Inject;
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Provides access to a request object.
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 trait RequestAware
 {
     /**
-     * @var Request
+     * @var RequestInterface
      */
     protected $request;
 
@@ -20,9 +20,9 @@ trait RequestAware
      *
      * @Inject
      *
-     * @param Request $request
+     * @param RequestInterface $request
      */
-    public function setRequest(Request $request)
+    public function setRequest(RequestInterface $request)
     {
         $this->request = $request;
     }

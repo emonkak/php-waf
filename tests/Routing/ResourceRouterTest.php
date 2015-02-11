@@ -5,7 +5,6 @@ namespace Emonkak\Waf\Tests\Routing
     use Emonkak\Waf\Exception\HttpNotFoundException;
     use Emonkak\Waf\Exception\HttpRedirectException;
     use Emonkak\Waf\Routing\ResourceRouter;
-    use Symfony\Component\HttpFoundation\Request;
 
     class ResourceRouterTest extends \PHPUnit_Framework_TestCase
     {
@@ -14,7 +13,7 @@ namespace Emonkak\Waf\Tests\Routing
          */
         public function testMatch($url, $prefix, $controller, $expectedAction, $expectedParams)
         {
-            $request = Request::create($url);
+            $request = $this->createRequestMock($url);
             $router = new ResourceRouter($prefix, $controller);
             $match = $router->match($request);
 
@@ -45,7 +44,7 @@ namespace Emonkak\Waf\Tests\Routing
          */
         public function testMatchReturnsNull($url, $prefix, $controller)
         {
-            $request = Request::create($url);
+            $request = $this->createRequestMock($url);
             $router = new ResourceRouter($prefix, $controller);
             $this->assertNull($router->match($request));
         }
@@ -66,7 +65,7 @@ namespace Emonkak\Waf\Tests\Routing
          */
         public function testMatchThrowsHttpRedirectException($url, $prefix, $controller, $expectedLocation)
         {
-            $request = Request::create($url);
+            $request = $this->createRequestMock($url);
             $router = new ResourceRouter($prefix, $controller);
 
             try {
@@ -102,6 +101,29 @@ namespace Emonkak\Waf\Tests\Routing
                 ['/foo/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', '/foo/'],
                 ['/foo/.*/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', '/foo/\\.\\*/'],
             ];
+        }
+
+        private function createRequestMock($url)
+        {
+            $parsed = parse_url($url);
+
+            $uri = $this->getMock('Psr\Http\Message\UriInterface');
+            $uri
+                ->expects($this->any())
+                ->method('getPath')
+                ->willReturn($parsed['path']);
+            $uri
+                ->expects($this->any())
+                ->method('getQuery')
+                ->willReturn(isset($parsed['query']) ? $parsed['query'] : '');
+
+            $request = $this->getMock('Psr\Http\Message\RequestInterface');
+            $request
+                ->expects($this->any())
+                ->method('getUri')
+                ->willReturn($uri);
+
+            return $request;
         }
     }
 }

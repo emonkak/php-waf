@@ -4,7 +4,6 @@ namespace Emonkak\Waf\Tests\Routing;
 
 use Emonkak\Waf\Routing\MatchedRoute;
 use Emonkak\Waf\Routing\OptimizedRouterCollection;
-use Symfony\Component\HttpFoundation\Request;
 
 class OptimizedRouterCollectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,16 +19,16 @@ class OptimizedRouterCollectionTest extends \PHPUnit_Framework_TestCase
 
         $router = new OptimizedRouterCollection([$router1, $router2, $router3]);
 
-        $request = Request::create('/foo/show/123');
+        $request = $this->createRequestMock('/foo/show/123');
         $this->assertSame($router1Result, $router->match($request));
 
-        $request = Request::create('/foo/page/p123');
+        $request = $this->createRequestMock('/foo/page/p123');
         $this->assertSame($router2Result, $router->match($request));
 
-        $request = Request::create('/foo/');
+        $request = $this->createRequestMock('/foo/');
         $this->assertSame($router3Result, $router->match($request));
 
-        $request = Request::create('/bar/');
+        $request = $this->createRequestMock('/bar/');
         $this->assertNull($router->match($request));
     }
 
@@ -56,6 +55,23 @@ class OptimizedRouterCollectionTest extends \PHPUnit_Framework_TestCase
         $router = new OptimizedRouterCollection([$router1, $router2, $router3]);
         $this->assertSame('(/foo/bar/(?:\d+))|(/foo/(?=bar/))|(/foo/\(bar\))', $router->getPattern());
     }
+
+        private function createRequestMock($path)
+        {
+            $uri = $this->getMock('Psr\Http\Message\UriInterface');
+            $uri
+                ->expects($this->any())
+                ->method('getPath')
+                ->willReturn($path);
+
+            $request = $this->getMock('Psr\Http\Message\RequestInterface');
+            $request
+                ->expects($this->any())
+                ->method('getUri')
+                ->willReturn($uri);
+
+            return $request;
+        }
 
     private function createRouterMock($returnPattern, $returnResult)
     {
