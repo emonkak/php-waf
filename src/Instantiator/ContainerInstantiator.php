@@ -4,7 +4,6 @@ namespace Emonkak\Framework\Instantiator;
 
 use Emonkak\Di\ContainerInterface;
 use Emonkak\Di\ContainerConfiguratorInterface;
-use Doctrine\Common\Cache\Cache;
 
 class ContainerInstantiator implements InstantiatorInterface
 {
