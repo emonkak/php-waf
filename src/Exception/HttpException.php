@@ -38,7 +38,7 @@ class HttpException extends \RuntimeException
     /**
      * Gets the headers for HTTP request.
      *
-     * @return integer
+     * @return array
      */
     public function getHeaders()
     {
