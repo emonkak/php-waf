@@ -19,7 +19,7 @@ trait ControllerHelper
     /**
      * Creates a HTML response.
      *
-     * @param string  $context The content of HTML.
+     * @param string  $content The content of HTML.
      * @param integer $status  The status code of this response.
      * @param array   $headers HTTP headers of this response.
      * @return Response
@@ -34,7 +34,7 @@ trait ControllerHelper
     /**
      * Creates a plain text response.
      *
-     * @param string  $context The content of HTML.
+     * @param string  $content The content of HTML.
      * @param integer $status  The status code of this response.
      * @param array   $headers HTTP headers of this response.
      * @return Response
@@ -49,7 +49,7 @@ trait ControllerHelper
     /**
      * Creates a XML response.
      *
-     * @param string  $context The content of HTML.
+     * @param string  $content The content of XML.
      * @param integer $status  The status code of this response.
      * @param array   $headers HTTP headers of this response.
      * @return Response
@@ -64,7 +64,7 @@ trait ControllerHelper
     /**
      * Creates a JSON response.
      *
-     * @param string  $context The content of HTML.
+     * @param mixed   $data    The data of JSON.
      * @param integer $status  The status code of this response.
      * @param array   $headers HTTP headers of this response.
      * @return JsonResponse
@@ -77,7 +77,7 @@ trait ControllerHelper
     /**
      * Creates a redirect response.
      *
-     * @param string  $context The content of HTML.
+     * @param string  $url     The location url to redirect.
      * @param integer $status  The status code of this response.
      * @param array   $headers HTTP headers of this response.
      * @return RedirectResponse

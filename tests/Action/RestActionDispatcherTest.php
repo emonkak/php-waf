@@ -12,9 +12,9 @@ namespace Emonkak\Framework\Tests\Action
         /**
          * @dataProvider provideDispatch
          */
-        public function testDispatch($uri, $method, $controllerName, $actionName, array $params, $expectedMethod)
+        public function testDispatch($path, $method, $controllerName, $actionName, array $params, $expectedMethod)
         {
-            $request = Request::create($uri, $method);
+            $request = Request::create($path, $method);
             $response = new Response();
 
             $controllerMock = $this->getMock($controllerName);
@@ -50,9 +50,9 @@ namespace Emonkak\Framework\Tests\Action
          * @dataProvider provideDispatchThrowsHttpNotFoundException
          * @expectedException Emonkak\Framework\Exception\HttpNotFoundException
          */
-        public function testDispatchThrowsHttpNotFoundException($uri, $method, $controllerName, $actionName, array $params)
+        public function testDispatchThrowsHttpNotFoundException($path, $method, $controllerName, $actionName, array $params)
         {
-            $request = Request::create($uri, $method);
+            $request = Request::create($path, $method);
             $match = new MatchedRoute($controllerName, $actionName, $params);
             $controller = new $controllerName();
 
@@ -77,9 +77,9 @@ namespace Emonkak\Framework\Tests\Action
          * @dataProvider provideDispatchThrowsHttpBadRequestException
          * @expectedException Emonkak\Framework\Exception\HttpBadRequestException
          */
-        public function testDispatchThrowsHttpBadRequestException($uri, $method, $controllerName, $actionName, array $params)
+        public function testDispatchThrowsHttpBadRequestException($path, $method, $controllerName, $actionName, array $params)
         {
-            $request = Request::create($uri, $method);
+            $request = Request::create($path, $method);
             $match = new MatchedRoute($controllerName, $actionName, $params);
             $controller = new $controllerName();
 
