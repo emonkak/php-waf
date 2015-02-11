@@ -3,14 +3,13 @@
 namespace Emonkak\Framework\Tests\Controller;
 
 use Emonkak\Framework\Exception\HttpForbiddenException;
-use Symfony\Component\HttpFoundation\Response;
 
 class HttpForbiddenExceptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetStatusCode()
     {
         $exception = new HttpForbiddenException();
-        $this->assertSame(Response::HTTP_FORBIDDEN, $exception->getStatusCode());
+        $this->assertSame(403, $exception->getStatusCode());
     }
 
     public function testGetHeaders()

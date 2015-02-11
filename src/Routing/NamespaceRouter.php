@@ -43,14 +43,14 @@ class NamespaceRouter implements RouterInterface
         $path = $request->getPathInfo();
 
         if (StringUtils::forgetsTrailingSlash($path, $this->prefix)) {
-            throw new HttpRedirectException($request->getBaseUrl() . $path . '/', Response::HTTP_MOVED_PERMANENTLY);
+            throw new HttpRedirectException($request->getBaseUrl() . $path . '/', 301);
         }
 
         if (StringUtils::startsWith($path, $this->prefix)) {
             $fragments = explode('/', substr($path, strlen($this->prefix)));
 
             if (count($fragments) <= 1 && substr($path, -1) !== '/') {
-                throw new HttpRedirectException($request->getBaseUrl() . $path . '/', Response::HTTP_MOVED_PERMANENTLY);
+                throw new HttpRedirectException($request->getBaseUrl() . $path . '/', 301);
             }
 
             $controller = empty($fragments[0]) ? 'index' : $fragments[0];

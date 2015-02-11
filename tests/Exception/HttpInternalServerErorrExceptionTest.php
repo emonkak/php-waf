@@ -3,14 +3,13 @@
 namespace Emonkak\Framework\Tests\Controller;
 
 use Emonkak\Framework\Exception\HttpInternalServerErrorException;
-use Symfony\Component\HttpFoundation\Response;
 
 class HttpInternalServerErrorExceptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetStatusCode()
     {
         $exception = new HttpInternalServerErrorException();
-        $this->assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $exception->getStatusCode());
+        $this->assertSame(500, $exception->getStatusCode());
     }
 
     public function testGetHeaders()

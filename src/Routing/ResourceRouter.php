@@ -43,7 +43,7 @@ class ResourceRouter implements RouterInterface
         $path = $request->getPathInfo();
 
         if (StringUtils::forgetsTrailingSlash($path, $this->prefix)) {
-            throw new HttpRedirectException($request->getBaseUrl() . $path . '/', Response::HTTP_MOVED_PERMANENTLY);
+            throw new HttpRedirectException($request->getBaseUrl() . $path . '/', 301);
         }
 
         if (StringUtils::startsWith($path, $this->prefix)) {

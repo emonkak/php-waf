@@ -24,7 +24,7 @@ trait ControllerHelper
      * @param array   $headers HTTP headers of this response.
      * @return Response
      */
-    protected function html($content, $status = Response::HTTP_OK, array $headers = [])
+    protected function html($content, $status = 200, array $headers = [])
     {
         $response = new Response($content, $status, $headers);
         $response->headers->set('Content-Type', 'text/html');
@@ -39,7 +39,7 @@ trait ControllerHelper
      * @param array   $headers HTTP headers of this response.
      * @return Response
      */
-    protected function text($content, $status = Response::HTTP_OK, array $headers = [])
+    protected function text($content, $status = 200, array $headers = [])
     {
         $response = new Response($content, $status, $headers);
         $response->headers->set('Content-Type', 'text/plain');
@@ -54,7 +54,7 @@ trait ControllerHelper
      * @param array   $headers HTTP headers of this response.
      * @return Response
      */
-    protected function xml($content, $status = Response::HTTP_OK, array $headers = [])
+    protected function xml($content, $status = 200, array $headers = [])
     {
         $response = new Response($content, $status, $headers);
         $response->headers->set('Content-Type', 'application/xml');
@@ -69,7 +69,7 @@ trait ControllerHelper
      * @param array   $headers HTTP headers of this response.
      * @return JsonResponse
      */
-    protected function json($data, $status = Response::HTTP_OK, array $headers = [])
+    protected function json($data, $status = 200, array $headers = [])
     {
         return new JsonResponse($data, $status, $headers);
     }
@@ -82,7 +82,7 @@ trait ControllerHelper
      * @param array   $headers HTTP headers of this response.
      * @return RedirectResponse
      */
-    protected function redirect($url, $status = Response::HTTP_FOUND, array $headers = [])
+    protected function redirect($url, $status = 302, array $headers = [])
     {
         return new RedirectResponse($url, $status, $headers);
     }
@@ -95,7 +95,7 @@ trait ControllerHelper
      * @param array         $headers  HTTP headers of this response.
      * @return StreamedResponse
      */
-    protected function stream($callback = null, $status = Response::HTTP_FOUND, array $headers = [])
+    protected function stream($callback = null, $status = 200, array $headers = [])
     {
         return new StreamedResponse($callback, $status, $headers);
     }

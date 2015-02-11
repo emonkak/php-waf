@@ -2,8 +2,6 @@
 
 namespace Emonkak\Framework\Exception;
 
-use Symfony\Component\HttpFoundation\Response;
-
 /**
  * Represents 500 Internal Server Error.
  */
@@ -15,6 +13,6 @@ class HttpInternalServerErrorException extends HttpException
      */
     public function __construct($message = '', \Exception $previous = null)
     {
-        parent::__construct(Response::HTTP_INTERNAL_SERVER_ERROR, [], $message, $previous);
+        parent::__construct(500, [], $message, $previous);
     }
 }

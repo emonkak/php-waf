@@ -72,6 +72,7 @@ namespace Emonkak\Framework\Tests\Routing
             try {
                 $router->match($request);
             } catch (HttpRedirectException $e) {
+                $this->assertSame(301, $e->getStatusCode());
                 $this->assertSame(['Location' => $expectedLocation], $e->getHeaders());
                 throw $e;
             }

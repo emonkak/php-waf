@@ -57,6 +57,7 @@ class ControllerHelperTest extends \PHPUnit_Framework_TestCase
             $response = $this->controller->redirect('/path/to/redirect/');
             $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
             $this->assertTrue($response->isRedirection());
+            $this->assertSame(302, $response->getStatusCode());
             $this->assertSame('/path/to/redirect/', $response->headers->get('Location'));
         }, $this, get_class($this->controller))->__invoke();
     }

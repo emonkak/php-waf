@@ -2,8 +2,6 @@
 
 namespace Emonkak\Framework\Exception;
 
-use Symfony\Component\HttpFoundation\Response;
-
 /**
  * Represents 503 Service Unavailable.
  */
@@ -15,6 +13,6 @@ class HttpServiceUnavailableException extends HttpException
      */
     public function __construct($message = '', \Exception $previous = null)
     {
-        parent::__construct(Response::HTTP_SERVICE_UNAVAILABLE, [], $message, $previous);
+        parent::__construct(503, [], $message, $previous);
     }
 }

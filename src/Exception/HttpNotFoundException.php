@@ -2,8 +2,6 @@
 
 namespace Emonkak\Framework\Exception;
 
-use Symfony\Component\HttpFoundation\Response;
-
 /**
  * Represents 404 Not Found.
  */
@@ -15,6 +13,6 @@ class HttpNotFoundException extends HttpException
      */
     public function __construct($message = '', \Exception $previous = null)
     {
-        parent::__construct(Response::HTTP_NOT_FOUND, [], $message, $previous);
+        parent::__construct(404, [], $message, $previous);
     }
 }

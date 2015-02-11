@@ -3,14 +3,13 @@
 namespace Emonkak\Framework\Tests\Controller;
 
 use Emonkak\Framework\Exception\HttpServiceUnavailableException;
-use Symfony\Component\HttpFoundation\Response;
 
 class HttpServiceUnavailableExceptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetStatusCode()
     {
         $exception = new HttpServiceUnavailableException();
-        $this->assertSame(Response::HTTP_SERVICE_UNAVAILABLE, $exception->getStatusCode());
+        $this->assertSame(503, $exception->getStatusCode());
     }
 
     public function testGetHeaders()

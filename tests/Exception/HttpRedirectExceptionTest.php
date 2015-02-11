@@ -3,14 +3,13 @@
 namespace Emonkak\Framework\Tests\Controller;
 
 use Emonkak\Framework\Exception\HttpRedirectException;
-use Symfony\Component\HttpFoundation\Response;
 
 class HttpRedirectExceptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetStatusCode()
     {
         $exception = new HttpRedirectException('/path/to/redirect/');
-        $this->assertSame(Response::HTTP_FOUND, $exception->getStatusCode());
+        $this->assertSame(302, $exception->getStatusCode());
     }
 
     public function testGetHeaders()
@@ -21,14 +20,14 @@ class HttpRedirectExceptionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMessage()
     {
-        $exception = new HttpRedirectException('/path/to/redirect/', Response::HTTP_FOUND, 'redirect');
+        $exception = new HttpRedirectException('/path/to/redirect/', 302, 'redirect');
         $this->assertSame('redirect', $exception->getMessage());
     }
 
     public function testGetPrevious()
     {
         $previous = new \Exception();
-        $exception = new HttpRedirectException('/path/to/redirect/', Response::HTTP_FOUND, 'redirect', $previous);
+        $exception = new HttpRedirectException('/path/to/redirect/', 302, 'redirect', $previous);
         $this->assertSame($previous, $exception->getPrevious());
     }
 

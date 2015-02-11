@@ -3,14 +3,13 @@
 namespace Emonkak\Framework\Tests\Exception;
 
 use Emonkak\Framework\Exception\HttpUnauthorizedException;
-use Symfony\Component\HttpFoundation\Response;
 
 class HttpUnauthorizedExceptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetStatusCode()
     {
         $exception = new HttpUnauthorizedException('challenge');
-        $this->assertSame(Response::HTTP_UNAUTHORIZED, $exception->getStatusCode());
+        $this->assertSame(401, $exception->getStatusCode());
     }
 
     public function testGetHeaders()

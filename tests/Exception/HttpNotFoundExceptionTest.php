@@ -3,14 +3,13 @@
 namespace Emonkak\Framework\Tests\Controller;
 
 use Emonkak\Framework\Exception\HttpNotFoundException;
-use Symfony\Component\HttpFoundation\Response;
 
 class HttpNotFoundExceptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetStatusCode()
     {
         $exception = new HttpNotFoundException();
-        $this->assertSame(Response::HTTP_NOT_FOUND, $exception->getStatusCode());
+        $this->assertSame(404, $exception->getStatusCode());
     }
 
     public function testGetHeaders()

@@ -3,14 +3,13 @@
 namespace Emonkak\Framework\Tests\Controller;
 
 use Emonkak\Framework\Exception\HttpBadRequestException;
-use Symfony\Component\HttpFoundation\Response;
 
 class HttpBadRequestExceptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetStatusCode()
     {
         $exception = new HttpBadRequestException();
-        $this->assertSame(Response::HTTP_BAD_REQUEST, $exception->getStatusCode());
+        $this->assertSame(400, $exception->getStatusCode());
     }
 
     public function testGetHeaders()
