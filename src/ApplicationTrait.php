@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * An application facade trait.
  */
-trait Application
+trait ApplicationTrait
 {
     /**
      * Handles the given request.

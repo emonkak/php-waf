@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class AbstractApplication
 {
-    use Application {
+    use ApplicationTrait {
         handle as protected doHandle;
     }
 

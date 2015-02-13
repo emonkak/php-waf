@@ -2,13 +2,12 @@
 
 namespace Emonkak\Framework\Tests;
 
-use Emonkak\Framework\Application;
 use Emonkak\Framework\Exception\HttpException;
 use Emonkak\Framework\KernelInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ApplicationTest extends \PHPUnit_Framework_TestCase
+class ApplicationTraitTest extends \PHPUnit_Framework_TestCase
 {
     public function testHandle()
     {
@@ -78,7 +77,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
     private function createApplicationMock(KernelInterface $kernel)
     {
-        $application = $this->getMockForTrait('Emonkak\Framework\Application');
+        $application = $this->getMockForTrait('Emonkak\Framework\ApplicationTrait');
         $application
             ->expects($this->once())
             ->method('getKernel')
