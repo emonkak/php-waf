@@ -2,14 +2,31 @@
 
 namespace Emonkak\Waf\Controller;
 
+use Emonkak\Di\Annotation\Inject;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Templating\EngineInterface;
 
 /**
  * Represents a helper of template rendering.
  */
 trait TemplateRenderingHelper
 {
-    use TemplateEngineAware;
+    /**
+     * @var EngineInterface
+     */
+    protected $templateEngine;
+
+    /**
+     * Sets the template engine.
+     *
+     * @Inject
+     *
+     * @param EngineInterface $templateEngine
+     */
+    public function setTemplateEngine(EngineInterface $templateEngine)
+    {
+        $this->templateEngine = $templateEngine;
+    }
 
     /**
      * Renders a template.

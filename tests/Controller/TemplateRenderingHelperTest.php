@@ -11,6 +11,15 @@ class TemplateRenderingHelperTest extends \PHPUnit_Framework_TestCase
         $this->controller->setTemplateEngine($this->templateEngine);
     }
 
+    public function testSetTemplateEngine()
+    {
+        \Closure::bind(function() {
+            $templateEngine = $this->getMock('Symfony\Component\Templating\EngineInterface');
+            $this->controller->setTemplateEngine($templateEngine);
+            $this->assertSame($templateEngine, $this->controller->templateEngine);
+        }, $this, get_class($this->controller))->__invoke();
+    }
+
     public function testRender()
     {
         $name = 'path/to/template.php';
