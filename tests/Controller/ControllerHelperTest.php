@@ -1,14 +1,14 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Controller;
+namespace Emonkak\Waf\Tests\Controller;
 
-use Emonkak\Framework\Controller\ControllerHelper;
+use Emonkak\Waf\Controller\ControllerHelper;
 
 class ControllerHelperTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->controller = $this->getMockForTrait('Emonkak\Framework\Controller\ControllerHelper');
+        $this->controller = $this->getMockForTrait('Emonkak\Waf\Controller\ControllerHelper');
     }
 
     public function testHtml()

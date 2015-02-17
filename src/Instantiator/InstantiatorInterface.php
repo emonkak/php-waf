@@ -1,6 +1,6 @@
 <?php
 
-namespace Emonkak\Framework\Instantiator;
+namespace Emonkak\Waf\Instantiator;
 
 /**
  * Provides instantiating of any class.

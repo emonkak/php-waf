@@ -1,9 +1,9 @@
 <?php
 
-namespace Emonkak\Framework\Middleware;
+namespace Emonkak\Waf\Middleware;
 
-use Emonkak\Framework\Exception\HttpException;
-use Emonkak\Framework\KernelInterface;
+use Emonkak\Waf\Exception\HttpException;
+use Emonkak\Waf\KernelInterface;
 use Psr\Log\LogLevel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;

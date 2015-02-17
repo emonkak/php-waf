@@ -1,6 +1,6 @@
 <?php
 
-namespace Emonkak\Framework\Utils;
+namespace Emonkak\Waf\Utils;
 
 /**
  * Utilities for string.

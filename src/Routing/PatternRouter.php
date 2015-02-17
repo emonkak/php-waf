@@ -1,6 +1,6 @@
 <?php
 
-namespace Emonkak\Framework\Routing;
+namespace Emonkak\Waf\Routing;
 
 use Symfony\Component\HttpFoundation\Request;
 

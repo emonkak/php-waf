@@ -1,8 +1,8 @@
 <?php
 
-namespace Emonkak\Framework;
+namespace Emonkak\Waf;
 
-use Emonkak\Framework\Exception\HttpException;
+use Emonkak\Waf\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

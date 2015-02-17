@@ -1,12 +1,12 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Routing;
+namespace Emonkak\Waf\Tests\Routing;
 
-use Emonkak\Framework\Routing\NamespaceRouter;
-use Emonkak\Framework\Routing\PatternRouter;
-use Emonkak\Framework\Routing\RequestMatcherRouter;
-use Emonkak\Framework\Routing\ResourceRouter;
-use Emonkak\Framework\Routing\RouterBuilder;
+use Emonkak\Waf\Routing\NamespaceRouter;
+use Emonkak\Waf\Routing\PatternRouter;
+use Emonkak\Waf\Routing\RequestMatcherRouter;
+use Emonkak\Waf\Routing\ResourceRouter;
+use Emonkak\Waf\Routing\RouterBuilder;
 use Symfony\Component\HttpFoundation\RequestMatcher;
 
 class RouterBuilderTest extends \PHPUnit_Framework_TestCase
@@ -15,8 +15,8 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $builder = new RouterBuilder();
         $builder
-            ->add($mockRouter1 = $this->getMock('Emonkak\Framework\Routing\RouterInterface'))
-            ->add($mockRouter2 = $this->getMock('Emonkak\Framework\Routing\RouterInterface'));
+            ->add($mockRouter1 = $this->getMock('Emonkak\Waf\Routing\RouterInterface'))
+            ->add($mockRouter2 = $this->getMock('Emonkak\Waf\Routing\RouterInterface'));
 
         $routers = iterator_to_array($builder->build());
         $this->assertSame([$mockRouter1, $mockRouter2], $routers);
@@ -178,7 +178,7 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new RouterBuilder();
         $router = $builder->build();
 
-        $this->assertInstanceOf('Emonkak\Framework\Routing\RouterCollection', $router);
+        $this->assertInstanceOf('Emonkak\Waf\Routing\RouterCollection', $router);
     }
 
     public function testOptimized()
@@ -186,6 +186,6 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new RouterBuilder();
         $router = $builder->optimized();
 
-        $this->assertInstanceOf('Emonkak\Framework\Routing\OptimizedRouterCollection', $router);
+        $this->assertInstanceOf('Emonkak\Waf\Routing\OptimizedRouterCollection', $router);
     }
 }

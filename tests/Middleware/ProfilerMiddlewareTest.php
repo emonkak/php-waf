@@ -1,9 +1,9 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Middleware;
+namespace Emonkak\Waf\Tests\Middleware;
 
-use Emonkak\Framework\Exception\HttpException;
-use Emonkak\Framework\Middleware\ProfilerMiddleware;
+use Emonkak\Waf\Exception\HttpException;
+use Emonkak\Waf\Middleware\ProfilerMiddleware;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Profiler\Profile;
@@ -16,7 +16,7 @@ class ProfilerMiddlewareMiddlewareTest extends \PHPUnit_Framework_TestCase
         $response = new Response();
         $profile = new Profile('token');
 
-        $kernel = $this->getMock('Emonkak\Framework\KernelInterface');
+        $kernel = $this->getMock('Emonkak\Waf\KernelInterface');
         $kernel
             ->expects($this->once())
             ->method('handleRequest')
@@ -47,7 +47,7 @@ class ProfilerMiddlewareMiddlewareTest extends \PHPUnit_Framework_TestCase
         $profile = new Profile('token');
         $exception = new HttpException(404);
 
-        $kernel = $this->getMock('Emonkak\Framework\KernelInterface');
+        $kernel = $this->getMock('Emonkak\Waf\KernelInterface');
         $kernel
             ->expects($this->once())
             ->method('handleException')

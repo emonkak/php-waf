@@ -1,13 +1,13 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Controller;
+namespace Emonkak\Waf\Tests\Controller;
 
 class TemplateRenderingHelperTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         $this->templateEngine = $this->getMock('Symfony\Component\Templating\EngineInterface');
-        $this->controller = $this->getMockForTrait('Emonkak\Framework\Controller\TemplateRenderingHelper');
+        $this->controller = $this->getMockForTrait('Emonkak\Waf\Controller\TemplateRenderingHelper');
         $this->controller->setTemplateEngine($this->templateEngine);
     }
 

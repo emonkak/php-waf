@@ -1,9 +1,9 @@
 <?php
 
-namespace Emonkak\Framework\Middleware;
+namespace Emonkak\Waf\Middleware;
 
-use Emonkak\Framework\Exception\HttpException;
-use Emonkak\Framework\KernelInterface;
+use Emonkak\Waf\Exception\HttpException;
+use Emonkak\Waf\KernelInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Profiler\Profiler;
 

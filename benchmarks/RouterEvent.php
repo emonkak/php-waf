@@ -1,11 +1,11 @@
 <?php
 
-namespace Emonkak\Framework\Benchmarks;
+namespace Emonkak\Waf\Benchmarks;
 
 use Athletic\AthleticEvent;
-use Emonkak\Framework\Routing\NamespaceRouter;
-use Emonkak\Framework\Routing\OptimizedRouterCollection;
-use Emonkak\Framework\Routing\RouterCollection;
+use Emonkak\Waf\Routing\NamespaceRouter;
+use Emonkak\Waf\Routing\OptimizedRouterCollection;
+use Emonkak\Waf\Routing\RouterCollection;
 use Symfony\Component\HttpFoundation\Request;
 
 class RouterEvent extends AthleticEvent

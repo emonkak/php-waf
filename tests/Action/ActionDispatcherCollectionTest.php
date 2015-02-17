@@ -1,9 +1,9 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Action;
+namespace Emonkak\Waf\Tests\Action;
 
-use Emonkak\Framework\Action\ActionDispatcherCollection;
-use Emonkak\Framework\Routing\MatchedRoute;
+use Emonkak\Waf\Action\ActionDispatcherCollection;
+use Emonkak\Waf\Routing\MatchedRoute;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,7 +16,7 @@ class ActionDispatcherCollectionTest extends \PHPUnit_Framework_TestCase
         $controller = new \StdClass();
         $response = new Response();
 
-        $dispatcher1 = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');
+        $dispatcher1 = $this->getMock('Emonkak\Waf\Action\ActionDispatcherInterface');
         $dispatcher1
             ->expects($this->once())
             ->method('canDispatch')
@@ -30,7 +30,7 @@ class ActionDispatcherCollectionTest extends \PHPUnit_Framework_TestCase
             ->expects($this->never())
             ->method('dispatch');
 
-        $dispatcher2 = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');
+        $dispatcher2 = $this->getMock('Emonkak\Waf\Action\ActionDispatcherInterface');
         $dispatcher2
             ->expects($this->once())
             ->method('canDispatch')
@@ -50,7 +50,7 @@ class ActionDispatcherCollectionTest extends \PHPUnit_Framework_TestCase
             )
             ->willReturn($response);
 
-        $dispatcher3 = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');
+        $dispatcher3 = $this->getMock('Emonkak\Waf\Action\ActionDispatcherInterface');
         $dispatcher3
             ->expects($this->never())
             ->method('canDispatch');
@@ -81,7 +81,7 @@ class ActionDispatcherCollectionTest extends \PHPUnit_Framework_TestCase
         $match = new MatchedRoute('StdClass', 'index', []);
         $controller = new \StdClass();
 
-        $dispatcher1 = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');
+        $dispatcher1 = $this->getMock('Emonkak\Waf\Action\ActionDispatcherInterface');
         $dispatcher1
             ->expects($this->once())
             ->method('canDispatch')
@@ -92,7 +92,7 @@ class ActionDispatcherCollectionTest extends \PHPUnit_Framework_TestCase
             )
             ->willReturn(false);
 
-        $dispatcher2 = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');
+        $dispatcher2 = $this->getMock('Emonkak\Waf\Action\ActionDispatcherInterface');
         $dispatcher2
             ->expects($this->once())
             ->method('canDispatch')
@@ -103,7 +103,7 @@ class ActionDispatcherCollectionTest extends \PHPUnit_Framework_TestCase
             )
             ->willReturn(true);
 
-        $dispatcher3 = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');
+        $dispatcher3 = $this->getMock('Emonkak\Waf\Action\ActionDispatcherInterface');
         $dispatcher3
             ->expects($this->never())
             ->method('canDispatch');
@@ -121,9 +121,9 @@ class ActionDispatcherCollectionTest extends \PHPUnit_Framework_TestCase
         $match = new MatchedRoute('StdClass', 'index', []);
         $controller = new \StdClass();
 
-        $dispatcher1 = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');
-        $dispatcher2 = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');
-        $dispatcher3 = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');
+        $dispatcher1 = $this->getMock('Emonkak\Waf\Action\ActionDispatcherInterface');
+        $dispatcher2 = $this->getMock('Emonkak\Waf\Action\ActionDispatcherInterface');
+        $dispatcher3 = $this->getMock('Emonkak\Waf\Action\ActionDispatcherInterface');
 
         $collection = new ActionDispatcherCollection([$dispatcher1, $dispatcher2, $dispatcher3]);
         $this->assertSame([$dispatcher1, $dispatcher2, $dispatcher3], iterator_to_array($collection));

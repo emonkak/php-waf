@@ -1,12 +1,12 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Instantiator;
+namespace Emonkak\Waf\Tests\Instantiator;
 
 use Doctrine\Common\Cache\ArrayCache;
 use Emonkak\Di\Container;
 use Emonkak\Di\InjectionPolicy\DefaultInjectionPolicy;
 use Emonkak\Di\Value\ImmediateValue;
-use Emonkak\Framework\Instantiator\ContainerInstantiator;
+use Emonkak\Waf\Instantiator\ContainerInstantiator;
 
 class ContainerInstantiatorTest extends \PHPUnit_Framework_TestCase
 {

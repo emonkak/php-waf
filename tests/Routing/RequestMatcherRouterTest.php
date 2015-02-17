@@ -1,8 +1,8 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Routing;
+namespace Emonkak\Waf\Tests\Routing;
 
-use Emonkak\Framework\Routing\RequestMatcherRouter;
+use Emonkak\Waf\Routing\RequestMatcherRouter;
 use Symfony\Component\HttpFoundation\Request;
 
 class RequestMatcherRouterTest extends \PHPUnit_Framework_TestCase
@@ -17,7 +17,7 @@ class RequestMatcherRouterTest extends \PHPUnit_Framework_TestCase
 
         $expectedResult = new \StdClass();
 
-        $innerRouter = $this->getMock('Emonkak\Framework\Routing\RouterInterface');
+        $innerRouter = $this->getMock('Emonkak\Waf\Routing\RouterInterface');
         $innerRouter
             ->expects($this->once())
             ->method('match')
@@ -37,7 +37,7 @@ class RequestMatcherRouterTest extends \PHPUnit_Framework_TestCase
             ->method('matches')
             ->willReturn(false);
 
-        $innerRouter = $this->getMock('Emonkak\Framework\Routing\RouterInterface');
+        $innerRouter = $this->getMock('Emonkak\Waf\Routing\RouterInterface');
         $innerRouter
             ->expects($this->never())
             ->method('match');
@@ -52,7 +52,7 @@ class RequestMatcherRouterTest extends \PHPUnit_Framework_TestCase
     {
         $matcher = $this->getMock('Symfony\Component\HttpFoundation\RequestMatcherInterface');
 
-        $innerRouter = $this->getMock('Emonkak\Framework\Routing\RouterInterface');
+        $innerRouter = $this->getMock('Emonkak\Waf\Routing\RouterInterface');
         $innerRouter
             ->expects($this->once())
             ->method('getPattern')

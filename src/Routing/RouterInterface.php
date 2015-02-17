@@ -1,8 +1,8 @@
 <?php
 
-namespace Emonkak\Framework\Routing;
+namespace Emonkak\Waf\Routing;
 
-use Emonkak\Framework\Exception\HttpException;
+use Emonkak\Waf\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

@@ -1,10 +1,10 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Routing
+namespace Emonkak\Waf\Tests\Routing
 {
-    use Emonkak\Framework\Exception\HttpNotFoundException;
-    use Emonkak\Framework\Exception\HttpRedirectException;
-    use Emonkak\Framework\Routing\ResourceRouter;
+    use Emonkak\Waf\Exception\HttpNotFoundException;
+    use Emonkak\Waf\Exception\HttpRedirectException;
+    use Emonkak\Waf\Routing\ResourceRouter;
     use Symfony\Component\HttpFoundation\Request;
 
     class ResourceRouterTest extends \PHPUnit_Framework_TestCase
@@ -27,16 +27,16 @@ namespace Emonkak\Framework\Tests\Routing
         public function provideMatch()
         {
             return [
-                ['/',                    '/',     'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', 'index', []],
-                ['/123',                 '/',     'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', 'show', ['123']],
-                ['/123/',                '/',     'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', 'index', ['123']],
-                ['/123/edit',            '/',     'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', 'edit', ['123']],
-                ['/123/between/456',     '/',     'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', 'between', ['123', '456']],
-                ['/foo/',                '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', 'index', []],
-                ['/foo/123',             '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', 'show', ['123']],
-                ['/foo/123/',            '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', 'index', ['123']],
-                ['/foo/123/edit',        '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', 'edit', ['123']],
-                ['/foo/123/between/456', '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', 'between', ['123', '456']],
+                ['/',                    '/',     'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'index', []],
+                ['/123',                 '/',     'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'show', ['123']],
+                ['/123/',                '/',     'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'index', ['123']],
+                ['/123/edit',            '/',     'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'edit', ['123']],
+                ['/123/between/456',     '/',     'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'between', ['123', '456']],
+                ['/foo/',                '/foo/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'index', []],
+                ['/foo/123',             '/foo/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'show', ['123']],
+                ['/foo/123/',            '/foo/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'index', ['123']],
+                ['/foo/123/edit',        '/foo/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'edit', ['123']],
+                ['/foo/123/between/456', '/foo/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'between', ['123', '456']],
             ];
         }
 
@@ -53,15 +53,15 @@ namespace Emonkak\Framework\Tests\Routing
         public function provideMatchReturnsNull()
         {
             return [
-                ['/',     '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController'],
-                ['/FOO',  '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController'],
-                ['/FOO/', '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController'],
-                ['/bar/', '/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController'],
+                ['/',     '/foo/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController'],
+                ['/FOO',  '/foo/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController'],
+                ['/FOO/', '/foo/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController'],
+                ['/bar/', '/foo/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController'],
             ];
         }
 
         /**
-         * @expectedException Emonkak\Framework\Exception\HttpRedirectException
+         * @expectedException Emonkak\Waf\Exception\HttpRedirectException
          * @dataProvider provideMatchHttpRedirectException
          */
         public function testMatchThrowsHttpRedirectException($path, $prefix, $controller, $expectedLocation)
@@ -81,8 +81,8 @@ namespace Emonkak\Framework\Tests\Routing
         public function provideMatchHttpRedirectException()
         {
             return [
-                ['/foo',     '/foo/',     'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', '/foo/'],
-                ['/foo/bar', '/foo/bar/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', '/foo/bar/'],
+                ['/foo',     '/foo/',     'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', '/foo/'],
+                ['/foo/bar', '/foo/bar/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', '/foo/bar/'],
             ];
         }
 
@@ -98,14 +98,14 @@ namespace Emonkak\Framework\Tests\Routing
         public function provideGetPattern()
         {
             return [
-                ['/foo/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', '/foo/'],
-                ['/foo/.*/', 'Emonkak\Framework\Tests\Routing\ResourceRouterTest\FooController', '/foo/\\.\\*/'],
+                ['/foo/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', '/foo/'],
+                ['/foo/.*/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', '/foo/\\.\\*/'],
             ];
         }
     }
 }
 
-namespace Emonkak\Framework\Tests\Routing\ResourceRouterTest
+namespace Emonkak\Waf\Tests\Routing\ResourceRouterTest
 {
     class FooController
     {

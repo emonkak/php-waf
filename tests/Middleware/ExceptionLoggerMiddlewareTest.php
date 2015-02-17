@@ -1,15 +1,15 @@
 <?php
 
-namespace Emonkak\Framework\Middleware;
+namespace Emonkak\Waf\Middleware;
 
-use Emonkak\Framework\Exception\HttpBadRequestException;
-use Emonkak\Framework\Exception\HttpException;
-use Emonkak\Framework\Exception\HttpForbiddenException;
-use Emonkak\Framework\Exception\HttpInternalServerErrorException;
-use Emonkak\Framework\Exception\HttpNotFoundException;
-use Emonkak\Framework\Exception\HttpRedirectException;
-use Emonkak\Framework\Exception\HttpServiceUnavailableException;
-use Emonkak\Framework\Middleware\ExceptionLoggerMiddleware;
+use Emonkak\Waf\Exception\HttpBadRequestException;
+use Emonkak\Waf\Exception\HttpException;
+use Emonkak\Waf\Exception\HttpForbiddenException;
+use Emonkak\Waf\Exception\HttpInternalServerErrorException;
+use Emonkak\Waf\Exception\HttpNotFoundException;
+use Emonkak\Waf\Exception\HttpRedirectException;
+use Emonkak\Waf\Exception\HttpServiceUnavailableException;
+use Emonkak\Waf\Middleware\ExceptionLoggerMiddleware;
 use Psr\Log\LogLevel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +21,7 @@ class ExceptionLoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $response = new Response();
 
-        $kernel = $this->getMock('Emonkak\Framework\KernelInterface');
+        $kernel = $this->getMock('Emonkak\Waf\KernelInterface');
         $kernel
             ->expects($this->once())
             ->method('handleRequest')
@@ -42,7 +42,7 @@ class ExceptionLoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $response = new Response();
 
-        $kernel = $this->getMock('Emonkak\Framework\KernelInterface');
+        $kernel = $this->getMock('Emonkak\Waf\KernelInterface');
         $kernel
             ->expects($this->once())
             ->method('handleException')
@@ -90,7 +90,7 @@ class ExceptionLoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $response = new Response();
 
-        $kernel = $this->getMock('Emonkak\Framework\KernelInterface');
+        $kernel = $this->getMock('Emonkak\Waf\KernelInterface');
         $kernel
             ->expects($this->once())
             ->method('handleException')

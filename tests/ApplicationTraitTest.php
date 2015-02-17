@@ -1,9 +1,10 @@
 <?php
 
-namespace Emonkak\Framework\Tests;
+namespace Emonkak\Waf\Tests;
 
-use Emonkak\Framework\Exception\HttpException;
-use Emonkak\Framework\KernelInterface;
+use Emonkak\Waf\Application;
+use Emonkak\Waf\Exception\HttpException;
+use Emonkak\Waf\KernelInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,7 +15,7 @@ class ApplicationTraitTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $response = new Response();
 
-        $kernel = $this->getMock('Emonkak\Framework\KernelInterface');
+        $kernel = $this->getMock('Emonkak\Waf\KernelInterface');
         $kernel
             ->expects($this->once())
             ->method('handleRequest')
@@ -34,7 +35,7 @@ class ApplicationTraitTest extends \PHPUnit_Framework_TestCase
         $response = new Response();
         $exception = new HttpException(200);
 
-        $kernel = $this->getMock('Emonkak\Framework\KernelInterface');
+        $kernel = $this->getMock('Emonkak\Waf\KernelInterface');
         $kernel
             ->expects($this->once())
             ->method('handleRequest')
@@ -56,7 +57,7 @@ class ApplicationTraitTest extends \PHPUnit_Framework_TestCase
         $response = new Response();
         $exception = new \Exception();
 
-        $kernel = $this->getMock('Emonkak\Framework\KernelInterface');
+        $kernel = $this->getMock('Emonkak\Waf\KernelInterface');
         $kernel
             ->expects($this->once())
             ->method('handleRequest')
@@ -67,7 +68,7 @@ class ApplicationTraitTest extends \PHPUnit_Framework_TestCase
             ->method('handleException')
             ->with(
                 $this->identicalTo($request),
-                $this->isInstanceOf('Emonkak\Framework\Exception\HttpInternalServerErrorException')
+                $this->isInstanceOf('Emonkak\Waf\Exception\HttpInternalServerErrorException')
             )
             ->willReturn($response);
 
@@ -77,7 +78,7 @@ class ApplicationTraitTest extends \PHPUnit_Framework_TestCase
 
     private function createApplicationMock(KernelInterface $kernel)
     {
-        $application = $this->getMockForTrait('Emonkak\Framework\ApplicationTrait');
+        $application = $this->getMockForTrait('Emonkak\Waf\ApplicationTrait');
         $application
             ->expects($this->once())
             ->method('getKernel')

@@ -1,12 +1,12 @@
 <?php
 
-namespace Emonkak\Framework\Action;
+namespace Emonkak\Waf\Action;
 
-use Emonkak\Framework\Exception\HttpBadRequestException;
-use Emonkak\Framework\Exception\HttpNotFoundException;
-use Emonkak\Framework\Routing\MatchedRoute;
-use Emonkak\Framework\Utils\ReflectionUtils;
-use Emonkak\Framework\Utils\StringUtils;
+use Emonkak\Waf\Exception\HttpBadRequestException;
+use Emonkak\Waf\Exception\HttpNotFoundException;
+use Emonkak\Waf\Routing\MatchedRoute;
+use Emonkak\Waf\Utils\ReflectionUtils;
+use Emonkak\Waf\Utils\StringUtils;
 use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractActionDispatcher implements ActionDispatcherInterface

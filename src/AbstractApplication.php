@@ -1,11 +1,11 @@
 <?php
 
-namespace Emonkak\Framework;
+namespace Emonkak\Waf;
 
 use Emonkak\Di\Container;
 use Emonkak\Di\ContainerInterface;
-use Emonkak\Framework\Exception\HttpException;
-use Emonkak\Framework\Exception\HttpInternalServerErrorException;
+use Emonkak\Waf\Exception\HttpException;
+use Emonkak\Waf\Exception\HttpInternalServerErrorException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -81,7 +81,7 @@ abstract class AbstractApplication
      */
     protected function getKernel()
     {
-        return $this->container->getInstance('Emonkak\Framework\KernelInterface');
+        return $this->container->getInstance('Emonkak\Waf\KernelInterface');
     }
 
     /**

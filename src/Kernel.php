@@ -1,14 +1,14 @@
 <?php
 
-namespace Emonkak\Framework;
+namespace Emonkak\Waf;
 
-use Emonkak\Framework\Action\ActionDispatcherInterface;
-use Emonkak\Framework\Action\NullActionDispatcher;
-use Emonkak\Framework\Exception\HttpException;
-use Emonkak\Framework\Exception\HttpInternalServerErrorException;
-use Emonkak\Framework\Exception\HttpNotFoundException;
-use Emonkak\Framework\Instantiator\InstantiatorInterface;
-use Emonkak\Framework\Routing\RouterInterface;
+use Emonkak\Waf\Action\ActionDispatcherInterface;
+use Emonkak\Waf\Action\NullActionDispatcher;
+use Emonkak\Waf\Exception\HttpException;
+use Emonkak\Waf\Exception\HttpInternalServerErrorException;
+use Emonkak\Waf\Exception\HttpNotFoundException;
+use Emonkak\Waf\Instantiator\InstantiatorInterface;
+use Emonkak\Waf\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

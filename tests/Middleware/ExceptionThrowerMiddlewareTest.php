@@ -1,9 +1,9 @@
 <?php
 
-namespace Emonkak\Framework\Middleware;
+namespace Emonkak\Waf\Middleware;
 
-use Emonkak\Framework\Exception\HttpException;
-use Emonkak\Framework\Middleware\ExceptionThrowerMiddleware;
+use Emonkak\Waf\Exception\HttpException;
+use Emonkak\Waf\Middleware\ExceptionThrowerMiddleware;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,7 +14,7 @@ class ExceptionThrowerMiddlewareTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $response = new Response();
 
-        $kernel = $this->getMock('Emonkak\Framework\KernelInterface');
+        $kernel = $this->getMock('Emonkak\Waf\KernelInterface');
         $kernel
             ->expects($this->once())
             ->method('handleRequest')
@@ -34,7 +34,7 @@ class ExceptionThrowerMiddlewareTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $response = new Response();
 
-        $kernel = $this->getMock('Emonkak\Framework\KernelInterface');
+        $kernel = $this->getMock('Emonkak\Waf\KernelInterface');
         $kernel
             ->expects($this->once())
             ->method('handleException')
@@ -58,13 +58,13 @@ class ExceptionThrowerMiddlewareTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider provideHandleExceptionThrowsHttpException
-     * @expectedException Emonkak\Framework\Exception\HttpException
+     * @expectedException Emonkak\Waf\Exception\HttpException
      */
     public function testHandleExceptionThrowsHttpException(HttpException $exception, $allow)
     {
         $request = new Request();
 
-        $kernel = $this->getMock('Emonkak\Framework\KernelInterface');
+        $kernel = $this->getMock('Emonkak\Waf\KernelInterface');
         $kernel = new ExceptionThrowerMiddleware($kernel);
 
         $allow($kernel);

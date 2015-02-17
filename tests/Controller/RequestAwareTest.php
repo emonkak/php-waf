@@ -1,15 +1,15 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Controller;
+namespace Emonkak\Waf\Tests\Controller;
 
-use Emonkak\Framework\Controller\RequestAware;
+use Emonkak\Waf\Controller\RequestAware;
 use Symfony\Component\HttpFoundation\Request;
 
 class RequestAwareTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->controller = $this->getMockForTrait('Emonkak\Framework\Controller\RequestAware');
+        $this->controller = $this->getMockForTrait('Emonkak\Waf\Controller\RequestAware');
     }
 
     public function testSetTemplateEngine()

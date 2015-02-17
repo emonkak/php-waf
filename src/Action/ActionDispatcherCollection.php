@@ -1,8 +1,8 @@
 <?php
 
-namespace Emonkak\Framework\Action;
+namespace Emonkak\Waf\Action;
 
-use Emonkak\Framework\Routing\MatchedRoute;
+use Emonkak\Waf\Routing\MatchedRoute;
 use Symfony\Component\HttpFoundation\Request;
 
 class ActionDispatcherCollection implements ActionDispatcherInterface, \IteratorAggregate

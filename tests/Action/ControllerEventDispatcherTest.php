@@ -1,9 +1,9 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Action;
+namespace Emonkak\Waf\Tests\Action;
 
-use Emonkak\Framework\Action\ControllerEventDispatcher;
-use Emonkak\Framework\Routing\MatchedRoute;
+use Emonkak\Waf\Action\ControllerEventDispatcher;
+use Emonkak\Waf\Routing\MatchedRoute;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,7 +14,7 @@ class ControllerEventDispatcherTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $response = new Response();
 
-        $controllerMock = $this->getMock('Emonkak\Framework\Controller\ControllerEventListenerInterface');
+        $controllerMock = $this->getMock('Emonkak\Waf\Controller\ControllerEventListenerInterface');
         $controllerMock
             ->expects($this->once())
             ->method('onRequest')
@@ -24,7 +24,7 @@ class ControllerEventDispatcherTest extends \PHPUnit_Framework_TestCase
             ->method('onResponse')
             ->with($this->identicalTo($request), $this->identicalTo($response));
 
-        $dispatcherMock = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');
+        $dispatcherMock = $this->getMock('Emonkak\Waf\Action\ActionDispatcherInterface');
 
         $match = new MatchedRoute(get_class($dispatcherMock), 'index', []);
 
@@ -47,7 +47,7 @@ class ControllerEventDispatcherTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $response = new Response();
 
-        $controllerMock = $this->getMock('Emonkak\Framework\Controller\ControllerEventListenerInterface');
+        $controllerMock = $this->getMock('Emonkak\Waf\Controller\ControllerEventListenerInterface');
         $controllerMock
             ->expects($this->once())
             ->method('onRequest')
@@ -57,7 +57,7 @@ class ControllerEventDispatcherTest extends \PHPUnit_Framework_TestCase
             ->expects($this->never())
             ->method('onResponse');
 
-        $dispatcherMock = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');
+        $dispatcherMock = $this->getMock('Emonkak\Waf\Action\ActionDispatcherInterface');
         $dispatcherMock
             ->expects($this->never())
             ->method('dispatch');
@@ -74,7 +74,7 @@ class ControllerEventDispatcherTest extends \PHPUnit_Framework_TestCase
         $response1 = new Response();
         $response2 = new Response();
 
-        $controllerMock = $this->getMock('Emonkak\Framework\Controller\ControllerEventListenerInterface');
+        $controllerMock = $this->getMock('Emonkak\Waf\Controller\ControllerEventListenerInterface');
         $controllerMock
             ->expects($this->once())
             ->method('onRequest')
@@ -85,7 +85,7 @@ class ControllerEventDispatcherTest extends \PHPUnit_Framework_TestCase
             ->with($this->identicalTo($request), $this->identicalTo($response1))
             ->willReturn($response2);
 
-        $dispatcherMock = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');
+        $dispatcherMock = $this->getMock('Emonkak\Waf\Action\ActionDispatcherInterface');
 
         $match = new MatchedRoute(get_class($dispatcherMock), 'index', []);
 
@@ -109,7 +109,7 @@ class ControllerEventDispatcherTest extends \PHPUnit_Framework_TestCase
         $match = new MatchedRoute('StdClass', 'index', []);
         $controller = new \StdClass();
 
-        $dispatcherMock = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface');
+        $dispatcherMock = $this->getMock('Emonkak\Waf\Action\ActionDispatcherInterface');
         $dispatcherMock
             ->expects($this->at(0))
             ->method('canDispatch')

@@ -1,6 +1,6 @@
 <?php
 
-namespace Emonkak\Framework\Exception;
+namespace Emonkak\Waf\Exception;
 
 /**
  * Represents 400 Bad Request.

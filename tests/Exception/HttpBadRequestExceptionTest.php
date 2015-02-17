@@ -1,8 +1,8 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Controller;
+namespace Emonkak\Waf\Tests\Controller;
 
-use Emonkak\Framework\Exception\HttpBadRequestException;
+use Emonkak\Waf\Exception\HttpBadRequestException;
 
 class HttpBadRequestExceptionTest extends \PHPUnit_Framework_TestCase
 {

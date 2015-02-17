@@ -1,8 +1,8 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Controller;
+namespace Emonkak\Waf\Tests\Controller;
 
-use Emonkak\Framework\Exception\HttpNotFoundException;
+use Emonkak\Waf\Exception\HttpNotFoundException;
 
 class HttpNotFoundExceptionTest extends \PHPUnit_Framework_TestCase
 {

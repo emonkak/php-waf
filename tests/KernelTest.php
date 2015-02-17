@@ -1,10 +1,10 @@
 <?php
 
-namespace Emonkak\Framework\Tests;
+namespace Emonkak\Waf\Tests;
 
-use Emonkak\Framework\Exception\HttpException;
-use Emonkak\Framework\Kernel;
-use Emonkak\Framework\Routing\MatchedRoute;
+use Emonkak\Waf\Exception\HttpException;
+use Emonkak\Waf\Kernel;
+use Emonkak\Waf\Routing\MatchedRoute;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,9 +13,9 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->kernel = new Kernel(
-            $this->router = $this->getMock('Emonkak\Framework\Routing\RouterInterface'),
-            $this->instantiator = $this->getMock('Emonkak\Framework\Instantiator\InstantiatorInterface'),
-            $this->actionDispatcher = $this->getMock('Emonkak\Framework\Action\ActionDispatcherInterface')
+            $this->router = $this->getMock('Emonkak\Waf\Routing\RouterInterface'),
+            $this->instantiator = $this->getMock('Emonkak\Waf\Instantiator\InstantiatorInterface'),
+            $this->actionDispatcher = $this->getMock('Emonkak\Waf\Action\ActionDispatcherInterface')
         );
     }
 
@@ -52,7 +52,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Emonkak\Framework\Exception\HttpNotFoundException
+     * @expectedException Emonkak\Waf\Exception\HttpNotFoundException
      */
     public function testHandleRequestThrowsHttpNotfoundException()
     {

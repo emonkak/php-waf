@@ -1,6 +1,6 @@
 <?php
 
-namespace Emonkak\Framework\Controller;
+namespace Emonkak\Waf\Controller;
 
 use Emonkak\Di\Annotation\Inject;
 use Symfony\Component\Templating\EngineInterface;

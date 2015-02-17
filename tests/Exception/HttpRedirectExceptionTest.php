@@ -1,8 +1,8 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Controller;
+namespace Emonkak\Waf\Tests\Controller;
 
-use Emonkak\Framework\Exception\HttpRedirectException;
+use Emonkak\Waf\Exception\HttpRedirectException;
 
 class HttpRedirectExceptionTest extends \PHPUnit_Framework_TestCase
 {

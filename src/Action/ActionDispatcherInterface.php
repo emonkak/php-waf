@@ -1,9 +1,9 @@
 <?php
 
-namespace Emonkak\Framework\Action;
+namespace Emonkak\Waf\Action;
 
-use Emonkak\Framework\Exception\HttpException;
-use Emonkak\Framework\Routing\MatchedRoute;
+use Emonkak\Waf\Exception\HttpException;
+use Emonkak\Waf\Routing\MatchedRoute;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace Emonkak\Framework\Tests;
+namespace Emonkak\Waf\Tests;
 
 use Emonkak\Di\Container;
-use Emonkak\Framework\AbstractApplication;
+use Emonkak\Waf\AbstractApplication;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -17,7 +17,7 @@ class AbstractApplicationTest extends \PHPUnit_Framework_TestCase
             $config = ['foo' => 'bar'];
             $container = Container::create();
 
-            $application = $this->getMockBuilder('Emonkak\Framework\AbstractApplication')
+            $application = $this->getMockBuilder('Emonkak\Waf\AbstractApplication')
                 ->disableOriginalConstructor()
                 ->setMethods(['doBoot', 'prepareContainer'])
                 ->getMock();
@@ -35,7 +35,7 @@ class AbstractApplicationTest extends \PHPUnit_Framework_TestCase
             $this->assertSame($container, $application->container);
 
             $application->boot();
-        }, $this, 'Emonkak\Framework\AbstractApplication')->__invoke();
+        }, $this, 'Emonkak\Waf\AbstractApplication')->__invoke();
     }
 
     public function testHandle()
@@ -44,7 +44,7 @@ class AbstractApplicationTest extends \PHPUnit_Framework_TestCase
         $response = new Response();
         $session = new Session();
 
-        $kernel = $this->getMock('Emonkak\Framework\KernelInterface');
+        $kernel = $this->getMock('Emonkak\Waf\KernelInterface');
         $kernel
             ->expects($this->any())
             ->method('handleRequest')
@@ -53,9 +53,9 @@ class AbstractApplicationTest extends \PHPUnit_Framework_TestCase
 
         $container = Container::create();
         $container->set('Symfony\Component\HttpFoundation\Session\SessionInterface', $session);
-        $container->set('Emonkak\Framework\KernelInterface', $kernel);
+        $container->set('Emonkak\Waf\KernelInterface', $kernel);
 
-        $application = $this->getMockBuilder('Emonkak\Framework\AbstractApplication')
+        $application = $this->getMockBuilder('Emonkak\Waf\AbstractApplication')
            ->disableOriginalConstructor()
            ->setMethods(['doBoot', 'prepareContainer'])
            ->getMock();

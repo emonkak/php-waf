@@ -1,8 +1,8 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Controller;
+namespace Emonkak\Waf\Tests\Controller;
 
-use Emonkak\Framework\Exception\HttpForbiddenException;
+use Emonkak\Waf\Exception\HttpForbiddenException;
 
 class HttpForbiddenExceptionTest extends \PHPUnit_Framework_TestCase
 {

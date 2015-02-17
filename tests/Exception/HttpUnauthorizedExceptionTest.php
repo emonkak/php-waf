@@ -1,8 +1,8 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Exception;
+namespace Emonkak\Waf\Tests\Exception;
 
-use Emonkak\Framework\Exception\HttpUnauthorizedException;
+use Emonkak\Waf\Exception\HttpUnauthorizedException;
 
 class HttpUnauthorizedExceptionTest extends \PHPUnit_Framework_TestCase
 {

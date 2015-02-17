@@ -1,9 +1,9 @@
 <?php
 
-namespace Emonkak\Framework;
+namespace Emonkak\Waf;
 
-use Emonkak\Framework\Exception\HttpException;
-use Emonkak\Framework\Exception\HttpInternalServerErrorException;
+use Emonkak\Waf\Exception\HttpException;
+use Emonkak\Waf\Exception\HttpInternalServerErrorException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

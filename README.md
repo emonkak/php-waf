@@ -1,7 +1,7 @@
-# Emonkak/Framework
+# Emonkak/Waf
 
-[![Build Status](https://travis-ci.org/emonkak/php-framework.png)](https://travis-ci.org/emonkak/php-framework)
-[![Coverage Status](https://coveralls.io/repos/emonkak/php-framework/badge.png)](https://coveralls.io/r/emonkak/php-framework)
+[![Build Status](https://travis-ci.org/emonkak/php-waf.png)](https://travis-ci.org/emonkak/php-waf)
+[![Coverage Status](https://coveralls.io/repos/emonkak/php-waf/badge.png)](https://coveralls.io/r/emonkak/php-waf)
 
 ## Licence
 

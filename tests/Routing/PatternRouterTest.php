@@ -1,8 +1,8 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Routing
+namespace Emonkak\Waf\Tests\Routing
 {
-    use Emonkak\Framework\Routing\PatternRouter;
+    use Emonkak\Waf\Routing\PatternRouter;
     use Symfony\Component\HttpFoundation\Request;
 
     class PatternRouterTest extends \PHPUnit_Framework_TestCase
@@ -25,10 +25,10 @@ namespace Emonkak\Framework\Tests\Routing
         public function provideMatch()
         {
             return [
-                ['/test/',                '/test/',                    'Emonkak\Framework\Tests\Routing\PatternRouter\FooController', 'index', []],
-                ['/test/show/123',        '/test/show/(\d+)',          'Emonkak\Framework\Tests\Routing\PatternRouter\FooController', 'show', ['123']],
-                ['/test/page/p123',       '/test/page/p(\d+)',         'Emonkak\Framework\Tests\Routing\PatternRouter\FooController', 'page', ['123']],
-                ['/test/between/123/456', '/test/between/(\d+)/(\d+)', 'Emonkak\Framework\Tests\Routing\PatternRouter\FooController', 'between', ['123', '456']],
+                ['/test/',                '/test/',                    'Emonkak\Waf\Tests\Routing\PatternRouter\FooController', 'index', []],
+                ['/test/show/123',        '/test/show/(\d+)',          'Emonkak\Waf\Tests\Routing\PatternRouter\FooController', 'show', ['123']],
+                ['/test/page/p123',       '/test/page/p(\d+)',         'Emonkak\Waf\Tests\Routing\PatternRouter\FooController', 'page', ['123']],
+                ['/test/between/123/456', '/test/between/(\d+)/(\d+)', 'Emonkak\Waf\Tests\Routing\PatternRouter\FooController', 'between', ['123', '456']],
             ];
         }
 
@@ -47,10 +47,10 @@ namespace Emonkak\Framework\Tests\Routing
         public function provideMatchReturnsNull()
         {
             return [
-                ['/test',             '/test/',                    'Emonkak\Framework\Tests\Routing\PatternRouter\FooController', 'index'],
-                ['/test/show/foo',    '/test/show/(\d+)',          'Emonkak\Framework\Tests\Routing\PatternRouter\FooController', 'show'],
-                ['/test/page/123',    '/test/page/p(\d+)',         'Emonkak\Framework\Tests\Routing\PatternRouter\FooController', 'page'],
-                ['/test/between/123', '/test/between/(\d+)/(\d+)', 'Emonkak\Framework\Tests\Routing\PatternRouter\FooController', 'between'],
+                ['/test',             '/test/',                    'Emonkak\Waf\Tests\Routing\PatternRouter\FooController', 'index'],
+                ['/test/show/foo',    '/test/show/(\d+)',          'Emonkak\Waf\Tests\Routing\PatternRouter\FooController', 'show'],
+                ['/test/page/123',    '/test/page/p(\d+)',         'Emonkak\Waf\Tests\Routing\PatternRouter\FooController', 'page'],
+                ['/test/between/123', '/test/between/(\d+)/(\d+)', 'Emonkak\Waf\Tests\Routing\PatternRouter\FooController', 'between'],
             ];
         }
 
@@ -66,14 +66,14 @@ namespace Emonkak\Framework\Tests\Routing
         public function provideGetPattern()
         {
             return [
-                ['/foo/', 'Emonkak\Framework\Tests\Routing\PatternRouterTest\FooController', 'index'],
-                ['/foo/(.*?)/', 'Emonkak\Framework\Tests\Routing\PatternRouterTest\FooController', 'index'],
+                ['/foo/', 'Emonkak\Waf\Tests\Routing\PatternRouterTest\FooController', 'index'],
+                ['/foo/(.*?)/', 'Emonkak\Waf\Tests\Routing\PatternRouterTest\FooController', 'index'],
             ];
         }
     }
 }
 
-namespace Emonkak\Framework\Tests\Routing\PatternRouterTest
+namespace Emonkak\Waf\Tests\Routing\PatternRouterTest
 {
     class FooController
     {

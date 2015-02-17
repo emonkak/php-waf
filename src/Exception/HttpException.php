@@ -1,6 +1,6 @@
 <?php
 
-namespace Emonkak\Framework\Exception;
+namespace Emonkak\Waf\Exception;
 
 /**
  * Base class for HTTP exceptions.

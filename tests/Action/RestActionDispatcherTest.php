@@ -1,9 +1,9 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Action
+namespace Emonkak\Waf\Tests\Action
 {
-    use Emonkak\Framework\Action\RestActionDispatcher;
-    use Emonkak\Framework\Routing\MatchedRoute;
+    use Emonkak\Waf\Action\RestActionDispatcher;
+    use Emonkak\Waf\Routing\MatchedRoute;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
 
@@ -38,17 +38,17 @@ namespace Emonkak\Framework\Tests\Action
         public function provideDispatch()
         {
             return [
-                ['/', 'GET',  'Emonkak\Framework\Tests\Action\RestActionDispatcherTest\FooController', 'index', [], 'getIndex'],
-                ['/', 'GET',  'Emonkak\Framework\Tests\Action\RestActionDispatcherTest\FooController', 'show', ['123'], 'getShow'],
-                ['/', 'POST', 'Emonkak\Framework\Tests\Action\RestActionDispatcherTest\FooController', 'edit', ['123'], 'postEdit'],
-                ['/', 'GET',  'Emonkak\Framework\Tests\Action\RestActionDispatcherTest\FooController', 'between', ['123', '456'], 'getBetween'],
-                ['/', 'GET',  'Emonkak\Framework\Tests\Action\RestActionDispatcherTest\FooController', 'foo_bar', [], 'getFooBar'],
+                ['/', 'GET',  'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'index', [], 'getIndex'],
+                ['/', 'GET',  'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'show', ['123'], 'getShow'],
+                ['/', 'POST', 'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'edit', ['123'], 'postEdit'],
+                ['/', 'GET',  'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'between', ['123', '456'], 'getBetween'],
+                ['/', 'GET',  'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'foo_bar', [], 'getFooBar'],
             ];
         }
 
         /**
          * @dataProvider provideDispatchThrowsHttpNotFoundException
-         * @expectedException Emonkak\Framework\Exception\HttpNotFoundException
+         * @expectedException Emonkak\Waf\Exception\HttpNotFoundException
          */
         public function testDispatchThrowsHttpNotFoundException($path, $method, $controllerName, $actionName, array $params)
         {
@@ -63,19 +63,19 @@ namespace Emonkak\Framework\Tests\Action
         public function provideDispatchThrowsHttpNotFoundException()
         {
             return [
-                ['/', 'GET',  'Emonkak\Framework\Tests\Action\RestActionDispatcherTest\FooController', 'not_found', []],
-                ['/', 'GET',  'Emonkak\Framework\Tests\Action\RestActionDispatcherTest\FooController', 'FooBar', []],
-                ['/', 'GET',  'Emonkak\Framework\Tests\Action\RestActionDispatcherTest\FooController', 'FOOBAR', []],
-                ['/', 'POST', 'Emonkak\Framework\Tests\Action\RestActionDispatcherTest\FooController', 'Edit', ['123']],
-                ['/', 'POST', 'Emonkak\Framework\Tests\Action\RestActionDispatcherTest\FooController', 'EDIT', ['123']],
-                ['/', 'GET',  'Emonkak\Framework\Tests\Action\RestActionDispatcherTest\FooController', 'Between', ['123', '456']],
-                ['/', 'GET',  'Emonkak\Framework\Tests\Action\RestActionDispatcherTest\FooController', 'BETWEEN', ['123', '456']],
+                ['/', 'GET',  'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'not_found', []],
+                ['/', 'GET',  'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'FooBar', []],
+                ['/', 'GET',  'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'FOOBAR', []],
+                ['/', 'POST', 'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'Edit', ['123']],
+                ['/', 'POST', 'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'EDIT', ['123']],
+                ['/', 'GET',  'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'Between', ['123', '456']],
+                ['/', 'GET',  'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'BETWEEN', ['123', '456']],
             ];
         }
 
         /**
          * @dataProvider provideDispatchThrowsHttpBadRequestException
-         * @expectedException Emonkak\Framework\Exception\HttpBadRequestException
+         * @expectedException Emonkak\Waf\Exception\HttpBadRequestException
          */
         public function testDispatchThrowsHttpBadRequestException($path, $method, $controllerName, $actionName, array $params)
         {
@@ -90,12 +90,12 @@ namespace Emonkak\Framework\Tests\Action
         public function provideDispatchThrowsHttpBadRequestException()
         {
             return [
-                ['/', 'GET',  'Emonkak\Framework\Tests\Action\RestActionDispatcherTest\FooController', 'index', ['foo']],
-                ['/', 'GET',  'Emonkak\Framework\Tests\Action\RestActionDispatcherTest\FooController', 'show', []],
-                ['/', 'GET',  'Emonkak\Framework\Tests\Action\RestActionDispatcherTest\FooController', 'show', ['foo', 'bar']],
-                ['/', 'POST', 'Emonkak\Framework\Tests\Action\RestActionDispatcherTest\FooController', 'edit', ['123', '456', '789']],
-                ['/', 'GET',  'Emonkak\Framework\Tests\Action\RestActionDispatcherTest\FooController', 'between', ['123', '456', '789']],
-                ['/', 'GET',  'Emonkak\Framework\Tests\Action\RestActionDispatcherTest\FooController', 'foo_bar', ['foo']],
+                ['/', 'GET',  'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'index', ['foo']],
+                ['/', 'GET',  'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'show', []],
+                ['/', 'GET',  'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'show', ['foo', 'bar']],
+                ['/', 'POST', 'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'edit', ['123', '456', '789']],
+                ['/', 'GET',  'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'between', ['123', '456', '789']],
+                ['/', 'GET',  'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'foo_bar', ['foo']],
             ];
         }
 
@@ -111,7 +111,7 @@ namespace Emonkak\Framework\Tests\Action
     }
 }
 
-namespace Emonkak\Framework\Tests\Action\RestActionDispatcherTest
+namespace Emonkak\Waf\Tests\Action\RestActionDispatcherTest
 {
     class FooController
     {

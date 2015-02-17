@@ -1,11 +1,11 @@
 <?php
 
-namespace Emonkak\Framework\Controller;
+namespace Emonkak\Waf\Controller;
 
-use Emonkak\Framework\Exception\HttpBadRequestException;
-use Emonkak\Framework\Exception\HttpForbiddenException;
-use Emonkak\Framework\Exception\HttpNotFoundException;
-use Emonkak\Framework\Exception\HttpUnauthorizedException;
+use Emonkak\Waf\Exception\HttpBadRequestException;
+use Emonkak\Waf\Exception\HttpForbiddenException;
+use Emonkak\Waf\Exception\HttpNotFoundException;
+use Emonkak\Waf\Exception\HttpUnauthorizedException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;

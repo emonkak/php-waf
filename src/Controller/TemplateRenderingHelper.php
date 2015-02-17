@@ -1,6 +1,6 @@
 <?php
 
-namespace Emonkak\Framework\Controller;
+namespace Emonkak\Waf\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 

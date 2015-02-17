@@ -1,10 +1,10 @@
 <?php
 
-namespace Emonkak\Framework\Routing;
+namespace Emonkak\Waf\Routing;
 
-use Emonkak\Framework\Exception\HttpNotFoundException;
-use Emonkak\Framework\Exception\HttpRedirectException;
-use Emonkak\Framework\Utils\StringUtils;
+use Emonkak\Waf\Exception\HttpNotFoundException;
+use Emonkak\Waf\Exception\HttpRedirectException;
+use Emonkak\Waf\Utils\StringUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

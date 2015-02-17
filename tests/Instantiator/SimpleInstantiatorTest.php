@@ -1,8 +1,8 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Instantiator;
+namespace Emonkak\Waf\Tests\Instantiator;
 
-use Emonkak\Framework\Instantiator\SimpleInstantiator;
+use Emonkak\Waf\Instantiator\SimpleInstantiator;
 
 class SimpleInstantiatorTest extends \PHPUnit_Framework_TestCase
 {

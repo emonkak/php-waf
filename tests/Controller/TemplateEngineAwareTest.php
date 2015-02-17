@@ -1,12 +1,12 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Controller;
+namespace Emonkak\Waf\Tests\Controller;
 
 class TemplateEngineAwareTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->controller = $this->getMockForTrait('Emonkak\Framework\Controller\TemplateEngineAware');
+        $this->controller = $this->getMockForTrait('Emonkak\Waf\Controller\TemplateEngineAware');
     }
 
     public function testSetTemplateEngine()

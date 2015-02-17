@@ -1,8 +1,8 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Controller;
+namespace Emonkak\Waf\Tests\Controller;
 
-use Emonkak\Framework\Exception\HttpServiceUnavailableException;
+use Emonkak\Waf\Exception\HttpServiceUnavailableException;
 
 class HttpServiceUnavailableExceptionTest extends \PHPUnit_Framework_TestCase
 {

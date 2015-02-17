@@ -1,8 +1,8 @@
 <?php
 
-namespace Emonkak\Framework\Tests\Controller;
+namespace Emonkak\Waf\Tests\Controller;
 
-use Emonkak\Framework\Exception\HttpInternalServerErrorException;
+use Emonkak\Waf\Exception\HttpInternalServerErrorException;
 
 class HttpInternalServerErrorExceptionTest extends \PHPUnit_Framework_TestCase
 {

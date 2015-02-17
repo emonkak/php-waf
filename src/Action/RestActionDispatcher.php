@@ -1,9 +1,9 @@
 <?php
 
-namespace Emonkak\Framework\Action;
+namespace Emonkak\Waf\Action;
 
-use Emonkak\Framework\Exception\HttpNotFoundException;
-use Emonkak\Framework\Utils\StringUtils;
+use Emonkak\Waf\Exception\HttpNotFoundException;
+use Emonkak\Waf\Utils\StringUtils;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
