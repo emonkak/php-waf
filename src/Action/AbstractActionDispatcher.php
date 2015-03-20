@@ -37,7 +37,15 @@ abstract class AbstractActionDispatcher implements ActionDispatcherInterface
             ));
         }
 
-        return $action->invokeArgs($controller, $match->params);
+        try {
+            return $action->invokeArgs($controller, $match->params);
+        } catch (\ReflectionException $e) {
+            throw new HttpNotFoundException(sprintf(
+                'Controller method "%s::%s()" is not callable.',
+                $controllerReflection->getName(),
+                $actionName
+            ), $e);
+        }
     }
 
     /**

@@ -66,6 +66,7 @@ namespace Emonkak\Waf\Tests\Action
                 ['/', 'GET',  'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'not_found', []],
                 ['/', 'GET',  'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'FooBar', []],
                 ['/', 'GET',  'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'FOOBAR', []],
+                ['/', 'GET',  'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'baz', []],
                 ['/', 'POST', 'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'Edit', ['123']],
                 ['/', 'POST', 'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'EDIT', ['123']],
                 ['/', 'GET',  'Emonkak\Waf\Tests\Action\RestActionDispatcherTest\FooController', 'Between', ['123', '456']],
@@ -132,6 +133,10 @@ namespace Emonkak\Waf\Tests\Action\RestActionDispatcherTest
         }
 
         public function getFooBar()
+        {
+        }
+
+        private function getBaz()
         {
         }
     }
