@@ -16,7 +16,7 @@ trait RequestAware
     protected $request;
 
     /**
-     * Sets the template engine.
+     * Sets a request object.
      *
      * @Inject
      *
