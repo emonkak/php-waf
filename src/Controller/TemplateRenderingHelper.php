@@ -35,7 +35,7 @@ trait TemplateRenderingHelper
      * @param array  $parameters An array of parameters to pass to the template
      * @return string The evaluated template as a string
      */
-    public function render($name, array $parameters = [])
+    protected function render($name, array $parameters = [])
     {
         return $this->templateEngine->render($name, $parameters);
     }
@@ -47,7 +47,7 @@ trait TemplateRenderingHelper
      * @param array  $parameters An array of parameters to pass to the template
      * @return Response The evaluated template as a response
      */
-    public function renderResponse($name, array $parameters = [])
+    protected function renderResponse($name, array $parameters = [])
     {
         return new Response($this->templateEngine->render($name, $parameters));
     }

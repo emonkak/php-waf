@@ -22,34 +22,38 @@ class TemplateRenderingHelperTest extends \PHPUnit_Framework_TestCase
 
     public function testRender()
     {
-        $name = 'path/to/template.php';
-        $parameters = ['foo' => 'bar'];
-        $expected = 'hello world';
+        \Closure::bind(function() {
+            $name = 'path/to/template.php';
+            $parameters = ['foo' => 'bar'];
+            $expected = 'hello world';
 
-        $this->templateEngine
-            ->expects($this->once())
-            ->method('render')
-            ->with($this->identicalTo($name), $this->identicalTo($parameters))
-            ->willReturn($expected);
+            $this->templateEngine
+                ->expects($this->once())
+                ->method('render')
+                ->with($this->identicalTo($name), $this->identicalTo($parameters))
+                ->willReturn($expected);
 
-        $this->assertSame($expected, $this->controller->render($name, $parameters));
+            $this->assertSame($expected, $this->controller->render($name, $parameters));
+        }, $this, get_class($this->controller))->__invoke();
     }
 
     public function testRenderResponse()
     {
-        $name = 'path/to/template.php';
-        $parameters = ['foo' => 'bar'];
-        $expected = 'hello world';
+        \Closure::bind(function() {
+            $name = 'path/to/template.php';
+            $parameters = ['foo' => 'bar'];
+            $expected = 'hello world';
 
-        $this->templateEngine
-            ->expects($this->once())
-            ->method('render')
-            ->with($this->identicalTo($name), $this->identicalTo($parameters))
-            ->willReturn($expected);
+            $this->templateEngine
+                ->expects($this->once())
+                ->method('render')
+                ->with($this->identicalTo($name), $this->identicalTo($parameters))
+                ->willReturn($expected);
 
-        $response = $this->controller->renderResponse($name, $parameters);
+            $response = $this->controller->renderResponse($name, $parameters);
 
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $response);
-        $this->assertSame($expected, $response->getContent());
+            $this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $response);
+            $this->assertSame($expected, $response->getContent());
+        }, $this, get_class($this->controller))->__invoke();
     }
 }
