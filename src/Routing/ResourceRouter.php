@@ -47,7 +47,7 @@ class ResourceRouter implements RouterInterface
         }
 
         if (StringUtils::startsWith($path, $this->prefix)) {
-            $fragments = explode('/', substr($path, strlen($this->prefix)));
+            $fragments = array_filter(explode('/', substr($path, strlen($this->prefix))), 'strlen');
 
             if (empty($fragments[0])) {
                 $action = 'index';

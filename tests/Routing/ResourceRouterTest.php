@@ -29,12 +29,12 @@ namespace Emonkak\Waf\Tests\Routing
             return [
                 ['/',                    '/',     'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'index', []],
                 ['/123',                 '/',     'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'show', ['123']],
-                ['/123/',                '/',     'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'index', ['123']],
+                ['/123/',                '/',     'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'show', ['123']],
                 ['/123/edit',            '/',     'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'edit', ['123']],
                 ['/123/between/456',     '/',     'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'between', ['123', '456']],
                 ['/foo/',                '/foo/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'index', []],
                 ['/foo/123',             '/foo/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'show', ['123']],
-                ['/foo/123/',            '/foo/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'index', ['123']],
+                ['/foo/123/',            '/foo/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'show', ['123']],
                 ['/foo/123/edit',        '/foo/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'edit', ['123']],
                 ['/foo/123/between/456', '/foo/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', 'between', ['123', '456']],
             ];

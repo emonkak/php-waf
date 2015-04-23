@@ -47,7 +47,7 @@ class NamespaceRouter implements RouterInterface
         }
 
         if (StringUtils::startsWith($path, $this->prefix)) {
-            $fragments = explode('/', substr($path, strlen($this->prefix)));
+            $fragments = array_filter(explode('/', substr($path, strlen($this->prefix))), 'strlen');
 
             if (count($fragments) <= 1 && substr($path, -1) !== '/') {
                 throw new HttpRedirectException($request->getBaseUrl() . $path . '/', 301);
