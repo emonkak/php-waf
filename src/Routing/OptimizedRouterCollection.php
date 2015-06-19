@@ -37,7 +37,7 @@ class OptimizedRouterCollection extends RouterCollection
 
         preg_match($pattern, $path, $matches);
 
-        // Should ignore $matchs[0]
+        // Should ignore $matches[0]
         $index = count($matches) - 2;
 
         if (isset($this->routers[$index])) {
