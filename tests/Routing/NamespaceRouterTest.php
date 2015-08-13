@@ -12,9 +12,9 @@ namespace Emonkak\Waf\Tests\Routing
         /**
          * @dataProvider provideMatch
          */
-        public function testMatch($path, $prefix, $namespace, $expectedController, $expectedAction, $expectedParams)
+        public function testMatch($url, $prefix, $namespace, $expectedController, $expectedAction, $expectedParams)
         {
-            $request = Request::create($path);
+            $request = Request::create($url);
             $router = new NamespaceRouter($prefix, $namespace);
             $match = $router->match($request);
 
@@ -49,9 +49,9 @@ namespace Emonkak\Waf\Tests\Routing
          * @dataProvider provideMatchThrowsHttpNotFoundException
          * @expectedException Emonkak\Waf\Exception\HttpNotFoundException
          */
-        public function testMatchThrowsHttpNotFoundException($path, $prefix, $namespace)
+        public function testMatchThrowsHttpNotFoundException($url, $prefix, $namespace)
         {
-            $request = Request::create($path);
+            $request = Request::create($url);
             $router = new NamespaceRouter($prefix, $namespace);
             $router->match($request);
         }
@@ -76,9 +76,9 @@ namespace Emonkak\Waf\Tests\Routing
          * @dataProvider provideMatchThrowsHttpRedirectException
          * @expectedException Emonkak\Waf\Exception\HttpRedirectException
          */
-        public function testMatchThrowsHttpRedirectException($path, $prefix, $namespace, $expectedLocation)
+        public function testMatchThrowsHttpRedirectException($url, $prefix, $namespace, $expectedLocation)
         {
-            $request = Request::create($path);
+            $request = Request::create($url);
             $router = new NamespaceRouter($prefix, $namespace);
 
             try {
@@ -93,23 +93,24 @@ namespace Emonkak\Waf\Tests\Routing
         public function provideMatchThrowsHttpRedirectException()
         {
             return [
-                ['/index',      '/',      'Emonkak\Waf\Tests\Routing\NamespaceRouterTest',      '/index/'],
-                ['/foo',        '/',      'Emonkak\Waf\Tests\Routing\NamespaceRouterTest',      '/foo/'],
-                ['/foo_bar',    '/',      'Emonkak\Waf\Tests\Routing\NamespaceRouterTest',      '/foo_bar/'],
-                ['/bar',        '/',      'Emonkak\Waf\Tests\Routing\NamespaceRouterTest',      '/bar/'],
-                ['/hoge',       '/hoge/', 'Emonkak\Waf\Tests\Routing\NamespaceRouterTest\Hoge', '/hoge/'],
-                ['/hoge/index', '/hoge/', 'Emonkak\Waf\Tests\Routing\NamespaceRouterTest\Hoge', '/hoge/index/'],
-                ['/hoge/foo',   '/hoge/', 'Emonkak\Waf\Tests\Routing\NamespaceRouterTest\Hoge', '/hoge/foo/'],
-                ['/hoge/bar',   '/hoge/', 'Emonkak\Waf\Tests\Routing\NamespaceRouterTest\Hoge', '/hoge/bar/'],
+                ['/index',       '/',      'Emonkak\Waf\Tests\Routing\NamespaceRouterTest',      '/index/'],
+                ['/foo',         '/',      'Emonkak\Waf\Tests\Routing\NamespaceRouterTest',      '/foo/'],
+                ['/foo?bar=baz', '/',      'Emonkak\Waf\Tests\Routing\NamespaceRouterTest',      '/foo/?bar=baz'],
+                ['/foo_bar',     '/',      'Emonkak\Waf\Tests\Routing\NamespaceRouterTest',      '/foo_bar/'],
+                ['/bar',         '/',      'Emonkak\Waf\Tests\Routing\NamespaceRouterTest',      '/bar/'],
+                ['/hoge',        '/hoge/', 'Emonkak\Waf\Tests\Routing\NamespaceRouterTest\Hoge', '/hoge/'],
+                ['/hoge/index',  '/hoge/', 'Emonkak\Waf\Tests\Routing\NamespaceRouterTest\Hoge', '/hoge/index/'],
+                ['/hoge/foo',    '/hoge/', 'Emonkak\Waf\Tests\Routing\NamespaceRouterTest\Hoge', '/hoge/foo/'],
+                ['/hoge/bar',    '/hoge/', 'Emonkak\Waf\Tests\Routing\NamespaceRouterTest\Hoge', '/hoge/bar/'],
             ];
         }
 
         /**
          * @dataProvider provideMatchReturnsNull
          */
-        public function testMatchReturnsNull($path, $prefix, $namespace)
+        public function testMatchReturnsNull($url, $prefix, $namespace)
         {
-            $request = Request::create($path);
+            $request = Request::create($url);
             $router = new NamespaceRouter($prefix, $namespace);
             $this->assertNull($router->match($request));
         }

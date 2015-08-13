@@ -12,9 +12,9 @@ namespace Emonkak\Waf\Tests\Routing
         /**
          * @dataProvider provideMatch
          */
-        public function testMatch($path, $prefix, $controller, $expectedAction, $expectedParams)
+        public function testMatch($url, $prefix, $controller, $expectedAction, $expectedParams)
         {
-            $request = Request::create($path);
+            $request = Request::create($url);
             $router = new ResourceRouter($prefix, $controller);
             $match = $router->match($request);
 
@@ -43,9 +43,9 @@ namespace Emonkak\Waf\Tests\Routing
         /**
          * @dataProvider provideMatchReturnsNull
          */
-        public function testMatchReturnsNull($path, $prefix, $controller)
+        public function testMatchReturnsNull($url, $prefix, $controller)
         {
-            $request = Request::create($path);
+            $request = Request::create($url);
             $router = new ResourceRouter($prefix, $controller);
             $this->assertNull($router->match($request));
         }
@@ -64,9 +64,9 @@ namespace Emonkak\Waf\Tests\Routing
          * @expectedException Emonkak\Waf\Exception\HttpRedirectException
          * @dataProvider provideMatchHttpRedirectException
          */
-        public function testMatchThrowsHttpRedirectException($path, $prefix, $controller, $expectedLocation)
+        public function testMatchThrowsHttpRedirectException($url, $prefix, $controller, $expectedLocation)
         {
-            $request = Request::create($path);
+            $request = Request::create($url);
             $router = new ResourceRouter($prefix, $controller);
 
             try {
@@ -81,8 +81,9 @@ namespace Emonkak\Waf\Tests\Routing
         public function provideMatchHttpRedirectException()
         {
             return [
-                ['/foo',     '/foo/',     'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', '/foo/'],
-                ['/foo/bar', '/foo/bar/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', '/foo/bar/'],
+                ['/foo',         '/foo/',     'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', '/foo/'],
+                ['/foo?bar=baz', '/foo/',     'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', '/foo/?bar=baz'],
+                ['/foo/bar',     '/foo/bar/', 'Emonkak\Waf\Tests\Routing\ResourceRouterTest\FooController', '/foo/bar/'],
             ];
         }
 
