@@ -14,7 +14,7 @@
     },
     "require-dev": {
         "athletic/athletic": "~0.1",
-        "emonkak/di": "dev-master",
+        "emonkak/di": "~1.0.0",
         "phpunit/phpunit": "~4.4",
         "psr/log": "~1.0",
         "satooshi/php-coveralls": "dev-master",
