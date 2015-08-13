@@ -64,7 +64,7 @@ class ExceptionLoggerMiddleware implements KernelInterface
     {
         $statusCode = $e->getStatusCode();
         if ($statusCode >= 500) {
-            return LogLevel::EMERGENCY;
+            return LogLevel::ERROR;
         } elseif ($statusCode >= 400) {
             return LogLevel::WARNING;
         } else {

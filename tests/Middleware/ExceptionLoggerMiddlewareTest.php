@@ -73,8 +73,8 @@ class ExceptionLoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
     public function provideHandleException()
     {
         return [
-            [new HttpInternalServerErrorException('intrenal server error'), LogLevel::EMERGENCY],
-            [new HttpServiceUnavailableException('service unavailable'), LogLevel::EMERGENCY],
+            [new HttpInternalServerErrorException('intrenal server error'), LogLevel::ERROR],
+            [new HttpServiceUnavailableException('service unavailable'), LogLevel::ERROR],
             [new HttpNotFoundException('not found'), LogLevel::WARNING],
             [new HttpRedirectException('redirect'), LogLevel::INFO],
             [new HttpBadRequestException('bad request'), LogLevel::WARNING],
@@ -102,7 +102,7 @@ class ExceptionLoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('log')
             ->with(
-                LogLevel::EMERGENCY,
+                LogLevel::ERROR,
                 $this->matchesRegularExpression(
                     sprintf(
                         '/^Uncaught exception "%s" with message "%s" at .+? line \d+ - Caused by "%s" with message "%s" at .+? line \d+$/',
@@ -123,7 +123,7 @@ class ExceptionLoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
     public function provideHandleNestException()
     {
         return [
-            [new HttpInternalServerErrorException('intrenal server error', new \RuntimeException('inner exception')), LogLevel::EMERGENCY],
+            [new HttpInternalServerErrorException('intrenal server error', new \RuntimeException('inner exception')), LogLevel::ERROR],
         ];
     }
 }
