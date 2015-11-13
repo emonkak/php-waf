@@ -2,8 +2,7 @@
 
 namespace Emonkak\Waf;
 
-use Emonkak\Di\Container;
-use Emonkak\Di\ContainerInterface;
+use Emonkak\Di\AbstractContainer;
 use Emonkak\Waf\Exception\HttpException;
 use Emonkak\Waf\Exception\HttpInternalServerErrorException;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +20,7 @@ abstract class AbstractApplication
     protected $configs;
 
     /**
-     * @var ContainerInterface
+     * @var AbstractContainer
      */
     protected $container;
 
@@ -59,7 +58,7 @@ abstract class AbstractApplication
         }
 
         if ($this->container->has('Symfony\Component\HttpFoundation\Session\SessionInterface')) {
-            $request->setSession($this->container->getInstance('Symfony\Component\HttpFoundation\Session\SessionInterface'));
+            $request->setSession($this->container->get('Symfony\Component\HttpFoundation\Session\SessionInterface'));
         }
 
         $this->container->set('Symfony\Component\HttpFoundation\Request', $request);
@@ -81,11 +80,11 @@ abstract class AbstractApplication
      */
     protected function getKernel()
     {
-        return $this->container->getInstance('Emonkak\Waf\KernelInterface');
+        return $this->container->get('Emonkak\Waf\KernelInterface');
     }
 
     /**
-     * @return ContainerInterface
+     * @return AbstractContainer
      */
     abstract protected function prepareContainer();
 }

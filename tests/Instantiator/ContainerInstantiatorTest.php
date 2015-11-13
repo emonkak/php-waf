@@ -2,10 +2,6 @@
 
 namespace Emonkak\Waf\Tests\Instantiator;
 
-use Doctrine\Common\Cache\ArrayCache;
-use Emonkak\Di\Container;
-use Emonkak\Di\InjectionPolicy\DefaultInjectionPolicy;
-use Emonkak\Di\Value\ImmediateValue;
 use Emonkak\Waf\Instantiator\ContainerInstantiator;
 
 class ContainerInstantiatorTest extends \PHPUnit_Framework_TestCase
@@ -15,8 +11,12 @@ class ContainerInstantiatorTest extends \PHPUnit_Framework_TestCase
         $className = 'stdClass';
         $instance = (object) ['foo' => 'bar'];
 
-        $container = Container::create();
-        $container->set($className, $instance);
+        $container = $this->getMock('Interop\Container\ContainerInterface');
+        $container
+            ->expects($this->once())
+            ->method('get')
+            ->with($this->identicalTo($className))
+            ->willReturn($instance);
 
         $instantiator = new ContainerInstantiator($container);
 

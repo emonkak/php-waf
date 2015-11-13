@@ -2,8 +2,7 @@
 
 namespace Emonkak\Waf\Instantiator;
 
-use Emonkak\Di\ContainerInterface;
-use Emonkak\Di\ContainerConfiguratorInterface;
+use Interop\Container\ContainerInterface;
 
 class ContainerInstantiator implements InstantiatorInterface
 {
@@ -25,6 +24,6 @@ class ContainerInstantiator implements InstantiatorInterface
      */
     public function instantiate($className)
     {
-        return $this->container->getInstance($className);
+        return $this->container->get($className);
     }
 }
