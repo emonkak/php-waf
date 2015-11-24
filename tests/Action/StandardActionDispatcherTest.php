@@ -67,6 +67,7 @@ namespace Emonkak\Waf\Tests\Action
                 ['/', 'GET',  'Emonkak\Waf\Tests\Action\StandardActionDispatcherTest\FooController', 'FooBar', []],
                 ['/', 'GET',  'Emonkak\Waf\Tests\Action\StandardActionDispatcherTest\FooController', 'FOOBAR', []],
                 ['/', 'GET',  'Emonkak\Waf\Tests\Action\StandardActionDispatcherTest\FooController', 'baz', []],
+                ['/', 'GET',  'Emonkak\Waf\Tests\Action\StandardActionDispatcherTest\FooController', 'baz', ['123']],
                 ['/', 'POST', 'Emonkak\Waf\Tests\Action\StandardActionDispatcherTest\FooController', 'Edit', ['123']],
                 ['/', 'POST', 'Emonkak\Waf\Tests\Action\StandardActionDispatcherTest\FooController', 'EDIT', ['123']],
                 ['/', 'GET',  'Emonkak\Waf\Tests\Action\StandardActionDispatcherTest\FooController', 'Between', ['123', '456']],

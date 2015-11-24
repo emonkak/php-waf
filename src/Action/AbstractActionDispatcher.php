@@ -29,6 +29,14 @@ abstract class AbstractActionDispatcher implements ActionDispatcherInterface
             ), $e);
         }
 
+        if ($action->isAbstract() || $action->isStatic() || !$action->isPublic()) {
+            throw new HttpNotFoundException(sprintf(
+                'Controller method "%s::%s()" is not callable.',
+                $controllerReflection->getName(),
+                $actionName
+            ));
+        }
+
         if (!ReflectionUtils::matchesNumberOfArguments($action, count($match->params))) {
             throw new HttpBadRequestException(sprintf(
                 'Number of arguments does not match to definition in the controller method "%s::%s()".',
@@ -37,15 +45,7 @@ abstract class AbstractActionDispatcher implements ActionDispatcherInterface
             ));
         }
 
-        try {
-            return $action->invokeArgs($controller, $match->params);
-        } catch (\ReflectionException $e) {
-            throw new HttpNotFoundException(sprintf(
-                'Controller method "%s::%s()" is not callable.',
-                $controllerReflection->getName(),
-                $actionName
-            ), $e);
-        }
+        return $action->invokeArgs($controller, $match->params);
     }
 
     /**
