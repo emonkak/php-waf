@@ -18,7 +18,7 @@
         "emonkak/di": "~2.0.0",
         "phpunit/phpunit": "~4.4",
         "psr/log": "~1.0",
-        "satooshi/php-coveralls": "dev-master",
+        "satooshi/php-coveralls": "~1.0",
         "symfony/debug": "~2.6",
         "symfony/http-kernel": "~2.6",
         "symfony/templating": "~2.6"
