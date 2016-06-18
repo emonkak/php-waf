@@ -58,6 +58,6 @@ class RouterCollectionTest extends \PHPUnit_Framework_TestCase
             ->willReturn('/foo/\(bar\)');
 
         $router = new RouterCollection([$router1, $router2, $router3]);
-        $this->assertSame('(/foo/bar/(?:\d+))|(/foo/(?=bar/))|(/foo/\(bar\))', $router->getPattern());
+        $this->assertSame('/foo/bar/(\d+)|/foo/(?=bar/)|/foo/\(bar\)', $router->getPattern());
     }
 }

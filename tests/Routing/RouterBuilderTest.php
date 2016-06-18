@@ -7,6 +7,7 @@ use Emonkak\Waf\Routing\PatternRouter;
 use Emonkak\Waf\Routing\RequestMatcherRouter;
 use Emonkak\Waf\Routing\ResourceRouter;
 use Emonkak\Waf\Routing\RouterBuilder;
+use Emonkak\Waf\Routing\RouterCollection;
 use Symfony\Component\HttpFoundation\RequestMatcher;
 
 class RouterBuilderTest extends \PHPUnit_Framework_TestCase
@@ -18,8 +19,7 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
             ->add($mockRouter1 = $this->getMock('Emonkak\Waf\Routing\RouterInterface'))
             ->add($mockRouter2 = $this->getMock('Emonkak\Waf\Routing\RouterInterface'));
 
-        $routers = iterator_to_array($builder->build());
-        $this->assertSame([$mockRouter1, $mockRouter2], $routers);
+        $this->assertEquals(new RouterCollection([$mockRouter1, $mockRouter2]), $builder->build());
     }
 
     public function testGet()
@@ -31,15 +31,14 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new RouterBuilder();
         $builder->get($pattern, $controller, $action);
 
-        $routers = iterator_to_array($builder->build());
         $this->assertEquals(
-            [
+            new RouterCollection([
                 new RequestMatcherRouter(
                     new PatternRouter($pattern, $controller, $action),
                     new RequestMatcher(null, null, 'GET')
                 )
-            ],
-            $routers
+            ]),
+            $builder->build()
         );
     }
 
@@ -52,15 +51,14 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new RouterBuilder();
         $builder->post($pattern, $controller, $action);
 
-        $routers = iterator_to_array($builder->build());
         $this->assertEquals(
-            [
+            new RouterCollection([
                 new RequestMatcherRouter(
                     new PatternRouter($pattern, $controller, $action),
                     new RequestMatcher(null, null, 'POST')
                 )
-            ],
-            $routers
+            ]),
+            $builder->build()
         );
     }
 
@@ -73,15 +71,14 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new RouterBuilder();
         $builder->patch($pattern, $controller, $action);
 
-        $routers = iterator_to_array($builder->build());
         $this->assertEquals(
-            [
+            new RouterCollection([
                 new RequestMatcherRouter(
                     new PatternRouter($pattern, $controller, $action),
                     new RequestMatcher(null, null, 'PATCH')
                 )
-            ],
-            $routers
+            ]),
+            $builder->build()
         );
     }
 
@@ -94,15 +91,14 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new RouterBuilder();
         $builder->put($pattern, $controller, $action);
 
-        $routers = iterator_to_array($builder->build());
         $this->assertEquals(
-            [
+            new RouterCollection([
                 new RequestMatcherRouter(
                     new PatternRouter($pattern, $controller, $action),
                     new RequestMatcher(null, null, 'PUT')
                 )
-            ],
-            $routers
+            ]),
+            $builder->build()
         );
     }
 
@@ -115,15 +111,14 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new RouterBuilder();
         $builder->delete($pattern, $controller, $action);
 
-        $routers = iterator_to_array($builder->build());
         $this->assertEquals(
-            [
+            new RouterCollection([
                 new RequestMatcherRouter(
                     new PatternRouter($pattern, $controller, $action),
                     new RequestMatcher(null, null, 'DELETE')
                 )
-            ],
-            $routers
+            ]),
+            $builder->build()
         );
     }
 
@@ -136,12 +131,11 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new RouterBuilder();
         $builder->pattern($pattern, $controller, $action);
 
-        $routers = iterator_to_array($builder->build());
         $this->assertEquals(
-            [
+            new RouterCollection([
                 new PatternRouter($pattern, $controller, $action),
-            ],
-            $routers
+            ]),
+            $builder->build()
         );
     }
 
@@ -150,12 +144,11 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new RouterBuilder();
         $builder->resource('/foo/', 'Controller\FooController');
 
-        $routers = iterator_to_array($builder->build());
         $this->assertEquals(
-            [
+            new RouterCollection([
                 new ResourceRouter('/foo/', 'Controller\FooController'),
-            ],
-            $routers
+            ]),
+            $builder->build()
         );
     }
 
@@ -164,12 +157,11 @@ class RouterBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new RouterBuilder();
         $builder->mount('/', 'Controller');
 
-        $routers = iterator_to_array($builder->build());
         $this->assertEquals(
-            [
+            new RouterCollection([
                 new NamespaceRouter('/', 'Controller'),
-            ],
-            $routers
+            ]),
+            $builder->build()
         );
     }
 

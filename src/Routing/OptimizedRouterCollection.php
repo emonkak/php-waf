@@ -8,8 +8,13 @@ use Symfony\Component\HttpFoundation\Request;
  * Provides a composition of routers that optimized performance by
  * pre-compilation of regular expression.
  */
-class OptimizedRouterCollection extends RouterCollection
+class OptimizedRouterCollection implements RouterInterface
 {
+    /**
+     * @var RouterInterface[]
+     */
+    private $routers;
+
     /**
      * @var string
      */
@@ -22,9 +27,8 @@ class OptimizedRouterCollection extends RouterCollection
      */
     public function __construct(array $routers)
     {
-        parent::__construct($routers);
-
-        $this->pattern = parent::getPattern();
+        $this->routers = $routers;
+        $this->pattern = $this->preparePattern();
     }
 
     /**
@@ -32,12 +36,11 @@ class OptimizedRouterCollection extends RouterCollection
      */
     public function match(Request $request)
     {
-        $pattern = self::PATTERN_DELIMITER . $this->pattern . self::PATTERN_DELIMITER . 'A';
+        $pattern = self::PATTERN_DELIMITER . $this->pattern . self::PATTERN_DELIMITER . 'AD';
         $path = $request->getPathInfo();
 
         preg_match($pattern, $path, $matches);
 
-        // Should ignore $matches[0]
         $index = count($matches) - 2;
 
         if (isset($this->routers[$index])) {
@@ -54,5 +57,20 @@ class OptimizedRouterCollection extends RouterCollection
     public function getPattern()
     {
         return $this->pattern;
+    }
+
+    /**
+     * @return string
+     */
+    protected function preparePattern()
+    {
+        $patterns = [];
+
+        foreach ($this->routers as $i => $router) {
+            $replaced = preg_replace('/(?<!\\\\)\((?!\?)/', '(?:', $router->getPattern());
+            $patterns[] = '(' . $replaced . ')';
+        }
+
+        return implode('|', $patterns);
     }
 }

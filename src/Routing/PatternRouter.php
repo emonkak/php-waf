@@ -42,7 +42,7 @@ class PatternRouter implements RouterInterface
     public function match(Request $request)
     {
         $path = $request->getPathInfo();
-        $pattern = self::PATTERN_DELIMITER . $this->pattern . self::PATTERN_DELIMITER . 'A';
+        $pattern = self::PATTERN_DELIMITER . $this->pattern . self::PATTERN_DELIMITER . 'AD';
         $length = preg_match($pattern, $path, $matches);
 
         if ($length > 0) {

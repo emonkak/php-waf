@@ -7,12 +7,12 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Provides a composition of routers.
  */
-class RouterCollection implements RouterInterface, \IteratorAggregate
+class RouterCollection implements RouterInterface
 {
     /**
      * @var RouterInterface[]
      */
-    protected $routers;
+    private $routers;
 
     /**
      * Create this instance from given routers.
@@ -47,20 +47,9 @@ class RouterCollection implements RouterInterface, \IteratorAggregate
         $patterns = [];
 
         foreach ($this->routers as $router) {
-            // Replace '(' to '(?:'
-            $replaced = preg_replace('/(?<!\\\\)\((?!\?)/', '(?:', $router->getPattern());
-            $patterns[] = '(' . $replaced . ')';
+            $patterns[] = $router->getPattern();
         }
 
         return implode('|', $patterns);
-    }
-
-    /**
-     * @see \IteratorAggregate
-     * @return \Iterator
-     */
-    public function getIterator()
-    {
-        return new \ArrayIterator($this->routers);
     }
 }
